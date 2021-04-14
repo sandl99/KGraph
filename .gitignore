@@ -3,3 +3,4 @@ pytorch_models/
 .idea/
 data/
 log_train/
+!item_index2entity_id.txt
