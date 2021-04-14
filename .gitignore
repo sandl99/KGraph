@@ -1,0 +1,5 @@
+*.pyc
+pytorch_models/
+.idea/
+data/
+log_train/
