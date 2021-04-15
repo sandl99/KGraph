@@ -27,12 +27,14 @@ def build_ratings(node_subgraph, ratings):
             indices.append(i)
             i = j
         j += 1
+    indices.append(i)
     indices.append(j)
     items = len(indices) - 1
     remove = []
     for i in range(items):
         if not binary_search(node_subgraph, i):
             remove.extend([j for j in range(indices[i], indices[i + 1])])
+    # for i in
     dcm = np.delete(ratings, remove, axis=0)
     return dcm
 

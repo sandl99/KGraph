@@ -19,6 +19,19 @@ timestamp = datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %
 #np.random.seed(seed)
 #tf.set_random_seed(seed)
 
+class ARGS:
+    def __init__(self):
+        self.num_cpu_core = 20
+        self.log_device_placement = False
+        self.dir_log = '.'
+        self.gpu = 0
+        self.dtype = 's'
+        self.timeline = False
+        self.tensorboard = False
+        self.dualGPU = False
+        self.cpu_eval = False
+        self.saved_model_path = ""
+
 
 parser = argparse.ArgumentParser(description="argument for GraphSAINT training")
 parser.add_argument("--num_cpu_core",default=20,type=int,help="Number of CPU cores for parallel sampling")

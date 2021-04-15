@@ -13,6 +13,21 @@ import numpy as np
 logging.basicConfig(level=logging.DEBUG)
 
 
+class Args():
+    def __init__(self):
+        self.dataset = 'movie'
+        self.aggregator = 'sum'
+        self.n_epochs = 500
+        self.neighbor_sample_size = 8
+        self.dim = 16
+        self.n_iter = 2
+        self.batch_size = 2048
+        self.l2_weight = 1e-4
+        self.lr = 1e-3
+        self.ratio = 0.8
+        self.save_dir = './kgraph_models'
+
+
 def parse_arg():
     parser = argparse.ArgumentParser()
 
@@ -59,7 +74,7 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         for data in Bar(data_loader):
             users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
             _optimizer.zero_grad()
-            outputs = model(users, items, reserve_node, node_tensor, adj, rel)
+            outputs = _model(users, items, reserve_node, node_tensor, adj, rel)
             loss = _criterion(outputs, labels)
             loss.backward()
 
@@ -83,7 +98,7 @@ def evaluate():
     pass
 
 
-if __name__ == '__main__':
+def main():
     args = parse_arg()
     # Loading data
     t0 = time.time()
@@ -110,3 +125,7 @@ if __name__ == '__main__':
 
     # train phases
     train(model, criterion, optimizer, mini_batch, train_data, device, args)
+
+
+if __name__ == '__main__':
+    main()
