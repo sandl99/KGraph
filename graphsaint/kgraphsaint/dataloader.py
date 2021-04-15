@@ -60,3 +60,13 @@ class SubgraphRating(Dataset):
     def __getitem__(self, idx):
         return {'user': self.ratings[idx, 0], 'item': self.ratings[idx, 1], 'label': self.ratings[idx, 2]}
 
+
+class Rating(Dataset):
+    def __init__(self, ratings):
+        self.ratings = ratings
+
+    def __len__(self):
+        return self.ratings.shape[0]
+
+    def __getitem__(self, idx):
+        return {'user': self.ratings[idx, 0], 'item': self.ratings[idx, 1], 'label': self.ratings[idx, 2]}

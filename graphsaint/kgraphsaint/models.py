@@ -22,7 +22,7 @@ class KGraphSAINT(nn.Module):
         # self.n_neighbor = args.neighbor_sample_size
         self.dim = args.dim
 
-    def forward(self, u, v, reserve_node=None, node=None, adj=None, rel=None):
+    def forward(self, u, v, reserve_node=None, node=None, adj=None, rel=None, train_mode=True):
         """
         input: u, v are batch sized indices for users and items
         u, v: [batch]
@@ -30,19 +30,20 @@ class KGraphSAINT(nn.Module):
         # convert u, v to [batch, 1] shape
         u = u.view((-1, 1))
         #
-        v = [reserve_node[i.item()] for i in v]
-        v = torch.LongTensor(v).to(self.device)
+        if train_mode:
+            v = [reserve_node[i.item()] for i in v]
+            v = torch.LongTensor(v).to(self.device)
         v = v.view((-1, 1))
 
         # [batch_size, dim]
         batch_size = v.shape[0]
         user_embeddings = self.usr(u).squeeze(dim=1)
-        entities, relations = self._get_neighbors(v, node, adj, rel)
+        entities, relations = self._get_neighbors(v, node, adj, rel, train_mode)
         item_embeddings = self._aggregate(user_embeddings, entities, relations, batch_size)
         scores = (user_embeddings * item_embeddings).sum(dim=1)
         return torch.sigmoid(scores)
 
-    def _get_neighbors(self, v, node, adj, rel):
+    def _get_neighbors(self, v, node, adj, rel, train_mode):
         '''
         v is batch sized indices for items
         v: [batch_size, 1]
@@ -56,8 +57,8 @@ class KGraphSAINT(nn.Module):
             neighbor_relations = torch.LongTensor(rel[entities[h]]).view((batch_size, -1)).to(self.device)
             entities.append(neighbor_entities)
             relations.append(neighbor_relations)
-
-        entities = [node[h].to(self.device) for h in entities]
+        if train_mode:
+            entities = [node[h].to(self.device) for h in entities]
         return entities, relations
 
     def _aggregate(self, user_embeddings, entities, relations, batch_size):

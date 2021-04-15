@@ -2,6 +2,7 @@ import numpy as np
 import os
 import argparse
 
+prefix = '../../data/'
 
 def load_data(args):
     n_user, n_item, train_data, eval_data, test_data = load_rating(args)
@@ -15,7 +16,7 @@ def load_rating(args):
     print('reading rating file ...')
 
     # reading rating file
-    rating_file = '../../data/' + args.dataset + '/ratings_final'
+    rating_file = prefix + args.dataset + '/ratings_final'
     if os.path.exists(rating_file + '.npy'):
         rating_np = np.load(rating_file + '.npy')
     else:
@@ -55,7 +56,7 @@ def load_kg(args):
     print('reading KG file ...')
 
     # reading kg file
-    kg_file = '../../data/' + args.dataset + '/kg_final'
+    kg_file = prefix + args.dataset + '/kg_final'
     if os.path.exists(kg_file + '.npy'):
         kg_np = np.load(kg_file + '.npy')
     else:
@@ -112,7 +113,6 @@ def construct_adj(args, kg, entity_num):
         adj_col.extend([neighbors[i][0] for i in range(n_neighbors)])
         adj_relation.extend([neighbors[i][1] for i in range(n_neighbors)])
     return np.array(adj_row), np.array(adj_col), np.array(adj_relation)
-
 #
 # if __name__ == '__main__':
 #     parser = argparse.ArgumentParser()
@@ -122,3 +122,42 @@ def construct_adj(args, kg, entity_num):
 #     args = parser.parse_args()
 #     load_kg(args)
 #     i = 1
+
+
+def load_kg_ver0(args):
+    print('reading KG file ...')
+
+    # reading kg file
+    kg_file = prefix + args.dataset + '/kg_final'
+    if os.path.exists(kg_file + '.npy'):
+        kg_np = np.load(kg_file + '.npy')
+    else:
+        kg_np = np.loadtxt(kg_file + '.txt', dtype=np.int64)
+        np.save(kg_file + '.npy', kg_np)
+
+    n_entity = len(set(kg_np[:, 0]) | set(kg_np[:, 2]))
+    n_relation = len(set(kg_np[:, 1]))
+
+    kg = construct_kg(kg_np)
+    adj_entity, adj_relation = construct_adj_ver0(args, kg, n_entity)
+
+    return adj_entity, adj_relation
+
+
+def construct_adj_ver0(args, kg, entity_num):
+    print('constructing adjacency matrix ...')
+    # each line of adj_entity stores the sampled neighbor entities for a given entity
+    # each line of adj_relation stores the corresponding sampled neighbor relations
+    adj_entity = np.zeros([entity_num, args.neighbor_sample_size], dtype=np.int64)
+    adj_relation = np.zeros([entity_num, args.neighbor_sample_size], dtype=np.int64)
+    for entity in range(entity_num):
+        neighbors = kg[entity]
+        n_neighbors = len(neighbors)
+        if n_neighbors >= args.neighbor_sample_size:
+            sampled_indices = np.random.choice(list(range(n_neighbors)), size=args.neighbor_sample_size, replace=False)
+        else:
+            sampled_indices = np.random.choice(list(range(n_neighbors)), size=args.neighbor_sample_size, replace=True)
+        adj_entity[entity] = np.array([neighbors[i][0] for i in sampled_indices])
+        adj_relation[entity] = np.array([neighbors[i][1] for i in sampled_indices])
+
+    return adj_entity, adj_relation

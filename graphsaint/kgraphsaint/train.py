@@ -4,7 +4,7 @@ import logging
 from graphsaint.kgraphsaint.batchsample import Minibatch
 import torch
 from graphsaint.kgraphsaint.models import KGraphSAINT
-from graphsaint.kgraphsaint.dataloader import SubgraphRating
+from graphsaint.kgraphsaint.dataloader import SubgraphRating, Rating
 from torch.utils.data import DataLoader
 import time
 from barbar import Bar
@@ -21,9 +21,9 @@ class Args():
         self.neighbor_sample_size = 8
         self.dim = 16
         self.n_iter = 2
-        self.batch_size = 65536
+        self.batch_size = 8192
         self.l2_weight = 1e-7
-        self.lr = 1e-3
+        self.lr = 2e-2
         self.ratio = 0.8
         self.save_dir = './kgraph_models'
 
@@ -47,10 +47,13 @@ def parse_arg():
     # return parser.parse_args()
     return Args()
 
+
 def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _args):
     logging.info(f'Starting training phase... Estimator Epoch: {_minibatch.num_training_batches()}')
     epoch = 0
+
     while not _minibatch.end():
+        _model.train()
         logging.info(f'-------- Epoch: {epoch} --------')
         epoch += 1
         _t0 = time.time()
@@ -94,8 +97,25 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         #     exit(0)
 
 
-def evaluate():
-    pass
+def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, args):
+    eval_loss = 0
+    eval_pred, eval_true = np.zeros(0), np.zeros(0)
+    data = Rating(_eval_data)
+    data_loader = DataLoader(data, batch_size=args.batch_size, shuffle=True)
+    _model.eval()
+    for data in Bar(data_loader):
+        users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
+        # _optimizer.zero_grad()
+        outputs = _model(users, items, adj=full_adj, rel=full_rel, train_mode=False)
+        loss = _criterion(outputs, labels)
+        loss.backward()
+        eval_loss += loss.item()
+        # detach outputs and labels
+        eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
+        eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
+    logging.info(f'Train loss: {eval_loss / len(data_loader)}')
+    score = utils.auc_score(eval_pred, eval_true, 'micro')
+    logging.info(f'Train AUC : {score} micro')
 
 
 def main():
@@ -109,6 +129,8 @@ def main():
     train_data = utils.reformat_train_ratings(train_data)
     utils.check_items_train(train_data, n_item)
     t1 = time.time()
+    full_adj, full_rel = loader.load_kg_ver0(args)
+    full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
     # Build GraphSAINT sampler
@@ -125,6 +147,7 @@ def main():
 
     # train phases
     train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
 
 
 if __name__ == '__main__':
