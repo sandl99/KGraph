@@ -21,31 +21,31 @@ class Args():
         self.neighbor_sample_size = 8
         self.dim = 16
         self.n_iter = 2
-        self.batch_size = 2048
-        self.l2_weight = 1e-4
+        self.batch_size = 65536
+        self.l2_weight = 1e-7
         self.lr = 1e-3
         self.ratio = 0.8
         self.save_dir = './kgraph_models'
 
 
 def parse_arg():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--dataset', type=str, default='movie', help='which dataset to use')
-    parser.add_argument('--aggregator', type=str, default='sum', help='which aggregator to use')
-    parser.add_argument('--n_epochs', type=int, default=500, help='the number of epochs')
-    parser.add_argument('--neighbor_sample_size', type=int, default=8, help='the number of neighbors to be sampled')
-    parser.add_argument('--dim', type=int, default=16, help='dimension of user and entity embeddings')
-    parser.add_argument('--n_iter', type=int, default=2,
-                        help='number of iterations when computing entity representation')
-    parser.add_argument('--batch_size', type=int, default=256, help='batch size')
-    parser.add_argument('--l2_weight', type=float, default=1e-4, help='weight of l2 regularization')
-    parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
-    parser.add_argument('--ratio', type=float, default=0.8, help='size of training dataset')
-
-    parser.add_argument('--save_dir', type=str, default='./kgraph_models', help='directory saving KGCN')
-    return parser.parse_args()
-
+    # parser = argparse.ArgumentParser()
+    #
+    # parser.add_argument('--dataset', type=str, default='movie', help='which dataset to use')
+    # parser.add_argument('--aggregator', type=str, default='sum', help='which aggregator to use')
+    # parser.add_argument('--n_epochs', type=int, default=500, help='the number of epochs')
+    # parser.add_argument('--neighbor_sample_size', type=int, default=8, help='the number of neighbors to be sampled')
+    # parser.add_argument('--dim', type=int, default=16, help='dimension of user and entity embeddings')
+    # parser.add_argument('--n_iter', type=int, default=2,
+    #                     help='number of iterations when computing entity representation')
+    # parser.add_argument('--batch_size', type=int, default=256, help='batch size')
+    # parser.add_argument('--l2_weight', type=float, default=1e-4, help='weight of l2 regularization')
+    # parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
+    # parser.add_argument('--ratio', type=float, default=0.8, help='size of training dataset')
+    #
+    # parser.add_argument('--save_dir', type=str, default='./kgraph_models', help='directory saving KGCN')
+    # return parser.parse_args()
+    return Args()
 
 def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _args):
     logging.info(f'Starting training phase... Estimator Epoch: {_minibatch.num_training_batches()}')
@@ -87,8 +87,8 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         logging.info(f'Train loss: {train_loss / len(data_loader)}')
         score = utils.auc_score(train_pred, train_true, 'micro')
         logging.info(f'Train AUC : {score} micro')
-        score = utils.auc_score(train_pred, train_true, 'macro')
-        logging.info(f'Train AUC : {score} macro')
+        # score = utils.auc_score(train_pred, train_true, 'macro')
+        # logging.info(f'Train AUC : {score} macro')
 
         # if epoch == 2:
         #     exit(0)
