@@ -3,7 +3,7 @@ import scipy as sp
 import numpy as np
 import argparse
 from graphsaint.kgraphsaint import loader
-from graphsaint.graph_samplers import edge_sampling
+from graphsaint.graph_samplers import *
 import time
 from graphsaint.norm_aggr import *
 from graphsaint.utils import *
@@ -113,7 +113,21 @@ class Minibatch:
         if self.method_sample == 'mrw':
             raise NotImplementedError
         elif self.method_sample == 'rw':
-            raise NotImplementedError
+            self.size_subg_budget = 3000 * 2
+            self.graph_sampler = rw_sampling(
+                self.adj_full,
+                np.arange(self.n_entity),
+                self.size_subg_budget,
+                3000,
+                2,
+            )
+        elif self.method_sample == 'node':
+            self.size_subg_budget = train_phases['size_subg_edge']
+            self.graph_sampler = edge_sampling(
+                self.adj_full,
+                np.arange(self.n_entity),
+                train_phases['size_subg_edge']
+            )
         elif self.method_sample == 'edge':
             self.size_subg_budget = train_phases['size_subg_edge'] * 2
             self.graph_sampler = edge_sampling(

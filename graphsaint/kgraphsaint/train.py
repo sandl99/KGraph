@@ -19,7 +19,7 @@ class Args():
         self.aggregator = 'sum'
         self.n_epochs = 500
         self.neighbor_sample_size = 8
-        self.dim = 16
+        self.dim = 32
         self.n_iter = 2
         self.batch_size = 8192
         self.l2_weight = 1e-7
@@ -113,9 +113,31 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, args):
         # detach outputs and labels
         eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
         eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
-    logging.info(f'Train loss: {eval_loss / len(data_loader)}')
+    logging.info(f'Eval loss: {eval_loss / len(data_loader)}')
     score = utils.auc_score(eval_pred, eval_true, 'micro')
-    logging.info(f'Train AUC : {score} micro')
+    logging.info(f'Eval AUC : {score} micro')
+
+
+def train2(_model, _criterion, _optimizer, _eval_data, full_adj, full_rel, _device, args):
+    eval_loss = 0
+    eval_pred, eval_true = np.zeros(0), np.zeros(0)
+    data = Rating(_eval_data)
+    data_loader = DataLoader(data, batch_size=args.batch_size, shuffle=True)
+    _model.train()
+    for data in Bar(data_loader):
+        users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
+        _optimizer.zero_grad()
+        outputs = _model(users, items, adj=full_adj, rel=full_rel, train_mode=False)
+        loss = _criterion(outputs, labels)
+        loss.backward()
+        _optimizer.step()
+        eval_loss += loss.item()
+        # detach outputs and labels
+        eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
+        eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
+    logging.info(f'Eval loss: {eval_loss / len(data_loader)}')
+    score = utils.auc_score(eval_pred, eval_true, 'micro')
+    logging.info(f'Eval AUC : {score} micro')
 
 
 def main():
@@ -146,8 +168,19 @@ def main():
     logging.info("Total number of parameters = {}".format(sum(p.numel() for p in model.parameters())))
 
     # train phases
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=args.l2_weight)
+    # mini_batch.batch_num = -1
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=args.l2_weight)
+    # mini_batch.batch_num = -1
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    for i in range(10):
+        train2(model, criterion, optimizer, train_data,full_adj, full_rel, device, args)
+        evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
 
 
 if __name__ == '__main__':
