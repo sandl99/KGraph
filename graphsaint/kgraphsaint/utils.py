@@ -4,8 +4,8 @@ from sklearn import metrics
 
 def build_sample(mini):
     train_phases = {
-        'sampler': 'edge',
-        'size_subg_edge': 4000
+        'sampler': 'node',
+        'size_subg_edge': 8000
     }
     mini.set_sampler(train_phases)
 

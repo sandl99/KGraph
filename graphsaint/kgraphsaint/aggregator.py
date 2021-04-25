@@ -3,11 +3,10 @@ import torch.nn.functional as F
 
 
 class Aggregator(torch.nn.Module):
-    '''
+    """
     Aggregator class
     Mode in ['sum', 'concat', 'neighbor']
-    '''
-
+    """
     def __init__(self, batch_size, dim, aggregator):
         super(Aggregator, self).__init__()
         self.batch_size = batch_size

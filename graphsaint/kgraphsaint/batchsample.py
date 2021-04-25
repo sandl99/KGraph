@@ -35,11 +35,11 @@ def _adj_to_sparse_matrix(adj_ent, adj_rel, n_ent, type):
         return sp.csr_matrix((value, (row, col)), shape=(n_ent, n_ent))
 
 
-def build_adj_matrix(node, csr):
+def build_adj_matrix(node, csr, neighbor_size=4):
     neighbor = np.zeros(shape=len(node), dtype=np.int64)
     for i in range(len(node)):
         neighbor[i] = len(csr.getrow(i).indices)
-    n_adj = np.zeros(shape=(len(node), int(neighbor.mean())), dtype=np.int64)
+    n_adj = np.zeros(shape=(len(node), min(int(neighbor.mean()), neighbor_size)), dtype=np.int64)
     for i in range(len(node)):
         n_adj[i] = np.random.choice(csr.getrow(i).indices, n_adj.shape[1], replace=(neighbor[i] < n_adj.shape[1]))
     return n_adj
