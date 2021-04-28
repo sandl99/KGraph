@@ -1,3 +1,6 @@
+import os
+os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
+
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -12,8 +15,8 @@ class KGraphSAINT(nn.Module):
         self.num_rel = num_rel
 
         self.usr = torch.nn.Embedding(self.num_usr, args.dim)
-        self.ent = torch.nn.Embedding(self.num_ent, args.dim)
-        self.rel = torch.nn.Embedding(self.num_rel + 1, args.dim)
+        self.ent = torch.nn.Embedding(self.num_ent, args.dim, padding_idx=0)
+        self.rel = torch.nn.Embedding(self.num_rel + 1, args.dim, padding_idx=0)
         self.args = args
         self.n_iter = args.n_iter
 
@@ -74,7 +77,7 @@ class KGraphSAINT(nn.Module):
             if i == self.n_iter - 1:
                 act = torch.tanh
             else:
-                act = torch.sigmoid
+                act = torch.relu
 
             entity_vectors_next_iter = []
             for hop in range(self.n_iter - i):

@@ -1,5 +1,13 @@
 import torch
-import torch.nn.functional as F
+
+
+def softmax(inp, dim):
+    inp_exp = torch.exp(inp)
+    inp_exp = inp_exp * (inp != 0).float()
+    inp_sum = torch.sum(inp_exp, dim=dim, keepdim=True)
+    inp_sum = torch.where(inp_sum != 0, inp_sum, torch.tensor(1, dtype=torch.float, requires_grad=False, device='cuda'))
+    inp_softmax = inp_exp / inp_sum
+    return inp_softmax    # convert NaN to Zero value
 
 
 class Aggregator(torch.nn.Module):
@@ -45,7 +53,7 @@ class Aggregator(torch.nn.Module):
 
         # [batch_size, -1, n_neighbor, dim] -> [batch_size, -1, n_neighbor]
         user_relation_scores = (user_embeddings * neighbor_relations).sum(dim=-1)
-        user_relation_scores_normalized = F.softmax(user_relation_scores, dim=-1)
+        user_relation_scores_normalized = softmax(user_relation_scores, dim=-1)
 
         # [batch_size, -1, n_neighbor] -> [batch_size, -1, n_neighbor, 1]
         user_relation_scores_normalized = user_relation_scores_normalized.unsqueeze(dim=-1)

@@ -170,6 +170,7 @@ class edge_sampling(GraphSampler):
         tmp1, tmp2 = adj_train.nonzero()
         value, count = np.unique(tmp1, return_counts=True)
         self.deg_train = count
+        self.deg_train = np.insert(self.deg_train, 0, 0)
         self.adj_train_norm = scipy.sparse.dia_matrix((1 / self.deg_train, 0), shape=adj_train.shape).dot(adj_train)
         super().__init__(adj_train, node_train, self.size_subgraph, {})
         self.cy_sampler = cy.Edge2(

@@ -29,11 +29,11 @@ def build_ratings(node_subgraph, ratings):
         j += 1
     indices.append(i)
     indices.append(j)
-    items = len(indices) - 1
+    items = len(indices)
     remove = []
-    for i in range(items):
+    for i in range(1, items):
         if not binary_search(node_subgraph, i):
-            remove.extend([j for j in range(indices[i], indices[i + 1])])
+            remove.extend([j for j in range(indices[i - 1], indices[i])])
     # for i in
     dcm = np.delete(ratings, remove, axis=0)
     return dcm
@@ -43,7 +43,7 @@ class SubgraphRating(Dataset):
     def __init__(self, node_subgraph, ratings, graph='subgraph', verbose=False):
         for i in range(len(node_subgraph) - 1):
             if node_subgraph[i] > node_subgraph[i+1]:
-                assert 1 == 2
+                assert False
         assert graph == 'subgraph' or graph == 'full'
         self.graph = graph
         t1 = time.time()

@@ -11,6 +11,7 @@ from barbar import Bar
 import numpy as np
 
 logging.basicConfig(level=logging.DEBUG)
+torch.autograd.set_detect_anomaly(True)
 
 
 class Args:
@@ -18,10 +19,10 @@ class Args:
         self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size = 4
+        self.neighbor_sample_size = 50
         self.dim = 32
         self.n_iter = 2
-        self.batch_size = 8192
+        self.batch_size = 256
         self.l2_weight = 1e-7
         self.lr = 2e-2
         self.ratio = 1
@@ -78,6 +79,7 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
             users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
             _optimizer.zero_grad()
             outputs = _model(users, items, reserve_node, node_tensor, adj, rel)
+            # print(torch.max(outputs), torch.min(outputs))
             loss = _criterion(outputs, labels)
             loss.backward()
 
@@ -151,16 +153,17 @@ def main():
     train_data = utils.reformat_train_ratings(train_data)
     utils.check_items_train(train_data, n_item)
     t1 = time.time()
-    full_adj, full_rel = loader.load_kg_ver0(args)
-    full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
+    # full_adj, full_rel = loader.load_kg_ver0(args)
+    # full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
     # Build GraphSAINT sampler
-    mini_batch = Minibatch(adj_entity, adj_relation, n_entity, n_relation)
+    mini_batch = Minibatch(adj_entity, adj_relation, n_entity, n_relation, args)
     utils.build_sample(mini_batch)
 
     # model and optimizer
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # device = torch.device('cpu')
     model = KGraphSAINT(n_user, n_entity, n_relation, args).to(device)
     criterion = torch.nn.BCELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
@@ -169,15 +172,15 @@ def main():
 
     # train phases
     train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=args.l2_weight)
-    mini_batch.batch_num = -1
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=args.l2_weight)
-    mini_batch.batch_num = -1
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=args.l2_weight)
+    # mini_batch.batch_num = -1
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=args.l2_weight)
+    # mini_batch.batch_num = -1
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
     # for i in range(10):
     #     train2(model, criterion, optimizer, train_data,full_adj, full_rel, device, args)
     #     evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)

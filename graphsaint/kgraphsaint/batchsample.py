@@ -35,13 +35,17 @@ def _adj_to_sparse_matrix(adj_ent, adj_rel, n_ent, type):
         return sp.csr_matrix((value, (row, col)), shape=(n_ent, n_ent))
 
 
-def build_adj_matrix(node, csr, neighbor_size=4):
-    neighbor = np.zeros(shape=len(node), dtype=np.int64)
-    for i in range(len(node)):
-        neighbor[i] = len(csr.getrow(i).indices)
-    n_adj = np.zeros(shape=(len(node), min(int(neighbor.mean()), neighbor_size)), dtype=np.int64)
-    for i in range(len(node)):
-        n_adj[i] = np.random.choice(csr.getrow(i).indices, n_adj.shape[1], replace=(neighbor[i] < n_adj.shape[1]))
+def build_adj_matrix(node, csr, neighbor_size=50):
+    assert node[0] != 0
+    neighbor = np.zeros(shape=len(node) + 1, dtype=np.int64)
+    for i in range(1, neighbor.shape[0]):
+        neighbor[i] = len(csr.getrow(i - 1).indices)
+    n_adj = np.zeros(shape=(neighbor.shape[0], neighbor_size), dtype=np.int64)
+    for i in range(1, neighbor.shape[0]):
+        if neighbor[i] < neighbor_size:
+            n_adj[i] = np.append(csr.getrow(i - 1).indices, np.zeros(shape=neighbor_size - neighbor[i]))
+        else:
+            n_adj[i] = np.random.choice(csr.getrow(i - 1).indices, n_adj.shape[1], replace=False)
     return n_adj
 
 
@@ -49,7 +53,10 @@ def build_rel_matrix(node, csr, adj):
     n_rel = np.zeros(shape=adj.shape, dtype=np.int64)
     for i in range(n_rel.shape[0]):
         for j in range(n_rel.shape[1]):
-            n_rel[i, j] = csr[i, adj[i, j]]
+            if adj[i, j] == 0:
+                n_rel[i, j] = 0
+            else:
+                n_rel[i, j] = csr[i - 1, adj[i, j]]
     return n_rel
 
 
@@ -59,7 +66,7 @@ class Minibatch:
     calling the proper graph sampler and estimating normalization coefficients.
     """
 
-    def __init__(self, adj_entity, adj_relation, n_entity, n_relation, is_cuda=False):
+    def __init__(self, adj_entity, adj_relation, n_entity, n_relation, args, is_cuda=False):
         self.n_entity = n_entity
         self.n_relation = n_relation
         self.adj_full = _adj_to_sparse_matrix(adj_entity, adj_relation, n_entity, 'csr')
@@ -88,7 +95,7 @@ class Minibatch:
         tmp1, tmp2 = self.adj_full.nonzero()
         value, count = np.unique(tmp1, return_counts=True)
         self.deg_train = count
-
+        self.args = args
         # if self.is_cuda:
         #     self.norm_loss_test = self.norm_loss_test.to('cuda')
 
@@ -116,7 +123,7 @@ class Minibatch:
             self.size_subg_budget = 3000 * 2
             self.graph_sampler = rw_sampling(
                 self.adj_full,
-                np.arange(self.n_entity),
+                np.arange(1, self.n_entity),
                 self.size_subg_budget,
                 3000,
                 2,
@@ -125,14 +132,14 @@ class Minibatch:
             self.size_subg_budget = train_phases['size_subg_edge']
             self.graph_sampler = edge_sampling(
                 self.adj_full,
-                np.arange(self.n_entity),
+                np.arange(1, self.n_entity),
                 train_phases['size_subg_edge']
             )
         elif self.method_sample == 'edge':
             self.size_subg_budget = train_phases['size_subg_edge'] * 2
             self.graph_sampler = edge_sampling(
                 self.adj_full,
-                np.arange(self.n_entity),
+                np.arange(1, self.n_entity),
                 train_phases['size_subg_edge']
             )
         else:
@@ -245,10 +252,11 @@ class Minibatch:
         # norm_loss = norm_loss[self.node_subgraph]
         # return self.node_subgraph, adj, norm_loss
         # t1 = time.time()
-        adj_matrix = build_adj_matrix(self.node_subgraph, adj)
+        adj_matrix = build_adj_matrix(self.node_subgraph, adj, neighbor_size=self.args.neighbor_sample_size)
         # t2 = time.time()
         # print(f'san dcm {t2-t1}')
         rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
+        self.node_subgraph = np.insert(self.node_subgraph, 0, 0)
         # print(f'san dcm {time.time() - t2}')
         return self.node_subgraph, adj_matrix, rel_matrix
 
