@@ -60,6 +60,15 @@ def build_rel_matrix(node, csr, adj):
     return n_rel
 
 
+def statistic(inptrs):
+    l1 = []
+    for inptr in inptrs:
+        tmp = [inptr[i + 1] - inptr[i] for i in range(len(inptr) - 1)]
+        l1.append(np.array(tmp))
+    l1 = np.array(l1)
+    i = 0
+
+
 class Minibatch:
     """
     Provides minibatches for the trainer or evaluator. This class is responsible for
@@ -197,6 +206,7 @@ class Minibatch:
         self.subgraphs_remaining_data.extend(_data)
         self.subgraphs_remaining_nodes.extend(_v)
         self.subgraphs_remaining_edge_index.extend(_edge_index)
+        statistic(_indptr)
 
     def one_batch(self, mode='train'):
         """

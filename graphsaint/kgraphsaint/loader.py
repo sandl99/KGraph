@@ -144,7 +144,7 @@ def load_kg_ver0(args):
     n_relation = len(set(kg_np[:, 1]))
 
     kg = construct_kg(kg_np)
-    adj_entity, adj_relation = construct_adj_ver0(args, kg, n_entity)
+    adj_entity, adj_relation = construct_adj_ver0(args, kg, n_entity + 1)
 
     return adj_entity, adj_relation
 
@@ -153,16 +153,16 @@ def construct_adj_ver0(args, kg, entity_num):
     print('constructing adjacency matrix ...')
     # each line of adj_entity stores the sampled neighbor entities for a given entity
     # each line of adj_relation stores the corresponding sampled neighbor relations
-    adj_entity = np.zeros([entity_num, args.neighbor_sample_size], dtype=np.int64)
-    adj_relation = np.zeros([entity_num, args.neighbor_sample_size], dtype=np.int64)
-    for entity in range(entity_num):
+    adj_entity = np.zeros([entity_num, args.neighbor_sample_size_eval], dtype=np.int64)
+    adj_relation = np.zeros([entity_num, args.neighbor_sample_size_eval], dtype=np.int64)
+    for entity in range(1, entity_num):
         neighbors = kg[entity]
         n_neighbors = len(neighbors)
-        if n_neighbors >= args.neighbor_sample_size:
-            sampled_indices = np.random.choice(list(range(n_neighbors)), size=args.neighbor_sample_size, replace=False)
+        if n_neighbors >= args.neighbor_sample_size_eval:
+            sampled_indices = np.random.choice(list(range(n_neighbors)), size=args.neighbor_sample_size_eval, replace=False)
         else:
-            sampled_indices = np.random.choice(list(range(n_neighbors)), size=args.neighbor_sample_size, replace=True)
-        adj_entity[entity] = np.array([neighbors[i][0] for i in sampled_indices])
-        adj_relation[entity] = np.array([neighbors[i][1] for i in sampled_indices])
+            sampled_indices = np.append(np.arange(n_neighbors), np.full((args.neighbor_sample_size_eval - n_neighbors), -1))
+        adj_entity[entity] = np.array([neighbors[i][0] if i != -1 else 0 for i in sampled_indices])
+        adj_relation[entity] = np.array([neighbors[i][1] if i != -1 else 0 for i in sampled_indices])
 
     return adj_entity, adj_relation

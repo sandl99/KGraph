@@ -41,8 +41,8 @@ class KGraphSAINT(nn.Module):
         # [batch_size, dim]
         batch_size = v.shape[0]
         user_embeddings = self.usr(u).squeeze(dim=1)
-        entities, relations = self._get_neighbors(v, node, adj, rel, train_mode)
-        item_embeddings = self._aggregate(user_embeddings, entities, relations, batch_size)
+        entities, relations, masks = self._get_neighbors(v, node, adj, rel, train_mode)
+        item_embeddings = self._aggregate(user_embeddings, entities, relations, masks, batch_size)
         scores = (user_embeddings * item_embeddings).sum(dim=1)
         return torch.sigmoid(scores)
 
@@ -54,17 +54,19 @@ class KGraphSAINT(nn.Module):
         batch_size = v.shape[0]
         entities = [v]
         relations = []
+        masks = []
         # node = torch.LongTensor(node).to(self.device)
         for h in range(self.n_iter):
             neighbor_entities = torch.LongTensor(adj[entities[h]]).view((batch_size, -1)).to(self.device)
             neighbor_relations = torch.LongTensor(rel[entities[h]]).view((batch_size, -1)).to(self.device)
             entities.append(neighbor_entities)
             relations.append(neighbor_relations)
+            # masks.append(torch.where(neighbor_relations == 0, torch.tensor(1., dtype=torch.float, device=self.device), torch.tensor(0., dtype=torch.float, device=self.device)))
         if train_mode:
             entities = [node[h].to(self.device) for h in entities]
-        return entities, relations
+        return entities, relations, masks
 
-    def _aggregate(self, user_embeddings, entities, relations, batch_size):
+    def _aggregate(self, user_embeddings, entities, relations, masks, batch_size):
         '''
         Make item embeddings by aggregating neighbor vectors
         '''
@@ -85,6 +87,8 @@ class KGraphSAINT(nn.Module):
                     self_vectors=entity_vectors[hop],
                     neighbor_vectors=entity_vectors[hop + 1].view((batch_size, -1, n_neighbor, self.dim)),
                     neighbor_relations=relation_vectors[hop].view((batch_size, -1, n_neighbor, self.dim)),
+                    # masks=masks[hop].view(batch_size, -1, n_neighbor),
+                    masks=None,
                     user_embeddings=user_embeddings,
                     act=act)
                 entity_vectors_next_iter.append(vector)

@@ -19,7 +19,8 @@ class Args:
         self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size = 50
+        self.neighbor_sample_size_train = 20
+        self.neighbor_sample_size_eval = 50
         self.dim = 32
         self.n_iter = 2
         self.batch_size = 256
@@ -153,8 +154,8 @@ def main():
     train_data = utils.reformat_train_ratings(train_data)
     utils.check_items_train(train_data, n_item)
     t1 = time.time()
-    # full_adj, full_rel = loader.load_kg_ver0(args)
-    # full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
+    full_adj, full_rel = loader.load_kg_ver0(args)
+    full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
     # Build GraphSAINT sampler
@@ -171,8 +172,8 @@ def main():
     logging.info("Total number of parameters = {}".format(sum(p.numel() for p in model.parameters())))
 
     # train phases
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
     # optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=args.l2_weight)
     # mini_batch.batch_num = -1
     # train(model, criterion, optimizer, mini_batch, train_data, device, args)
