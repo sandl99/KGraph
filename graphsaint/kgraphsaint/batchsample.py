@@ -206,7 +206,7 @@ class Minibatch:
         self.subgraphs_remaining_data.extend(_data)
         self.subgraphs_remaining_nodes.extend(_v)
         self.subgraphs_remaining_edge_index.extend(_edge_index)
-        statistic(_indptr)
+        # statistic(_indptr)
 
     def one_batch(self, mode='train'):
         """

@@ -176,7 +176,7 @@ def main():
 
     # Build GraphSAINT sampler
     mini_batch = Minibatch(adj_entity, adj_relation, n_entity, n_relation, args)
-    utils.build_sample(mini_batch)
+    utils.build_sample(mini_batch, args)
 
     # model and optimizer
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
