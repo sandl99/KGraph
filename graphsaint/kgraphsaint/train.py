@@ -13,6 +13,8 @@ import numpy as np
 logging.basicConfig(level=logging.DEBUG)
 torch.autograd.set_detect_anomaly(True)
 
+name_model = ''
+
 
 class Args:
     def __init__(self):
@@ -28,6 +30,9 @@ class Args:
         self.lr = 2e-2
         self.ratio = 1
         self.save_dir = './kgraph_models'
+        self.lr_decay = 0.5
+        self.sampler = 'node'
+        self.size_budget = 8000
 
 
 def parse_arg():
@@ -100,7 +105,8 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         #     exit(0)
 
 
-def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, args):
+def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch, args):
+    global name_model
     eval_loss = 0
     eval_pred, eval_true = np.zeros(0), np.zeros(0)
     data = Rating(_eval_data)
@@ -116,12 +122,21 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, args):
         # detach outputs and labels
         eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
         eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
-    logging.info(f'Eval loss: {eval_loss / len(data_loader)}')
+    eval_loss /= len(data_loader)
+    logging.info(f'Eval loss: {eval_loss}')
     score = utils.auc_score(eval_pred, eval_true, 'micro')
     logging.info(f'Eval AUC : {score} micro')
+    # saving model
+    state_dict = {
+        'model_state_dict': _model.state_dict(),
+        'epoch': epoch,
+    }
+    state_dict.update(args.__dict__)
+    name_model = args.save_dir + '/model/' + args.sampler + '_' + str(args.size_budget) + '_' + str(score) + '.pt'
+    torch.save(state_dict, name_model)
 
 
-def train2(_model, _criterion, _optimizer, _eval_data, full_adj, full_rel, _device, args):
+def train2(_model, _criterion, _optimizer, _eval_data, full_adj, full_rel, _device, epoch, args):
     eval_loss = 0
     eval_pred, eval_true = np.zeros(0), np.zeros(0)
     data = Rating(_eval_data)
@@ -144,6 +159,7 @@ def train2(_model, _criterion, _optimizer, _eval_data, full_adj, full_rel, _devi
 
 
 def main():
+    global name_model
     args = parse_arg()
     # Loading data
     t0 = time.time()
@@ -167,25 +183,31 @@ def main():
     # device = torch.device('cpu')
     model = KGraphSAINT(n_user, n_entity, n_relation, args).to(device)
     criterion = torch.nn.BCELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
     logging.info(f'Device: {device}')
     logging.info("Total number of parameters = {}".format(sum(p.numel() for p in model.parameters())))
-
+    epoch = 0
+    if name_model != '':
+        checkpoint = torch.load(name_model)
+        logging.info(f'Loading checkpoint model {name_model}')
+        epoch = checkpoint['epoch']
+        model.load_state_dict(checkpoint['model_state_dict'])
+        args.lr = checkpoint['lr']
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
     # train phases
-    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    # optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=args.l2_weight)
-    # mini_batch.batch_num = -1
-    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    # optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=args.l2_weight)
-    # mini_batch.batch_num = -1
-    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    # for i in range(10):
-    #     train2(model, criterion, optimizer, train_data,full_adj, full_rel, device, args)
-    #     evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    for i in range(epoch, 10):
+        for param_group in optimizer.param_groups:
+            lr = param_group['lr']
+        logging.debug(f'Training with learning rate {lr}')
+        train(model, criterion, optimizer, mini_batch, train_data, device, args)
+        evaluate(model, criterion, eval_data, full_adj, full_rel, device, i, args)
+        if i < 2:
+            args.lr *= args.lr_decay
+            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
+            logging.debug(f'Learning rate {args.lr}')
+        mini_batch.batch_num = -1
 
 
 if __name__ == '__main__':
     main()
+    # args = Args()
+    # print(args.__dict__)

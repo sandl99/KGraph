@@ -262,7 +262,7 @@ class Minibatch:
         # norm_loss = norm_loss[self.node_subgraph]
         # return self.node_subgraph, adj, norm_loss
         # t1 = time.time()
-        adj_matrix = build_adj_matrix(self.node_subgraph, adj, neighbor_size=self.args.neighbor_sample_size)
+        adj_matrix = build_adj_matrix(self.node_subgraph, adj, neighbor_size=self.args.neighbor_sample_size_train)
         # t2 = time.time()
         # print(f'san dcm {t2-t1}')
         rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
