@@ -3,6 +3,7 @@ import os
 import argparse
 
 prefix = '../../data/'
+np.random.seed(12)
 
 def load_data(args):
     n_user, n_item, train_data, eval_data, test_data = load_rating(args)

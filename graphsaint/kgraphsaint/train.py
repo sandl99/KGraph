@@ -11,7 +11,7 @@ from barbar import Bar
 import numpy as np
 
 logging.basicConfig(level=logging.DEBUG)
-torch.autograd.set_detect_anomaly(True)
+# torch.autograd.set_detect_anomaly(True)
 
 name_model = ''
 
@@ -22,7 +22,7 @@ class Args:
         self.aggregator = 'sum'
         self.n_epochs = 500
         self.neighbor_sample_size_train = 20
-        self.neighbor_sample_size_eval = 50
+        self.neighbor_sample_size_eval = 25
         self.dim = 32
         self.n_iter = 2
         self.batch_size = 256
@@ -132,7 +132,7 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
         'epoch': epoch,
     }
     state_dict.update(args.__dict__)
-    name_model = args.save_dir + '/model/' + args.sampler + '_' + str(args.size_budget) + '_' + str(score) + '.pt'
+    name_model = args.save_dir + '/model_' + args.sampler + '_' + str(args.size_budget) + '_' + str(score) + '.pt'
     torch.save(state_dict, name_model)
 
 
@@ -195,6 +195,7 @@ def main():
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
     # train phases
     for i in range(epoch, 10):
+        logging.info(f'------------- EPOCH {i}')
         for param_group in optimizer.param_groups:
             lr = param_group['lr']
         logging.debug(f'Training with learning rate {lr}')
