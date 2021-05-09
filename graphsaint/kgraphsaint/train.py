@@ -15,15 +15,28 @@ logging.basicConfig(level=logging.DEBUG)
 
 class Args:
     def __init__(self):
+        # movie
+        # self.dataset = 'movie'
+        # self.aggregator = 'sum'
+        # self.n_epochs = 500
+        # self.neighbor_sample_size = 4
+        # self.dim = 32
+        # self.n_iter = 2
+        # self.batch_size = 8192
+        # self.l2_weight = 1e-7
+        # self.lr = 2e-2
+        # self.ratio = 1
+        # self.save_dir = './kgraph_models'
+        # music
         self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size = 4
-        self.dim = 32
-        self.n_iter = 2
-        self.batch_size = 8192
-        self.l2_weight = 1e-7
-        self.lr = 2e-2
+        self.neighbor_sample_size = 8
+        self.dim = 16
+        self.n_iter = 1
+        self.batch_size = 128
+        self.l2_weight = 1e-4
+        self.lr = 5e-4
         self.ratio = 1
         self.save_dir = './kgraph_models'
 
