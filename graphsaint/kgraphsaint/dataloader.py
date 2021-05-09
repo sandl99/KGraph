@@ -18,7 +18,17 @@ def binary_search(arr, k):
     return False
 
 
+def get_missing_items(ratings):
+    items = ratings.T[1]
+    all_items = set(np.arange(1, items.max() + 1))
+    return all_items - set(items)
+
+
 def build_ratings(node_subgraph, ratings):
+    # create missing items, in movie data, it's empty
+    # missing_items = get_missing_items(ratings)
+    # tao anh' xa. tu index den item value, anh xa 1 1 neu la du lieu movie
+    unique_items = np.unique(ratings.T[1])
     indices = []
     items = ratings.T[1]
     i, j = 0, 0
@@ -32,7 +42,8 @@ def build_ratings(node_subgraph, ratings):
     items = len(indices)
     remove = []
     for i in range(1, items):
-        if not binary_search(node_subgraph, i):
+        # if i not in missing_items:
+        if not binary_search(node_subgraph, unique_items[i - 1]):
             remove.extend([j for j in range(indices[i - 1], indices[i])])
     # for i in
     dcm = np.delete(ratings, remove, axis=0)
