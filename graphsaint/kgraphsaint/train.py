@@ -28,7 +28,7 @@ class Args:
         # self.ratio = 1
         # self.save_dir = './kgraph_models'
         # music
-        self.dataset = 'movie'
+        self.dataset = 'music'
         self.aggregator = 'sum'
         self.n_epochs = 500
         self.neighbor_sample_size = 8
@@ -162,7 +162,7 @@ def main():
     logging.info('Loading ratings data')
     n_user, n_item, train_data, eval_data, test_data = loader.load_rating(args)
     train_data = utils.reformat_train_ratings(train_data)
-    utils.check_items_train(train_data, n_item)
+    # utils.check_items_train(train_data, n_item)
     t1 = time.time()
     full_adj, full_rel = loader.load_kg_ver0(args)
     full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
@@ -181,16 +181,21 @@ def main():
     logging.info("Total number of parameters = {}".format(sum(p.numel() for p in model.parameters())))
 
     # train phases
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=args.l2_weight)
-    mini_batch.batch_num = -1
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=args.l2_weight)
-    mini_batch.batch_num = -1
-    train(model, criterion, optimizer, mini_batch, train_data, device, args)
-    evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    for i in range(40):
+        train(model, criterion, optimizer, mini_batch, train_data, device, args)
+        evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+        mini_batch.batch_num = -1
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr/2, weight_decay=args.l2_weight)
+    for i in range(40):
+        train(model, criterion, optimizer, mini_batch, train_data, device, args)
+        evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+        mini_batch.batch_num = -1
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=args.l2_weight)
+    # mini_batch.batch_num = -1
+    # train(model, criterion, optimizer, mini_batch, train_data, device, args)
+    # evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
     # for i in range(10):
     #     train2(model, criterion, optimizer, train_data,full_adj, full_rel, device, args)
     #     evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)

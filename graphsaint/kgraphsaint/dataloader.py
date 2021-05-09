@@ -19,6 +19,7 @@ def binary_search(arr, k):
 
 
 def build_ratings(node_subgraph, ratings):
+    unique_items = np.unique(ratings.T[1])
     indices = []
     items = ratings.T[1]
     i, j = 0, 0
@@ -32,7 +33,7 @@ def build_ratings(node_subgraph, ratings):
     items = len(indices) - 1
     remove = []
     for i in range(items):
-        if not binary_search(node_subgraph, i):
+        if not binary_search(node_subgraph, unique_items[i]):
             remove.extend([j for j in range(indices[i], indices[i + 1])])
     # for i in
     dcm = np.delete(ratings, remove, axis=0)
