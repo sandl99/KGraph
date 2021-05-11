@@ -10,35 +10,43 @@ import time
 from barbar import Bar
 import numpy as np
 
-logging.basicConfig(level=logging.DEBUG)
-
 
 class Args:
     def __init__(self):
         # movie
-        # self.dataset = 'movie'
-        # self.aggregator = 'sum'
-        # self.n_epochs = 500
-        # self.neighbor_sample_size = 4
-        # self.dim = 32
-        # self.n_iter = 2
-        # self.batch_size = 8192
-        # self.l2_weight = 1e-7
-        # self.lr = 2e-2
-        # self.ratio = 1
-        # self.save_dir = './kgraph_models'
-        # music
-        self.dataset = 'music'
+        self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size = 8
-        self.dim = 16
-        self.n_iter = 1
-        self.batch_size = 128
-        self.l2_weight = 1e-4
-        self.lr = 5e-4
+        self.neighbor_sample_size = 4
+        self.dim = 32
+        self.n_iter = 2
+        self.batch_size = 8192
+        self.l2_weight = 1e-7
+        self.lr = 2e-2
         self.ratio = 1
         self.save_dir = './kgraph_models'
+        self.sampler = 'node'
+        self.size_subg_edge = 8000
+        # music
+        # self.dataset = 'music'
+        # self.aggregator = 'sum'
+        # self.n_epochs = 500
+        # self.neighbor_sample_size = 8
+        # self.dim = 16
+        # self.n_iter = 1
+        # self.batch_size = 128
+        # self.l2_weight = 1e-4
+        # self.lr = 5e-4
+        # self.ratio = 1
+        # self.save_dir = './kgraph_models'
+        # self.sampler = 'node'
+        # self.size_subg_edge = 8000
+
+arg = Args()
+logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
+                    format='[%(asctime)s.%(msecs)03d %(filename)s:%(lineno)3s] %(message)s',
+                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+phase_iter = 0
 
 
 def parse_arg():
@@ -62,12 +70,14 @@ def parse_arg():
 
 
 def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _args):
-    logging.info(f'Starting training phase... Estimator Epoch: {_minibatch.num_training_batches()}')
+    global phase_iter
+    phase_iter += 1
+    logging.info(f'\n----- Starting training phase {phase_iter} ------ Estimator Epoch: {_minibatch.num_training_batches()}')
     epoch = 0
 
     while not _minibatch.end():
         _model.train()
-        logging.info(f'-------- Epoch: {epoch} --------')
+        logging.info(f'\n------------- Epoch: {epoch} -------------')
         epoch += 1
         _t0 = time.time()
         node, adj, rel = _minibatch.one_batch('train')
@@ -155,6 +165,9 @@ def train2(_model, _criterion, _optimizer, _eval_data, full_adj, full_rel, _devi
 
 def main():
     args = parse_arg()
+    # start trainning, logging some parameters for trainning phases
+    for key, item in args.__dict__:
+        logging.info(f'Parameter {key} := {item}')
     # Loading data
     t0 = time.time()
     logging.info('Loading knowledge graph from data')
@@ -170,7 +183,7 @@ def main():
 
     # Build GraphSAINT sampler
     mini_batch = Minibatch(adj_entity, adj_relation, n_entity, n_relation)
-    utils.build_sample(mini_batch)
+    utils.build_sample(mini_batch, args)
 
     # model and optimizer
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -181,12 +194,12 @@ def main():
     logging.info("Total number of parameters = {}".format(sum(p.numel() for p in model.parameters())))
 
     # train phases
-    for i in range(40):
+    for i in range(2):
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
         evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
         mini_batch.batch_num = -1
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr/2, weight_decay=args.l2_weight)
-    for i in range(40):
+    for i in range(4):
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
         evaluate(model, criterion, eval_data, full_adj, full_rel, device, args)
         mini_batch.batch_num = -1

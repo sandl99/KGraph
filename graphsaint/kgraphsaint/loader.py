@@ -2,7 +2,9 @@ import numpy as np
 import os
 import argparse
 
-prefix = '../../data/'
+prefix = './data/'
+np.random.seed(0)
+
 
 def load_data(args):
     n_user, n_item, train_data, eval_data, test_data = load_rating(args)
@@ -29,6 +31,7 @@ def load_rating(args):
 
     return n_user, n_item, train_data, eval_data, test_data
     # return n_item, train_data
+
 
 def dataset_split(rating_np, args):
     print('splitting dataset ...')

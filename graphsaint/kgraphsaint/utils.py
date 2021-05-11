@@ -2,10 +2,10 @@ import numpy as np
 from sklearn import metrics
 
 
-def build_sample(mini):
+def build_sample(mini, args):
     train_phases = {
-        'sampler': 'node',
-        'size_subg_edge': 8000
+        'sampler': args.sampler,
+        'size_subg_edge': args.size_subg_edge
     }
     mini.set_sampler(train_phases)
 
