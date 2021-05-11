@@ -2,7 +2,7 @@ import numpy as np
 import os
 import argparse
 
-prefix = '../../data/'
+prefix = './data/'
 np.random.seed(12)
 
 def load_data(args):

@@ -19,37 +19,37 @@ name_model = ''
 class Args:
     def __init__(self):
         # movie
-        # self.dataset = 'movie'
-        # self.aggregator = 'sum'
-        # self.n_epochs = 500
-        # self.neighbor_sample_size_train = 15
-        # self.neighbor_sample_size_eval = 25
-        # self.dim = 32
-        # self.n_iter = 2
-        # self.batch_size = 256
-        # self.l2_weight = 1e-7
-        # self.lr = 2e-2
-        # self.ratio = 1
-        # self.save_dir = '../../kgraph_models'
-        # self.lr_decay = 0.5
-        # self.sampler = 'node'
-        # self.size_budget = 8000
-        # music
-        self.dataset = 'music'
+        self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size_train = 15
+        self.neighbor_sample_size_train = 25
         self.neighbor_sample_size_eval = 25
-        self.dim = 16
-        self.n_iter = 1
+        self.dim = 32
+        self.n_iter = 2
         self.batch_size = 256
-        self.l2_weight = 1e-4
-        self.lr = 1e-3
+        self.l2_weight = 1e-7
+        self.lr = 2e-2
         self.ratio = 1
         self.save_dir = '../../kgraph_models'
         self.lr_decay = 0.5
         self.sampler = 'node'
         self.size_budget = 8000
+        # music
+        # self.dataset = 'music'
+        # self.aggregator = 'sum'
+        # self.n_epochs = 500
+        # self.neighbor_sample_size_train = 15
+        # self.neighbor_sample_size_eval = 25
+        # self.dim = 16
+        # self.n_iter = 1
+        # self.batch_size = 256
+        # self.l2_weight = 1e-4
+        # self.lr = 1e-3
+        # self.ratio = 1
+        # self.save_dir = '../../kgraph_models'
+        # self.lr_decay = 0.5
+        # self.sampler = 'node'
+        # self.size_budget = 8000
 
 
 def parse_arg():
@@ -211,14 +211,14 @@ def main():
         args.lr = checkpoint['lr']
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
     # train phases
-    for i in range(epoch, 40):
+    for i in range(epoch, 10):
         logging.info(f'------------- EPOCH {i}')
         for param_group in optimizer.param_groups:
             lr = param_group['lr']
         logging.debug(f'Training with learning rate {lr}')
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
         evaluate(model, criterion, eval_data, full_adj, full_rel, device, i, args)
-        if i < 2:
+        if i == 2 or i == 4:
             args.lr *= args.lr_decay
             optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
             logging.debug(f'Learning rate {args.lr}')

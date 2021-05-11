@@ -20,7 +20,9 @@ class KGraphSAINT(nn.Module):
         self.args = args
         self.n_iter = args.n_iter
 
-        self.aggregator = Aggregator(args.batch_size, args.dim, args.aggregator)
+        self.aggregator = nn.ModuleList()
+        for i in range(self.n_iter):
+            self.aggregator.append(Aggregator(args.batch_size, args.dim, args.aggregator))
         self.device = device
         # self.n_neighbor = args.neighbor_sample_size
         self.dim = args.dim
@@ -83,7 +85,7 @@ class KGraphSAINT(nn.Module):
 
             entity_vectors_next_iter = []
             for hop in range(self.n_iter - i):
-                vector = self.aggregator(
+                vector = self.aggregator[i](
                     self_vectors=entity_vectors[hop],
                     neighbor_vectors=entity_vectors[hop + 1].view((batch_size, -1, n_neighbor, self.dim)),
                     neighbor_relations=relation_vectors[hop].view((batch_size, -1, n_neighbor, self.dim)),
