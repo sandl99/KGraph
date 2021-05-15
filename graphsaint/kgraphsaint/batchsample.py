@@ -8,6 +8,8 @@ import time
 from graphsaint.norm_aggr import *
 from graphsaint.utils import *
 import math
+from torch_sparse import SparseTensor
+import torch
 
 
 def _adj_to_sparse_matrix(adj_ent, adj_rel, n_ent, type):
@@ -36,28 +38,37 @@ def _adj_to_sparse_matrix(adj_ent, adj_rel, n_ent, type):
 
 
 def build_adj_matrix(node, csr, neighbor_size=50):
-    assert node[0] != 0
-    neighbor = np.zeros(shape=len(node) + 1, dtype=np.int64)
-    for i in range(1, neighbor.shape[0]):
+    # assert node[0] != 0
+    # neighbor = np.zeros(shape=len(node) + 1, dtype=np.int64)
+    # for i in range(1, neighbor.shape[0]):
+    #     neighbor[i] = len(csr.getrow(i - 1).indices)
+    # n_adj = np.zeros(shape=(neighbor.shape[0], neighbor_size), dtype=np.int64)
+    # for i in range(1, neighbor.shape[0]):
+    #     if neighbor[i] < neighbor_size:
+    #         n_adj[i] = np.append(csr.getrow(i - 1).indices, np.zeros(shape=neighbor_size - neighbor[i]))
+    #     else:
+    #         n_adj[i] = np.random.choice(csr.getrow(i - 1).indices, n_adj.shape[1], replace=False)
+    # return n_adj
+    neighbor = torch.zeros(len(node) + 1, dtype=torch.long)
+    zero = torch.zeros(1, dtype=torch.long)
+    for i in range(1, neighbor.size(0)):
         neighbor[i] = len(csr.getrow(i - 1).indices)
-    n_adj = np.zeros(shape=(neighbor.shape[0], neighbor_size), dtype=np.int64)
-    for i in range(1, neighbor.shape[0]):
-        if neighbor[i] < neighbor_size:
-            n_adj[i] = np.append(csr.getrow(i - 1).indices, np.zeros(shape=neighbor_size - neighbor[i]))
-        else:
-            n_adj[i] = np.random.choice(csr.getrow(i - 1).indices, n_adj.shape[1], replace=False)
-    return n_adj
+    # neighbor = torch.where(neighbor > neighbor_size, neighbor_size, neighbor)
+    neighbor_size = neighbor.max()
+    rowptr = torch.cumsum(torch.cat((zero, neighbor), dim=0), dim=0)
+    col = [torch.arange(i, dtype=torch.long) for i in neighbor]
+    val = [torch.from_numpy(csr.getrow(i - 1).indices[:neighbor_size]) for i in range(1, neighbor.size(0))]
+    col = torch.cat(col, dim=0)
+    val = torch.cat(val, dim=0)
+    return SparseTensor(rowptr=rowptr, col=col, value=val, sparse_sizes=(neighbor.size(0), neighbor_size))
 
 
-def build_rel_matrix(node, csr, adj):
-    n_rel = np.zeros(shape=adj.shape, dtype=np.int64)
-    for i in range(n_rel.shape[0]):
-        for j in range(n_rel.shape[1]):
-            if adj[i, j] == 0:
-                n_rel[i, j] = 0
-            else:
-                n_rel[i, j] = csr[i - 1, adj[i, j]]
-    return n_rel
+
+def build_rel_matrix(node, csr, adj: SparseTensor):
+    rowptr = adj.storage.rowptr().detach()
+    col = adj.storage.col().detach()
+    val = torch.from_numpy(csr.data)
+    return SparseTensor(rowptr=rowptr, col=col, value=val, sparse_sizes=adj.storage.sparse_sizes())
 
 
 def statistic(inptrs):
@@ -246,7 +257,7 @@ class Minibatch:
             t_col = [self.node_subgraph[i] for i in col]
             data = [self.adj_full[i, j] for i, j in zip(t_row, t_col)]
             adj = sp.csr_matrix((data, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
-
+            # adj = SparseTensor(row=torch.tensor(t_row), col=torch.tensor(t_col), value=torch.tensor(data), sparse_sizes=(self.size_subgraph + 1, self.size_subgraph + 1))
             adj_edge_index = self.subgraphs_remaining_edge_index.pop()
             print("{} nodes, {} edges, {} degree".format(self.node_subgraph.size, adj.size,
                                                          adj.size / self.node_subgraph.size))

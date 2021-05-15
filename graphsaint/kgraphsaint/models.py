@@ -1,10 +1,15 @@
 import os
+from numpy.lib.arraysetops import isin
+from torch._C import device
+from torch.functional import Tensor
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 
 import torch
 from torch import nn
 import torch.nn.functional as F
 from graphsaint.kgraphsaint.aggregator import Aggregator
+from graphsaint.kgraphsaint.utils import index_select
+from torch_sparse import SparseTensor, tensor
 
 
 class KGraphSAINT(nn.Module):
@@ -39,7 +44,7 @@ class KGraphSAINT(nn.Module):
             v = [reserve_node[i.item()] for i in v]
             v = torch.LongTensor(v).to(self.device)
         v = v.view((-1, 1))
-
+        node = node.type(torch.long)
         # [batch_size, dim]
         batch_size = v.shape[0]
         user_embeddings = self.usr(u).squeeze(dim=1)
@@ -59,23 +64,47 @@ class KGraphSAINT(nn.Module):
         masks = []
         # node = torch.LongTensor(node).to(self.device)
         for h in range(self.n_iter):
-            neighbor_entities = torch.LongTensor(adj[entities[h]]).view((batch_size, -1)).to(self.device)
-            neighbor_relations = torch.LongTensor(rel[entities[h]]).view((batch_size, -1)).to(self.device)
+            neighbor_entities = index_select(adj, entities[h])
+            neighbor_relations = index_select(rel, entities[h])
             entities.append(neighbor_entities)
             relations.append(neighbor_relations)
             # masks.append(torch.where(neighbor_relations == 0, torch.tensor(1., dtype=torch.float, device=self.device), torch.tensor(0., dtype=torch.float, device=self.device)))
         if train_mode:
-            entities = [node[h].to(self.device) for h in entities]
+            n_entities = [None] * len(entities)
+            for i, h in enumerate(entities):
+                if isinstance(h, SparseTensor):
+                    val = h.storage.value()
+                    val = node[val.type(torch.long)].to(self.device)
+                    _h = h.set_value(val, layout='csr')
+                    n_entities[i] = _h
+                elif isinstance(h, Tensor):
+                    n_entities[i] = node[h].to(self.device)
+                else:
+                    raise ValueError
         return entities, relations, masks
 
     def _aggregate(self, user_embeddings, entities, relations, masks, batch_size):
         '''
         Make item embeddings by aggregating neighbor vectors
         '''
-        entity_vectors = [self.ent(entity) for entity in entities]
-        relation_vectors = [self.rel(relation) for relation in relations]
+        entity_vectors = [None] * len(entities)
+        relation_vectors = [None] * len(relations)
+        for i, entity in enumerate(entities):
+            if isinstance(entity, SparseTensor):
+                val = entity.storage.value()
+                val = self.ent(val)
+                entity_vectors[i] = entity.set_value(val, layout='csr')
+            else:
+                entity_vectors[i] = self.ent(entity)
+        for i, relation in enumerate(relations):
+            if isinstance(relation, SparseTensor):
+                val = relation.storage.value()
+                val = self.rel(val)
+                relation_vectors[i] = relation.set_value(val, layout='csr')
+            else:
+                relation_vectors[i] = self.rel(relation)
 
-        n_neighbor = entities[1].shape[1]
+        n_neighbor = entities[1].size(1)
 
         for i in range(self.n_iter):
             if i == self.n_iter - 1:
@@ -87,10 +116,8 @@ class KGraphSAINT(nn.Module):
             for hop in range(self.n_iter - i):
                 vector = self.aggregator[i](
                     self_vectors=entity_vectors[hop],
-                    neighbor_vectors=entity_vectors[hop + 1].view((batch_size, -1, n_neighbor, self.dim)),
-                    neighbor_relations=relation_vectors[hop].view((batch_size, -1, n_neighbor, self.dim)),
-                    # masks=masks[hop].view(batch_size, -1, n_neighbor),
-                    masks=None,
+                    neighbor_vectors=entity_vectors[hop + 1],
+                    neighbor_relations=relation_vectors[hop],
                     user_embeddings=user_embeddings,
                     act=act)
                 entity_vectors_next_iter.append(vector)

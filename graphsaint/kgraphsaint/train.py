@@ -22,8 +22,8 @@ class Args:
         self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size_train = 25
-        self.neighbor_sample_size_eval = 25
+        self.neighbor_sample_size_train = 100
+        self.neighbor_sample_size_eval = 100
         self.dim = 32
         self.n_iter = 2
         self.batch_size = 256
@@ -33,7 +33,7 @@ class Args:
         self.save_dir = '../../kgraph_models'
         self.lr_decay = 0.5
         self.sampler = 'node'
-        self.size_budget = 8000
+        self.size_subg_edge = 8000
         # music
         # self.dataset = 'music'
         # self.aggregator = 'sum'
@@ -49,8 +49,14 @@ class Args:
         # self.save_dir = '../../kgraph_models'
         # self.lr_decay = 0.5
         # self.sampler = 'node'
-        # self.size_budget = 8000
+        # self.size_subg_edge = 8000
 
+arg = Args()
+logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
+                    format='[%(asctime)s.%(msecs)03d %(filename)s:%(lineno)3s] %(message)s',
+                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+phase_iter = 0
+print(f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log')
 
 def parse_arg():
     # parser = argparse.ArgumentParser()
@@ -73,7 +79,9 @@ def parse_arg():
 
 
 def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _args):
-    logging.info(f'Starting training phase... Estimator Epoch: {_minibatch.num_training_batches()}')
+    global phase_iter
+    phase_iter += 1
+    logging.info(f'\n----- Starting training phase {phase_iter} ------ Estimator Epoch: {_minibatch.num_training_batches()}')
     epoch = 0
 
     while not _minibatch.end():
@@ -82,9 +90,9 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         epoch += 1
         _t0 = time.time()
         node, adj, rel = _minibatch.one_batch('train')
+        adj = adj.to(_device)
+        rel = rel.to(_device)
         node_tensor = torch.from_numpy(np.array(node)).to('cpu')
-        adj = torch.from_numpy(adj).to('cpu')
-        rel = torch.from_numpy(rel).to('cpu')
         reserve_node = {j: i for i, j in enumerate(node)}
 
         _t1 = time.time()
@@ -187,8 +195,8 @@ def main():
     train_data = utils.reformat_train_ratings(train_data)
     # utils.check_items_train(train_data, n_item)
     t1 = time.time()
-    full_adj, full_rel = loader.load_kg_ver0(args)
-    full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
+    # full_adj, full_rel = loader.load_kg_ver0(args)
+    # full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
     # Build GraphSAINT sampler
@@ -217,12 +225,12 @@ def main():
             lr = param_group['lr']
         logging.debug(f'Training with learning rate {lr}')
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
-        evaluate(model, criterion, eval_data, full_adj, full_rel, device, i, args)
-        if i == 2 or i == 4:
-            args.lr *= args.lr_decay
-            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
-            logging.debug(f'Learning rate {args.lr}')
-        mini_batch.batch_num = -1
+        # evaluate(model, criterion, eval_data, full_adj, full_rel, device, i, args)
+        # if i == 2 or i == 4:
+        #     args.lr *= args.lr_decay
+        #     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
+        #     logging.debug(f'Learning rate {args.lr}')
+        # mini_batch.batch_num = -1
 
 
 if __name__ == '__main__':
