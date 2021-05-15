@@ -10,7 +10,7 @@ import time
 from barbar import Bar
 import numpy as np
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 # torch.autograd.set_detect_anomaly(True)
 
 name_model = ''
@@ -26,14 +26,14 @@ class Args:
         self.neighbor_sample_size_eval = 100
         self.dim = 32
         self.n_iter = 2
-        self.batch_size = 256
+        self.batch_size = 512
         self.l2_weight = 1e-7
         self.lr = 2e-2
         self.ratio = 1
         self.save_dir = '../../kgraph_models'
         self.lr_decay = 0.5
         self.sampler = 'node'
-        self.size_subg_edge = 8000
+        self.size_subg_edge = 2000
         self.batch_size_eval = 128
         # music
         # self.dataset = 'music'
@@ -56,7 +56,7 @@ class Args:
 arg = Args()
 logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
                     format='[%(asctime)s.%(msecs)03d %(filename)s:%(lineno)3s] %(message)s',
-                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO, force=True)
 phase_iter = 0
 print(f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log')
 
@@ -168,6 +168,8 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
 def main():
     global name_model
     args = parse_arg()
+    for key, item in args.__dict__.items():
+        logging.info(f'Parameter {key} := {item}')
     # Loading data
     t0 = time.time()
     logging.info('Loading knowledge graph from data')

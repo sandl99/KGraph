@@ -1,0 +1,18 @@
+[05/15/2021 19:23:31.923 train.py:172] Parameter dataset := movie
+[05/15/2021 19:23:31.923 train.py:172] Parameter aggregator := sum
+[05/15/2021 19:23:31.923 train.py:172] Parameter n_epochs := 500
+[05/15/2021 19:23:31.923 train.py:172] Parameter neighbor_sample_size_train := 100
+[05/15/2021 19:23:31.924 train.py:172] Parameter neighbor_sample_size_eval := 100
+[05/15/2021 19:23:31.924 train.py:172] Parameter dim := 32
+[05/15/2021 19:23:31.924 train.py:172] Parameter n_iter := 2
+[05/15/2021 19:23:31.924 train.py:172] Parameter batch_size := 256
+[05/15/2021 19:23:31.924 train.py:172] Parameter l2_weight := 1e-07
+[05/15/2021 19:23:31.924 train.py:172] Parameter lr := 0.02
+[05/15/2021 19:23:31.924 train.py:172] Parameter ratio := 1
+[05/15/2021 19:23:31.924 train.py:172] Parameter save_dir := ../../kgraph_models
+[05/15/2021 19:23:31.925 train.py:172] Parameter lr_decay := 0.5
+[05/15/2021 19:23:31.925 train.py:172] Parameter sampler := node
+[05/15/2021 19:23:31.925 train.py:172] Parameter size_subg_edge := 8000
+[05/15/2021 19:23:31.925 train.py:172] Parameter batch_size_eval := 128
+[05/15/2021 19:23:31.925 train.py:175] Loading knowledge graph from data
+[05/15/2021 19:23:34.600 train.py:177] Loading ratings data
