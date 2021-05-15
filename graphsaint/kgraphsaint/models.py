@@ -44,7 +44,9 @@ class KGraphSAINT(nn.Module):
             v = [reserve_node[i.item()] for i in v]
             v = torch.LongTensor(v).to(self.device)
         v = v.view((-1, 1))
-        node = node.type(torch.long)
+        if node is not None:
+            node = node.type(torch.long)
+        assert (node == 0).sum() == 0
         # [batch_size, dim]
         batch_size = v.shape[0]
         user_embeddings = self.usr(u).squeeze(dim=1)
@@ -81,7 +83,7 @@ class KGraphSAINT(nn.Module):
                     n_entities[i] = node[h].to(self.device)
                 else:
                     raise ValueError
-        return entities, relations, masks
+        return n_entities, relations, masks
 
     def _aggregate(self, user_embeddings, entities, relations, masks, batch_size):
         '''
@@ -92,6 +94,7 @@ class KGraphSAINT(nn.Module):
         for i, entity in enumerate(entities):
             if isinstance(entity, SparseTensor):
                 val = entity.storage.value()
+                assert (val == 0).sum() == 0
                 val = self.ent(val)
                 entity_vectors[i] = entity.set_value(val, layout='csr')
             else:
@@ -99,6 +102,7 @@ class KGraphSAINT(nn.Module):
         for i, relation in enumerate(relations):
             if isinstance(relation, SparseTensor):
                 val = relation.storage.value()
+                assert (val == 0).sum() == 0
                 val = self.rel(val)
                 relation_vectors[i] = relation.set_value(val, layout='csr')
             else:

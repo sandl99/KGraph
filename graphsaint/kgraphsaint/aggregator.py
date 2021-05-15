@@ -1,3 +1,4 @@
+from operator import ne
 import torch
 from torch._C import layout
 from torch_sparse import mul
@@ -38,6 +39,7 @@ class Aggregator(torch.nn.Module):
         neighbors_agg = self._mix_neighbor_vectors(neighbor_vectors, neighbor_relations, user_embeddings)
 
         if isinstance(self_vectors, SparseTensor):
+            # dcm = neighbors_agg
             neighbors_agg = SparseTensor.from_dense(neighbors_agg.view(self.batch_size, -1, self.dim), True)
         else:
             neighbors_agg = neighbors_agg.unsqueeze(dim=1)
@@ -105,4 +107,5 @@ class Aggregator(torch.nn.Module):
 
         # user_relation_normalized
         neighbors_aggregated = neighbor_vectors.sum(dim=1)
+        # assert nei_val.shape[0] == SparseTensor.from_dense(neighbors_aggregated.view(256, -1, 32), has_value=True).storage.value().shape[0]
         return neighbors_aggregated

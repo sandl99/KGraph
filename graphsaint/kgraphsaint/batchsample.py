@@ -58,6 +58,7 @@ def build_adj_matrix(node, csr, neighbor_size=50):
     rowptr = torch.cumsum(torch.cat((zero, neighbor), dim=0), dim=0)
     col = [torch.arange(i, dtype=torch.long) for i in neighbor]
     val = [torch.from_numpy(csr.getrow(i - 1).indices[:neighbor_size]) for i in range(1, neighbor.size(0))]
+    
     col = torch.cat(col, dim=0)
     val = torch.cat(val, dim=0)
     return SparseTensor(rowptr=rowptr, col=col, value=val, sparse_sizes=(neighbor.size(0), neighbor_size))
@@ -277,7 +278,7 @@ class Minibatch:
         # t2 = time.time()
         # print(f'san dcm {t2-t1}')
         rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
-        self.node_subgraph = np.insert(self.node_subgraph, 0, 0)
+        # self.node_subgraph = np.insert(self.node_subgraph, 0, 0)
         # print(f'san dcm {time.time() - t2}')
         return self.node_subgraph, adj_matrix, rel_matrix
 

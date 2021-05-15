@@ -34,6 +34,7 @@ class Args:
         self.lr_decay = 0.5
         self.sampler = 'node'
         self.size_subg_edge = 8000
+        self.batch_size_eval = 128
         # music
         # self.dataset = 'music'
         # self.aggregator = 'sum'
@@ -50,6 +51,7 @@ class Args:
         # self.lr_decay = 0.5
         # self.sampler = 'node'
         # self.size_subg_edge = 8000
+        # self.batch_size_eval = 128
 
 arg = Args()
 logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
@@ -120,6 +122,7 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
             # detach outputs and labels
             train_pred = np.concatenate((train_pred, outputs.detach().cpu().numpy()))
             train_true = np.concatenate((train_true, labels. detach().cpu().numpy()))
+            torch.cuda.empty_cache()
         logging.info(f'Train loss: {train_loss / len(data_loader)}')
         score = utils.auc_score(train_pred, train_true, 'micro')
         logging.info(f'Train AUC : {score} micro')
@@ -135,18 +138,19 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
     eval_loss = 0
     eval_pred, eval_true = np.zeros(0), np.zeros(0)
     data = Rating(_eval_data)
-    data_loader = DataLoader(data, batch_size=args.batch_size, shuffle=True)
+    data_loader = DataLoader(data, batch_size=args.batch_size_eval, shuffle=True)
     _model.eval()
-    for data in Bar(data_loader):
-        users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
-        # _optimizer.zero_grad()
-        outputs = _model(users, items, adj=full_adj, rel=full_rel, train_mode=False)
-        loss = _criterion(outputs, labels)
-        loss.backward()
-        eval_loss += loss.item()
-        # detach outputs and labels
-        eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
-        eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
+    with torch.no_grad():
+        for data in Bar(data_loader):
+            users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
+            # _optimizer.zero_grad()
+            outputs = _model(users, items, adj=full_adj, rel=full_rel, train_mode=False)
+            loss = _criterion(outputs, labels)
+            # loss.backward()
+            eval_loss += loss.item()
+            # detach outputs and labels
+            eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
+            eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
     eval_loss /= len(data_loader)
     logging.info(f'Eval loss: {eval_loss}')
     score = utils.auc_score(eval_pred, eval_true, 'micro')
@@ -161,28 +165,6 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
     # torch.save(state_dict, name_model)
 
 
-def train2(_model, _criterion, _optimizer, _eval_data, full_adj, full_rel, _device, epoch, args):
-    eval_loss = 0
-    eval_pred, eval_true = np.zeros(0), np.zeros(0)
-    data = Rating(_eval_data)
-    data_loader = DataLoader(data, batch_size=args.batch_size, shuffle=True)
-    _model.train()
-    for data in Bar(data_loader):
-        users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
-        _optimizer.zero_grad()
-        outputs = _model(users, items, adj=full_adj, rel=full_rel, train_mode=False)
-        loss = _criterion(outputs, labels)
-        loss.backward()
-        _optimizer.step()
-        eval_loss += loss.item()
-        # detach outputs and labels
-        eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
-        eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
-    logging.info(f'Eval loss: {eval_loss / len(data_loader)}')
-    score = utils.auc_score(eval_pred, eval_true, 'micro')
-    logging.info(f'Eval AUC : {score} micro')
-
-
 def main():
     global name_model
     args = parse_arg()
@@ -195,8 +177,8 @@ def main():
     train_data = utils.reformat_train_ratings(train_data)
     # utils.check_items_train(train_data, n_item)
     t1 = time.time()
-    # full_adj, full_rel = loader.load_kg_ver0(args)
-    # full_adj, full_rel = torch.from_numpy(full_adj), torch.from_numpy(full_rel)
+
+    full_adj, full_rel = loader.load_kg_ver0(args)
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
     # Build GraphSAINT sampler
@@ -225,12 +207,12 @@ def main():
             lr = param_group['lr']
         logging.debug(f'Training with learning rate {lr}')
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
-        # evaluate(model, criterion, eval_data, full_adj, full_rel, device, i, args)
-        # if i == 2 or i == 4:
-        #     args.lr *= args.lr_decay
-        #     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
-        #     logging.debug(f'Learning rate {args.lr}')
-        # mini_batch.batch_num = -1
+        evaluate(model, criterion, eval_data, full_adj.to(device), full_rel.to(device), device, i, args)
+        if i == 2 or i == 4:
+            args.lr *= args.lr_decay
+            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
+            logging.debug(f'Learning rate {args.lr}')
+        mini_batch.batch_num = -1
 
 
 if __name__ == '__main__':
