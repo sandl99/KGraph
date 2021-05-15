@@ -46,7 +46,6 @@ class KGraphSAINT(nn.Module):
         v = v.view((-1, 1))
         if node is not None:
             node = node.type(torch.long)
-        assert (node == 0).sum() == 0
         # [batch_size, dim]
         batch_size = v.shape[0]
         user_embeddings = self.usr(u).squeeze(dim=1)
@@ -83,7 +82,8 @@ class KGraphSAINT(nn.Module):
                     n_entities[i] = node[h].to(self.device)
                 else:
                     raise ValueError
-        return n_entities, relations, masks
+            entities = n_entities
+        return entities, relations, masks
 
     def _aggregate(self, user_embeddings, entities, relations, masks, batch_size):
         '''

@@ -148,6 +148,8 @@ def load_kg_ver0(args):
     n_relation = len(set(kg_np[:, 1]))
 
     kg = construct_kg(kg_np)
+    for i in range(1, n_entity + 1):
+        kg[i] = kg[i][:args.neighbor_sample_size_eval]
     adj_entity, adj_relation = construct_adj_ver0(args, kg, n_entity + 1)
 
     return adj_entity, adj_relation

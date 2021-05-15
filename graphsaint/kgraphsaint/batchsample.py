@@ -52,11 +52,11 @@ def build_adj_matrix(node, csr, neighbor_size=50):
     neighbor = torch.zeros(len(node) + 1, dtype=torch.long)
     zero = torch.zeros(1, dtype=torch.long)
     for i in range(1, neighbor.size(0)):
-        neighbor[i] = len(csr.getrow(i - 1).indices)
+        neighbor[i] = min(len(csr.getrow(i - 1).indices), neighbor_size)
     # neighbor = torch.where(neighbor > neighbor_size, neighbor_size, neighbor)
-    neighbor_size = neighbor.max()
+    # neighbor_size = neighbor.max()
     rowptr = torch.cumsum(torch.cat((zero, neighbor), dim=0), dim=0)
-    col = [torch.arange(i, dtype=torch.long) for i in neighbor]
+    col = [torch.arange(i, dtype=torch.long)[:neighbor_size] for i in neighbor]
     val = [torch.from_numpy(csr.getrow(i - 1).indices[:neighbor_size]) for i in range(1, neighbor.size(0))]
     
     col = torch.cat(col, dim=0)
@@ -68,8 +68,11 @@ def build_adj_matrix(node, csr, neighbor_size=50):
 def build_rel_matrix(node, csr, adj: SparseTensor):
     rowptr = adj.storage.rowptr().detach()
     col = adj.storage.col().detach()
-    val = torch.from_numpy(csr.data)
+    neighbor_size = adj.storage.sparse_sizes()[1]
+    val = [torch.from_numpy(csr.getrow(i - 1).data[:neighbor_size]) for i in range(1,adj.storage.sparse_sizes()[0] )]
+    val = torch.cat(val, dim=0)
     return SparseTensor(rowptr=rowptr, col=col, value=val, sparse_sizes=adj.storage.sparse_sizes())
+
 
 
 def statistic(inptrs):

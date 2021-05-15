@@ -26,7 +26,7 @@ class Args:
         self.neighbor_sample_size_eval = 100
         self.dim = 32
         self.n_iter = 2
-        self.batch_size = 512
+        self.batch_size = 8192
         self.l2_weight = 1e-7
         self.lr = 2e-2
         self.ratio = 1
@@ -34,7 +34,7 @@ class Args:
         self.lr_decay = 0.5
         self.sampler = 'node'
         self.size_subg_edge = 2000
-        self.batch_size_eval = 128
+        self.batch_size_eval = 2048
         # music
         # self.dataset = 'music'
         # self.aggregator = 'sum'
@@ -151,6 +151,7 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
             # detach outputs and labels
             eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
             eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
+            torch.cuda.empty_cache()
     eval_loss /= len(data_loader)
     logging.info(f'Eval loss: {eval_loss}')
     score = utils.auc_score(eval_pred, eval_true, 'micro')
@@ -161,7 +162,7 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
         'epoch': epoch,
     }
     state_dict.update(args.__dict__)
-    name_model = args.save_dir + '/model_' + args.sampler + '_' + str(args.size_budget) + '_' + str(score) + '.pt'
+    name_model = args.save_dir + '/model_' + args.sampler + '_' + str(args.size_subg_edge) + '_' + str(score) + '.pt'
     # torch.save(state_dict, name_model)
 
 
