@@ -23,14 +23,14 @@ class Args:
         self.aggregator = 'sum'
         self.n_epochs = 500
         self.neighbor_sample_size_train = 100
-        self.neighbor_sample_size_eval = 100
+        self.neighbor_sample_size_eval = 1000
         self.dim = 32
         self.n_iter = 2
         self.batch_size = 8192
         self.l2_weight = 1e-7
         self.lr = 2e-2
         self.ratio = 1
-        self.save_dir = '../../kgraph_models'
+        self.save_dir = './kgraph_models'
         self.lr_decay = 0.5
         self.sampler = 'node'
         self.size_subg_edge = 2000
@@ -56,7 +56,7 @@ class Args:
 arg = Args()
 logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
                     format='[%(asctime)s.%(msecs)03d %(filename)s:%(lineno)3s] %(message)s',
-                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO, force=True)
+                    datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
 phase_iter = 0
 print(f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log')
 
@@ -163,7 +163,7 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
     }
     state_dict.update(args.__dict__)
     name_model = args.save_dir + '/model_' + args.sampler + '_' + str(args.size_subg_edge) + '_' + str(score) + '.pt'
-    # torch.save(state_dict, name_model)
+    torch.save(state_dict, name_model)
 
 
 def main():
