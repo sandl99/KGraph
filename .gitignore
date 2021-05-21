@@ -4,3 +4,4 @@ pytorch_models/
 data/
 log_train/
 !item_index2entity_id.txt
+*.pt
