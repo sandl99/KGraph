@@ -19,44 +19,48 @@ name_model = ''
 class Args:
     def __init__(self):
         # movie
-        self.dataset = 'movie'
+        # self.dataset = 'movie'
+        # self.aggregator = 'sum'
+        # self.n_epochs = 500
+        # self.neighbor_sample_size_train = 100
+        # self.neighbor_sample_size_eval = 1000
+        # self.dim = 32
+        # self.n_iter = 2
+        # self.batch_size = 8192
+        # self.l2_weight = 1e-7
+        # self.lr = 2e-2
+        # self.ratio = 1
+        # self.save_dir = './kgraph_models'
+        # self.lr_decay = 0.5
+        # self.sampler = 'node'
+        # self.size_subg_edge = 2000
+        # self.batch_size_eval = 2048
+        # music
+        self.dataset = 'music'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size_train = 100
-        self.neighbor_sample_size_eval = 1000
-        self.dim = 32
+        self.neighbor_sample_size_train = 500
+        self.neighbor_sample_size_eval = 500
+        self.dim = 16
         self.n_iter = 2
-        self.batch_size = 8192
-        self.l2_weight = 1e-7
-        self.lr = 2e-2
+        self.batch_size = 256
+        self.l2_weight = 1e-4
+        self.lr = 1e-2
         self.ratio = 1
         self.save_dir = './kgraph_models'
         self.lr_decay = 0.5
         self.sampler = 'node'
-        self.size_subg_edge = 2000
-        self.batch_size_eval = 2048
-        # music
-        # self.dataset = 'music'
-        # self.aggregator = 'sum'
-        # self.n_epochs = 500
-        # self.neighbor_sample_size_train = 15
-        # self.neighbor_sample_size_eval = 25
-        # self.dim = 16
-        # self.n_iter = 1
-        # self.batch_size = 256
-        # self.l2_weight = 1e-4
-        # self.lr = 1e-3
-        # self.ratio = 1
-        # self.save_dir = '../../kgraph_models'
-        # self.lr_decay = 0.5
-        # self.sampler = 'node'
-        # self.size_subg_edge = 8000
-        # self.batch_size_eval = 128
+        self.size_subg_edge = 8000
+        self.batch_size_eval = 128
 
 arg = Args()
 logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
                     format='[%(asctime)s.%(msecs)03d %(filename)s:%(lineno)3s] %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+logging.getLogger().addHandler(console)
+
 phase_iter = 0
 print(f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log')
 

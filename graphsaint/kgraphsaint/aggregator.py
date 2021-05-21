@@ -36,17 +36,18 @@ class Aggregator(torch.nn.Module):
         batch_size = user_embeddings.size(0)
         if batch_size != self.batch_size:
             self.batch_size = batch_size
-        neighbors_agg = self._mix_neighbor_vectors(neighbor_vectors, neighbor_relations, user_embeddings)
+        neighbors_agg = self._mix_neighbor_vectors(neighbor_vectors, neighbor_relations, user_embeddings, self_vectors)
 
         if isinstance(self_vectors, SparseTensor):
             # dcm = neighbors_agg
-            neighbors_agg = SparseTensor.from_dense(neighbors_agg.view(self.batch_size, -1, self.dim), True)
+            # neighbors_agg = SparseTensor.from_dense(neighbors_agg.view(self.batch_size, -1, self.dim), True)
+            pass
         else:
             neighbors_agg = neighbors_agg.unsqueeze(dim=1)
 
         if self.aggregator == 'sum':
             if isinstance(self_vectors, SparseTensor):
-                output = self_vectors.add_nnz(neighbors_agg.storage.value(), layout='csr')
+                output = self_vectors.add_nnz(neighbors_agg, layout='csr')
             else:
                 output = (self_vectors + neighbors_agg).view((-1, self.dim))
         elif self.aggregator == 'concat':
@@ -58,10 +59,10 @@ class Aggregator(torch.nn.Module):
             output = neighbors_agg.view((-1, self.dim))
 
         if isinstance(self_vectors, SparseTensor):
-            output = output.to_dense().view((self.batch_size, -1, self.dim))
-            res = SparseTensor.from_dense(output, has_value=True)
-            assert self_vectors.storage.value().shape[0] == res.storage.value().shape[0]
-            output = res
+            # output = output.to_dense().view((self.batch_size, -1, self.dim))
+            # res = SparseTensor.from_dense(output, has_value=True)
+            # assert self_vectors.storage.value().shape[0] == res.storage.value().shape[0]
+            # output = res
             value = output.storage.value()
             value = act(self.weights(value))
             return output.set_value(value, layout='csr')
@@ -70,7 +71,7 @@ class Aggregator(torch.nn.Module):
             return act(output.view((self.batch_size, -1, self.dim)))
 
 
-    def _mix_neighbor_vectors(self, neighbor_vectors, neighbor_relations, user_embeddings):
+    def _mix_neighbor_vectors(self, neighbor_vectors, neighbor_relations, user_embeddings, self_vectors):
         """ old implement
         '''
         This aims to aggregate neighbor vectors
@@ -106,6 +107,9 @@ class Aggregator(torch.nn.Module):
         neighbor_vectors = neighbor_vectors.set_value(nei_val * rel_val, layout='csr')
 
         # user_relation_normalized
-        neighbors_aggregated = neighbor_vectors.sum(dim=1)
+        if isinstance(self_vectors, SparseTensor):
+            neighbors_aggregated = segment_csr(neighbor_vectors.storage.value(), torch.unique(neighbor_vectors.storage.rowptr()), reduce='sum')
+        else:
+            neighbors_aggregated = neighbor_vectors.sum(dim=1)
         # assert nei_val.shape[0] == SparseTensor.from_dense(neighbors_aggregated.view(256, -1, 32), has_value=True).storage.value().shape[0]
         return neighbors_aggregated
