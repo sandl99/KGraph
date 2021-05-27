@@ -92,6 +92,7 @@ class Aggregator(torch.nn.Module):
         return neighbors_aggregated
         """
         # user_embeddings: [batch_size, 1, dim], user_relation_scores: [batch_size, neighbor, dim]
+        """
         assert neighbor_relations.size(0) % self.batch_size == 0
         user_embeddings = user_embeddings.repeat(neighbor_relations.size(0) // self.batch_size, 1)
         user_embeddings = user_embeddings.view((user_embeddings.shape[0], 1, self.dim))
@@ -103,19 +104,25 @@ class Aggregator(torch.nn.Module):
         user_relation_scores_normalized = softmax(user_relation_scores, unsqueeze=True)
         # apply relation normalized
         rel_val = user_relation_scores_normalized.storage.value()
+        """
+
         nei_val = neighbor_vectors.storage.value()
-        # neighbor_vectors = neighbor_vectors.set_value(nei_val * rel_val, layout='csr')
-        nei_val = nei_val * rel_val
+        # nei_val = nei_val * rel_val
         # apply norm aggregate parameter
         if neighbor_norms is not None:
             norm_aggr_parameter = neighbor_norms.storage.value().unsqueeze(1)
             neighbor_vectors = neighbor_vectors.set_value(nei_val * norm_aggr_parameter, layout='csr')
+            # user_relation_normalized
+            if isinstance(self_vectors, SparseTensor):
+                neighbors_aggregated = segment_csr(neighbor_vectors.storage.value(), torch.unique(neighbor_vectors.storage.rowptr()), reduce='sum')
+            else:
+                neighbors_aggregated = neighbor_vectors.sum(dim=1)
+            return neighbors_aggregated
         else:
-            neighbor_vectors = neighbor_vectors.set_value(nei_val, layout='csr')
-        # user_relation_normalized
-        if isinstance(self_vectors, SparseTensor):
-            neighbors_aggregated = segment_csr(neighbor_vectors.storage.value(), torch.unique(neighbor_vectors.storage.rowptr()), reduce='mean')
-        else:
-            neighbors_aggregated = neighbor_vectors.mean(dim=1)
-        # assert nei_val.shape[0] == SparseTensor.from_dense(neighbors_aggregated.view(256, -1, 32), has_value=True).storage.value().shape[0]
-        return neighbors_aggregated
+            # neighbor_vectors = neighbor_vectors.set_value(nei_val, layout='csr')
+            # user_relation_normalized
+            if isinstance(self_vectors, SparseTensor):
+                neighbors_aggregated = segment_csr(neighbor_vectors.storage.value(), torch.unique(neighbor_vectors.storage.rowptr()), reduce='mean')
+            else:
+                neighbors_aggregated = neighbor_vectors.mean(dim=1)
+            return neighbors_aggregated

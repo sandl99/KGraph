@@ -118,7 +118,7 @@ class Minibatch:
 
         tmp1, tmp2 = self.adj_full.nonzero()
         value, count = np.unique(tmp1, return_counts=True)
-        self.deg_train = count
+        self.deg_train = np.concatenate(([1], count))
         self.args = args
         self.sample_coverage = 50
         self.norm_loss_train = np.zeros(self.adj_full.shape[0])
@@ -218,7 +218,7 @@ class Minibatch:
         self.norm_loss_train = self.norm_loss_train.astype(np.float32)
         if self.is_cuda:
             self.norm_loss_train = torch.from_numpy(self.norm_loss_train).cuda()
-            self.norm_aggr_train = torch.from_numpy(self.norm_aggr_train).cuda()
+            # self.norm_aggr_train = torch.from_numpy(self.norm_aggr_train).cuda()
 
     def par_graph_sample(self, phase):
         """
@@ -274,7 +274,14 @@ class Minibatch:
             adj = sp.csr_matrix((data, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
             # adj = SparseTensor(row=torch.tensor(t_row), col=torch.tensor(t_col), value=torch.tensor(data), sparse_sizes=(self.size_subgraph + 1, self.size_subgraph + 1))
             adj_edge_index = self.subgraphs_remaining_edge_index.pop()
+            adj_edge_index = self.norm_aggr_train[adj_edge_index]
+
+            degree = self.deg_train[self.node_subgraph]
+            repeat = np.array([indptr[i+1] - indptr[i] for i in range(len(indptr) - 1)])
+            degree = np.repeat(degree, repeat)
+            adj_edge_index /= degree
             adj_edge_index = sp.csr_matrix((adj_edge_index, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
+
             print("{} nodes, {} edges, {} degree".format(self.node_subgraph.size, adj.size,
                                                         adj.size / self.node_subgraph.size))
             self.batch_num += 1
@@ -286,10 +293,10 @@ class Minibatch:
         adj_edge_index = build_rel_matrix(self.node_subgraph, adj_edge_index, adj_matrix)
         # t2 = time.time()
         # print(f'san dcm {t2-t1}')
-        rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
+        # rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
         # self.node_subgraph = np.insert(self.node_subgraph, 0, 0)
         # print(f'san dcm {time.time() - t2}')
-        return self.node_subgraph, adj_matrix, rel_matrix, adj_edge_index
+        return self.node_subgraph, adj_matrix, adj_edge_index
 
     def num_training_batches(self):
         return math.ceil(self.node_for_sampler.shape[0] / float(self.size_subg_budget))

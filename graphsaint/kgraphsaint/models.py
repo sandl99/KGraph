@@ -71,9 +71,9 @@ class KGraphSAINT(nn.Module):
         # node = torch.LongTensor(node).to(self.device)
         for h in range(self.n_iter):
             neighbor_entities = index_select(adj, entities[h])
-            neighbor_relations = index_select(rel, entities[h])
+            # neighbor_relations = index_select(rel, entities[h])
             entities.append(neighbor_entities)
-            relations.append(neighbor_relations)
+            # relations.append(neighbor_relations)
             if train_mode:
                 neighbor_aggregations = index_select(edge_idx, entities[h])
                 aggregation_norms.append(neighbor_aggregations)
@@ -99,8 +99,8 @@ class KGraphSAINT(nn.Module):
         '''
         train_mode = (len(aggregation_norms) != 0)
         entity_vectors = [None] * len(entities)
-        relation_vectors = [None] * len(relations)
-        aggr_norm_vectors = [None] * len(relations)
+        relation_vectors = [None] * (len(entities) -1)
+        aggr_norm_vectors = [None] * (len(entities) - 1)
 
         for i, entity in enumerate(entities):
             if isinstance(entity, SparseTensor):
@@ -110,22 +110,17 @@ class KGraphSAINT(nn.Module):
                 entity_vectors[i] = entity.set_value(val, layout='csr')
             else:
                 entity_vectors[i] = self.ent(entity)
-        for i, relation in enumerate(relations):
-            if isinstance(relation, SparseTensor):
-                val = relation.storage.value()
-                assert (val == 0).sum() == 0
-                val = self.rel(val)
-                relation_vectors[i] = relation.set_value(val, layout='csr')
-            else:
-                relation_vectors[i] = self.rel(relation)
+        # for i, relation in enumerate(relations):
+        #     if isinstance(relation, SparseTensor):
+        #         val = relation.storage.value()
+        #         assert (val == 0).sum() == 0
+        #         val = self.rel(val)
+        #         relation_vectors[i] = relation.set_value(val, layout='csr')
+        #     else:
+        #         relation_vectors[i] = self.rel(relation)
         if train_mode:
             for i, aggr in enumerate(aggregation_norms):
-                if isinstance(aggr, SparseTensor):
-                    val = aggr.storage.value()
-                    val = self.norm_aggr[val.long()]
-                    aggr_norm_vectors[i] = aggr.set_value(val, layout='csr')
-                else:
-                    raise Exception
+                aggr_norm_vectors[i] = aggregation_norms[i]
 
         n_neighbor = entities[1].size(1)
 

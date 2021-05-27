@@ -45,7 +45,7 @@ class Args:
         self.n_iter = 1
         self.batch_size = 512
         self.l2_weight = 1e-5
-        self.lr = 1e-2
+        self.lr = 1e-3
         self.ratio = 1
         self.save_dir = './kgraph_models'
         self.lr_decay = 0.5
@@ -95,9 +95,9 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         logging.info(f'-------- Mini epoch: {epoch} --------')
         epoch += 1
         _t0 = time.time()
-        node, adj, rel, edge_idx = _minibatch.one_batch('train')
+        node, adj, edge_idx = _minibatch.one_batch('train')
         adj = adj.to(_device)
-        rel = rel.to(_device)
+        # rel = rel.to(_device)
         edge_idx = edge_idx.to(_device)
         node_tensor = torch.from_numpy(np.array(node)).to('cpu')
         reserve_node = {j: i for i, j in enumerate(node)}
@@ -116,7 +116,7 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         for data in Bar(data_loader):
             users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
             _optimizer.zero_grad()
-            outputs = _model(users, items, reserve_node, node_tensor, adj, rel, edge_idx)
+            outputs = _model(users, items, reserve_node, node_tensor, adj, None, edge_idx)
             scores_pred = torch.sigmoid(outputs.detach())
             # print(torch.max(outputs), torch.min(outputs))
             norm_loss = _minibatch.norm_loss_train[items]
@@ -219,10 +219,10 @@ def main():
         model.set_norm_aggr(mini_batch.norm_aggr_train)
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
         evaluate(model, criterion, eval_data, full_adj.to(device), full_rel.to(device), device, i, args)
-        if i % 40 == 0 and i != 0:
-            args.lr *= args.lr_decay
-            optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
-            logging.debug(f'Learning rate {args.lr}')
+        # if i % 40 == 0 and i != 0:
+        #     args.lr *= args.lr_decay
+        #     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
+        #     logging.debug(f'Learning rate {args.lr}')
         mini_batch.shuffle()
         utils.build_sample(mini_batch, args)
 
