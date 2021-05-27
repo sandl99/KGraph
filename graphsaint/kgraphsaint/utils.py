@@ -33,7 +33,8 @@ def check_items_train(train_data, n_item):
 def auc_score(pred, true, average='micro'):
     return metrics.roc_auc_score(true, pred, average=average)
 
-
+def f1_score(pred, true):
+    return metrics.f1_score(true, pred, average='binary')
 
 def to_dense(src: SparseTensor, dtype) -> torch.Tensor:
     row, col, value = src.coo()

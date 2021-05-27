@@ -51,10 +51,13 @@ def build_adj_matrix(node, csr, neighbor_size=50):
     # return n_adj
     neighbor = torch.zeros(len(node) + 1, dtype=torch.long)
     zero = torch.zeros(1, dtype=torch.long)
-    for i in range(1, neighbor.size(0)):
-        neighbor[i] = min(len(csr.getrow(i - 1).indices), neighbor_size)
-    # neighbor = torch.where(neighbor > neighbor_size, neighbor_size, neighbor)
-    # neighbor_size = neighbor.max()
+    if neighbor_size != -1:
+        for i in range(1, neighbor.size(0)):
+            neighbor[i] = min(len(csr.getrow(i - 1).indices), neighbor_size)
+    else:
+        for i in range(1, neighbor.size(0)):
+            neighbor[i] = len(csr.getrow(i - 1).indices)
+        neighbor_size = neighbor.max()
     rowptr = torch.cumsum(torch.cat((zero, neighbor), dim=0), dim=0)
     col = [torch.arange(i, dtype=torch.long)[:neighbor_size] for i in neighbor]
     val = [torch.from_numpy(csr.getrow(i - 1).indices[:neighbor_size]) for i in range(1, neighbor.size(0))]
@@ -73,6 +76,7 @@ def build_rel_matrix(node, csr, adj: SparseTensor):
     val = torch.cat(val, dim=0)
     return SparseTensor(rowptr=rowptr, col=col, value=val, sparse_sizes=adj.storage.sparse_sizes())
 
+# def build_edge_index_matrix():
 
 
 def statistic(inptrs):
@@ -90,15 +94,14 @@ class Minibatch:
     calling the proper graph sampler and estimating normalization coefficients.
     """
 
-    def __init__(self, adj_entity, adj_relation, n_entity, n_relation, args, is_cuda=False):
+    def __init__(self, adj_entity, adj_relation, n_entity, n_relation, args, is_cuda=True):
         self.n_entity = n_entity
         self.n_relation = n_relation
         self.adj_full = _adj_to_sparse_matrix(adj_entity, adj_relation, n_entity, 'csr')
-        # self.is_cuda = is_cuda
-        #
-        # if self.is_cuda:
-        #     print(torch.cuda.is_available())
-        #     self.adj_full = self.adj_full.to('cuda')
+        self.is_cuda = is_cuda
+        if self.is_cuda:
+            if not torch.cuda.is_available():
+                self.is_cuda = False
 
         self.node_subgraph = None
         self.batch_num = -1
@@ -111,17 +114,15 @@ class Minibatch:
         self.subgraphs_remaining_nodes = []
         self.subgraphs_remaining_edge_index = []
 
-        self.norm_loss_test = np.zeros(self.adj_full.shape[0])
-        _denom = n_entity
-        self.norm_loss_test[np.arange(n_entity)] = 1. / _denom
-        self.norm_loss_test = torch.from_numpy(self.norm_loss_test)
+        self.node_for_sampler  = np.arange(1, n_entity)
 
         tmp1, tmp2 = self.adj_full.nonzero()
         value, count = np.unique(tmp1, return_counts=True)
         self.deg_train = count
         self.args = args
-        # if self.is_cuda:
-        #     self.norm_loss_test = self.norm_loss_test.to('cuda')
+        self.sample_coverage = 50
+        self.norm_loss_train = np.zeros(self.adj_full.shape[0])
+        self.norm_aggr_train = np.zeros(self.adj_full.size)
 
     def set_sampler(self, train_phases):
         """
@@ -140,6 +141,15 @@ class Minibatch:
         self.subgraphs_remaining_nodes = []
         self.subgraphs_remaining_edge_index = []
         self.method_sample = train_phases['sampler']
+        # check in 27/5/2021
+        # indptr = self.adj_full.indptr
+        # indices = self.adj_full.indices
+        # cnt = 0
+        # self.reserve_edge = dict()
+        # for i in range(len(indptr) - 1):
+        #     for j in range(indptr[i], indptr[i + 1]):
+        #         self.reserve_edge[(i, indices[j])] = cnt
+        #         cnt += 1
 
         if self.method_sample == 'mrw':
             raise NotImplementedError
@@ -147,7 +157,7 @@ class Minibatch:
             self.size_subg_budget = 3000 * 2
             self.graph_sampler = rw_sampling(
                 self.adj_full,
-                np.arange(1, self.n_entity),
+                self.node_for_sampler,
                 self.size_subg_budget,
                 3000,
                 2,
@@ -156,14 +166,14 @@ class Minibatch:
             self.size_subg_budget = train_phases['size_subg_edge']
             self.graph_sampler = edge_sampling(
                 self.adj_full,
-                np.arange(1, self.n_entity),
+                self.node_for_sampler,
                 train_phases['size_subg_edge']
             )
         elif self.method_sample == 'edge':
             self.size_subg_budget = train_phases['size_subg_edge'] * 2
             self.graph_sampler = edge_sampling(
                 self.adj_full,
-                np.arange(1, self.n_entity),
+                self.node_for_sampler,
                 train_phases['size_subg_edge']
             )
         else:
@@ -183,30 +193,32 @@ class Minibatch:
         #   2. update the counter for each node / edge in the training graph
         #   3. estimate norm factor alpha and lambda
         tot_sampled_nodes = 0
-        # while True:
-        #     self.par_graph_sample('train')
-        #     tot_sampled_nodes = sum([len(n) for n in self.subgraphs_remaining_nodes])
-        #     if tot_sampled_nodes > self.sample_coverage * self.node_train.size:
-        #         break
-        # print()
-        # num_subg = len(self.subgraphs_remaining_nodes)
-        # for i in range(num_subg):
-        #     self.norm_aggr_train[self.subgraphs_remaining_edge_index[i]] += 1
-        #     self.norm_loss_train[self.subgraphs_remaining_nodes[i]] += 1
+        while True:
+            self.par_graph_sample('train')
+            tot_sampled_nodes = sum([len(n) for n in self.subgraphs_remaining_nodes])
+            if tot_sampled_nodes > self.sample_coverage * self.adj_full.shape[0]:
+                break
+        print()
+        num_subg = len(self.subgraphs_remaining_nodes)
+        for i in range(num_subg):
+            self.norm_aggr_train[self.subgraphs_remaining_edge_index[i]] += 1
+            self.norm_loss_train[self.subgraphs_remaining_nodes[i]] += 1
         # assert self.norm_loss_train[self.node_val].sum() + self.norm_loss_train[self.node_test].sum() == 0
-        # for v in range(self.adj_train.shape[0]):
-        #     i_s = self.adj_train.indptr[v]
-        #     i_e = self.adj_train.indptr[v + 1]
-        #     val = np.clip(self.norm_loss_train[v] / self.norm_aggr_train[i_s : i_e], 0, 1e4)
-        #     val[np.isnan(val)] = 0.1
-        #     self.norm_aggr_train[i_s : i_e] = val
-        # self.norm_loss_train[np.where(self.norm_loss_train==0)[0]] = 0.1
+        for v in range(self.adj_full.shape[0]):
+            i_s = self.adj_full.indptr[v]
+            i_e = self.adj_full.indptr[v + 1]
+            if i_s != i_e:
+                val = np.clip(self.norm_loss_train[v] / self.norm_aggr_train[i_s : i_e], 0, 1e4)
+                val[np.isnan(val)] = 0.1
+                self.norm_aggr_train[i_s : i_e] = val
+        self.norm_loss_train[np.where(self.norm_loss_train==0)[0]] = 0.1
         # self.norm_loss_train[self.node_val] = 0
         # self.norm_loss_train[self.node_test] = 0
-        # self.norm_loss_train[self.node_train] = num_subg / self.norm_loss_train[self.node_train] / self.node_train.size
-        # self.norm_loss_train = torch.from_numpy(self.norm_loss_train.astype(np.float32))
-        # if self.use_cuda:
-        #     self.norm_loss_train = self.norm_loss_train.cuda()
+        self.norm_loss_train = num_subg / self.norm_loss_train / self.adj_full.shape[0]
+        self.norm_loss_train = self.norm_loss_train.astype(np.float32)
+        if self.is_cuda:
+            self.norm_loss_train = torch.from_numpy(self.norm_loss_train).cuda()
+            self.norm_aggr_train = torch.from_numpy(self.norm_aggr_train).cuda()
 
     def par_graph_sample(self, phase):
         """
@@ -247,8 +259,7 @@ class Minibatch:
             assert mode == 'train'
             if len(self.subgraphs_remaining_nodes) == 0:
                 self.par_graph_sample('train')
-                print()
-
+            print()
             self.node_subgraph = self.subgraphs_remaining_nodes.pop()
             self.size_subgraph = len(self.node_subgraph)
             self.subgraphs_remaining_data.pop()
@@ -263,75 +274,30 @@ class Minibatch:
             adj = sp.csr_matrix((data, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
             # adj = SparseTensor(row=torch.tensor(t_row), col=torch.tensor(t_col), value=torch.tensor(data), sparse_sizes=(self.size_subgraph + 1, self.size_subgraph + 1))
             adj_edge_index = self.subgraphs_remaining_edge_index.pop()
+            adj_edge_index = sp.csr_matrix((adj_edge_index, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
             print("{} nodes, {} edges, {} degree".format(self.node_subgraph.size, adj.size,
-                                                         adj.size / self.node_subgraph.size))
-            # norm_aggr(adj.data, adj_edge_index, self.norm_aggr_train, num_proc=2)
-            # adj.data[:] = self.norm_aggr_train[adj_edge_index][:]      # this line is interchangable with the above line
-            # adj = adj_norm(adj, deg=self.deg_train[self.node_subgraph])
-            # tmp = adj.tocoo()
-            # adj = _adj_to_sparse_matrix((tmp.row, tmp.col), tmp.data, self.node_subgraph.size, type='torch')
-            # if self.use_cuda:
-            # adj = adj.cuda()
+                                                        adj.size / self.node_subgraph.size))
             self.batch_num += 1
         # norm_loss = self.norm_loss_test if mode in ['val', 'test', 'valtest'] else self.norm_loss_train
         # norm_loss = norm_loss[self.node_subgraph]
         # return self.node_subgraph, adj, norm_loss
         # t1 = time.time()
         adj_matrix = build_adj_matrix(self.node_subgraph, adj, neighbor_size=self.args.neighbor_sample_size_train)
+        adj_edge_index = build_rel_matrix(self.node_subgraph, adj_edge_index, adj_matrix)
         # t2 = time.time()
         # print(f'san dcm {t2-t1}')
         rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
         # self.node_subgraph = np.insert(self.node_subgraph, 0, 0)
         # print(f'san dcm {time.time() - t2}')
-        return self.node_subgraph, adj_matrix, rel_matrix
+        return self.node_subgraph, adj_matrix, rel_matrix, adj_edge_index
 
     def num_training_batches(self):
-        return math.ceil(self.total_node / float(self.size_subg_budget))
+        return math.ceil(self.node_for_sampler.shape[0] / float(self.size_subg_budget))
 
-    # def shuffle(self):
-    #     self.total_node = np.random.permutation(self.total_node)
-    #     self.batch_num = -1
+    def shuffle(self):
+        self.node_for_sampler = np.random.permutation(self.node_for_sampler)
+        self.batch_num = -1
 
     def end(self):
-        return (self.batch_num + 1) * self.size_subg_budget >= self.total_node
+        return (self.batch_num + 1) * self.size_subg_budget >= self.node_for_sampler.shape[0]
 
-
-# parser = argparse.ArgumentParser()
-# parser.add_argument('--dataset', default='movie')
-# parser.add_argument('--ratio', default=1)
-# parser.add_argument('--neighbor_sample_size', default=8)
-# args = parser.parse_args()
-# n_entity, n_relation, adj_entity, adj_relation = loader.load_kg(args)
-# n_item, train_data = loader.load_rating(args)
-# mini = Minibatch(adj_entity, adj_relation, n_entity, n_relation)
-# train_phases = {'size_subg_edge': 4000, 'sampler': 'edge'}
-# mini.set_sampler(train_phases)
-# t0 = time.time()
-# n_s, adj = mini.one_batch('train')
-# t1 = time.time()
-# print(f'san debug {t1-t0}')
-# neighbor = np.zeros(shape=len(n_s))
-# for i in range(len(n_s)):
-#     neighbor[i] = len(adj.getrow(i).indices)
-# n_adj = np.zeros(shape=(len(n_s), int(neighbor.mean())))
-# for i in range(len(n_s)):
-#     n_adj[i] = np.random.choice(adj.getrow(i).indices, n_adj.shape[1], replace=(neighbor[i] < n_adj.shape[1]))
-# # n_adj = torch.from_numpy(n_adj).cuda()
-# t2 = time.time() - t1
-# print(t2)
-# from graphsaint.kgraphsaint.dataloader import SubgraphRating
-#
-# t3 = time.time()
-# #   assert all item to train
-# item = set(train_data.T[1].tolist())
-# assert n_item == len(item)
-#
-# train_data = train_data.tolist()
-# train_data = sorted(train_data, key=lambda key: key[1], reverse=False)
-# train_data = np.array(train_data)
-# # items = set(train)
-# t4 = time.time() - t3
-# print(t4)
-# # exit(0)
-# subgraph = SubgraphRating(n_s, train_data, verbose=True)
-# i = 1

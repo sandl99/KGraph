@@ -39,19 +39,19 @@ class Args:
         self.dataset = 'music'
         self.aggregator = 'sum'
         self.n_epochs = 500
-        self.neighbor_sample_size_train = 500
-        self.neighbor_sample_size_eval = 500
+        self.neighbor_sample_size_train = -1
+        self.neighbor_sample_size_eval = -1
         self.dim = 16
-        self.n_iter = 2
-        self.batch_size = 256
-        self.l2_weight = 1e-4
+        self.n_iter = 1
+        self.batch_size = 512
+        self.l2_weight = 1e-5
         self.lr = 1e-2
         self.ratio = 1
         self.save_dir = './kgraph_models'
         self.lr_decay = 0.5
-        self.sampler = 'node'
+        self.sampler = 'rw'
         self.size_subg_edge = 8000
-        self.batch_size_eval = 128
+        self.batch_size_eval = 512
 
 arg = Args()
 logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
@@ -92,12 +92,13 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
 
     while not _minibatch.end():
         _model.train()
-        logging.info(f'-------- Epoch: {epoch} --------')
+        logging.info(f'-------- Mini epoch: {epoch} --------')
         epoch += 1
         _t0 = time.time()
-        node, adj, rel = _minibatch.one_batch('train')
+        node, adj, rel, edge_idx = _minibatch.one_batch('train')
         adj = adj.to(_device)
         rel = rel.to(_device)
+        edge_idx = edge_idx.to(_device)
         node_tensor = torch.from_numpy(np.array(node)).to('cpu')
         reserve_node = {j: i for i, j in enumerate(node)}
 
@@ -115,26 +116,26 @@ def train(_model, _criterion, _optimizer, _minibatch, _train_data, _device, _arg
         for data in Bar(data_loader):
             users, items, labels = data['user'].to(_device), data['item'].to(_device), data['label'].type(torch.float32).to(_device)
             _optimizer.zero_grad()
-            outputs = _model(users, items, reserve_node, node_tensor, adj, rel)
+            outputs = _model(users, items, reserve_node, node_tensor, adj, rel, edge_idx)
+            scores_pred = torch.sigmoid(outputs.detach())
             # print(torch.max(outputs), torch.min(outputs))
-            loss = _criterion(outputs, labels)
+            norm_loss = _minibatch.norm_loss_train[items]
+            bce_weighted_loss = torch.nn.BCEWithLogitsLoss(weight=norm_loss, reduction='sum')
+            loss = bce_weighted_loss(outputs, labels)
             loss.backward()
-
             _optimizer.step()
             train_loss += loss.item()
 
             # detach outputs and labels
-            train_pred = np.concatenate((train_pred, outputs.detach().cpu().numpy()))
-            train_true = np.concatenate((train_true, labels. detach().cpu().numpy()))
+            train_pred = np.concatenate((train_pred, scores_pred.detach().cpu().numpy()))
+            train_true = np.concatenate((train_true, labels.detach().cpu().numpy()))
             torch.cuda.empty_cache()
         logging.info(f'Train loss: {train_loss / len(data_loader)}')
-        score = utils.auc_score(train_pred, train_true, 'micro')
-        logging.info(f'Train AUC : {score} micro')
-        # score = utils.auc_score(train_pred, train_true, 'macro')
-        # logging.info(f'Train AUC : {score} macro')
-
-        # if epoch == 2:
-        #     exit(0)
+        auc_score = utils.auc_score(train_pred, train_true, 'micro')
+        train_pred = np.where(train_pred >= 0.5, 1, 0)
+        f1_score = utils.f1_score(train_pred, train_true)
+        logging.info(f'Train AUC : {auc_score}')
+        logging.info(f'Train F1  : {f1_score}')
 
 
 def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch, args):
@@ -153,20 +154,24 @@ def evaluate(_model, _criterion, _eval_data, full_adj, full_rel, _device, epoch,
             # loss.backward()
             eval_loss += loss.item()
             # detach outputs and labels
-            eval_pred = np.concatenate((eval_pred, outputs.detach().cpu().numpy()))
+            scores_pred = torch.sigmoid(outputs.detach())
+            eval_pred = np.concatenate((eval_pred, scores_pred.detach().cpu().numpy()))
             eval_true = np.concatenate((eval_true, labels. detach().cpu().numpy()))
             torch.cuda.empty_cache()
     eval_loss /= len(data_loader)
     logging.info(f'Eval loss: {eval_loss}')
-    score = utils.auc_score(eval_pred, eval_true, 'micro')
-    logging.info(f'Eval AUC : {score} micro')
+    auc_score = utils.auc_score(eval_pred, eval_true, 'micro')
+    eval_pred = np.where(eval_pred >= 0.5, 1, 0)
+    f1_score = utils.f1_score(eval_pred, eval_true)
+    logging.info(f'Eval AUC : {auc_score}')
+    logging.info(f'Eval F1  : {f1_score}')
     # saving model
     state_dict = {
         'model_state_dict': _model.state_dict(),
         'epoch': epoch,
     }
     state_dict.update(args.__dict__)
-    name_model = args.save_dir + '/model_' + args.sampler + '_' + str(args.size_subg_edge) + '_' + str(score) + '.pt'
+    name_model = args.save_dir + '/model_' + args.sampler + '_' + str(args.size_subg_edge) + '_' + str(auc_score) + '_' + str(f1_score) + '.pt'
     torch.save(state_dict, name_model)
 
 
@@ -189,14 +194,13 @@ def main():
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
     # Build GraphSAINT sampler
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     mini_batch = Minibatch(adj_entity, adj_relation, n_entity, n_relation, args)
     utils.build_sample(mini_batch, args)
 
     # model and optimizer
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    # device = torch.device('cpu')
     model = KGraphSAINT(n_user, n_entity, n_relation, args).to(device)
-    criterion = torch.nn.BCELoss()
+    criterion = torch.nn.BCEWithLogitsLoss()
     logging.info(f'Device: {device}')
     logging.info("Total number of parameters = {}".format(sum(p.numel() for p in model.parameters())))
     epoch = 0
@@ -208,18 +212,19 @@ def main():
         args.lr = checkpoint['lr']
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
     # train phases
-    for i in range(epoch, 10):
-        logging.info(f'------------- EPOCH {i}')
+    for i in range(epoch, 100):
         for param_group in optimizer.param_groups:
             lr = param_group['lr']
         logging.debug(f'Training with learning rate {lr}')
+        model.set_norm_aggr(mini_batch.norm_aggr_train)
         train(model, criterion, optimizer, mini_batch, train_data, device, args)
         evaluate(model, criterion, eval_data, full_adj.to(device), full_rel.to(device), device, i, args)
-        if i == 2 or i == 4:
+        if i % 40 == 0 and i != 0:
             args.lr *= args.lr_decay
             optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
             logging.debug(f'Learning rate {args.lr}')
-        mini_batch.batch_num = -1
+        mini_batch.shuffle()
+        utils.build_sample(mini_batch, args)
 
 
 if __name__ == '__main__':

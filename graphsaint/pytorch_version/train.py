@@ -122,11 +122,15 @@ def train(train_phases, model, minibatch, minibatch_eval, model_eval, eval_val_e
            .format(f1mic_test, f1mac_test), style='red')
     printf("Total training time: {:6.2f} sec".format(time_train), style='red')
 
-
-if __name__ == '__main__':
+def main():
     log_dir(args_global.train_config, args_global.data_prefix, git_branch, git_rev, timestamp)
     train_params, train_phases, train_data, arch_gcn = parse_n_prepare(args_global)
     if 'eval_val_every' not in train_params:
         train_params['eval_val_every'] = EVAL_VAL_EVERY_EP
     model, minibatch, minibatch_eval, model_eval = prepare(train_data, train_params, arch_gcn)
     train(train_phases, model, minibatch, minibatch_eval, model_eval, train_params['eval_val_every'])
+
+
+if __name__ == '__main__':
+    main()
+
