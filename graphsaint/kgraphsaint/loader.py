@@ -28,7 +28,7 @@ def load_rating(args):
         np.save(rating_file + '.npy', rating_np)
 
     # add += 1 for item
-    rating_np[:, 1] = rating_np[:, 1] + 1
+    # rating_np[:, 1] = rating_np[:, 1] + 1
     n_user = len(set(rating_np[:, 0]))
     n_item = len(set(rating_np[:, 1]))
     train_data, eval_data, test_data = dataset_split(rating_np, args)
@@ -76,16 +76,16 @@ def load_kg(args):
     kg = construct_kg(kg_np)
     adj_row, adj_col, adj_relation = construct_adj(args, kg, n_entity)
 
-    return n_entity + 1, n_relation, (adj_row, adj_col), adj_relation
+    return n_entity, n_relation, (adj_row, adj_col), adj_relation
 
 
 def construct_kg(kg_np):
     print('constructing knowledge graph ...')
     kg = dict()
     for triple in kg_np:
-        head = triple[0] + 1
-        relation = triple[1] + 1
-        tail = triple[2] + 1
+        head = triple[0]
+        relation = triple[1]
+        tail = triple[2]
         # treat the KG as an undirected graph
         if head not in kg:
             kg[head] = []
@@ -106,7 +106,7 @@ def construct_adj(args, kg, entity_num):
     adj_col = []
     adj_relation = []
     length = []
-    for entity in range(1, entity_num + 1):
+    for entity in range(entity_num):
         neighbors = kg[entity]
         n_neighbors = len(neighbors)
         # if n_neighbors >= args.neighbor_sample_size:

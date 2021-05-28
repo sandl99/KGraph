@@ -20,7 +20,7 @@ def binary_search(arr, k):
 
 def get_missing_items(ratings):
     items = ratings.T[1]
-    all_items = set(np.arange(1, items.max() + 1))
+    all_items = set(np.arange(items.max()))
     return all_items - set(items)
 
 

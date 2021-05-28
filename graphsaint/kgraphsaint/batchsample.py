@@ -12,6 +12,31 @@ from torch_sparse import SparseTensor
 import torch
 
 
+def adj_norm(adj, deg=None, sort_indices=True):
+    """
+    Normalize adj according to the method of rw normalization.
+    Note that sym norm is used in the original GCN paper (kipf),
+    while rw norm is used in GraphSAGE and some other variants.
+    Here we don't perform sym norm since it doesn't seem to
+    help with accuracy improvement.
+
+    # Procedure:
+    #       1. adj add self-connection --> adj'
+    #       2. D' deg matrix from adj'
+    #       3. norm by D^{-1} x adj'
+    if sort_indices is True, we re-sort the indices of the returned adj
+    Note that after 'dot' the indices of a node would be in descending order
+    rather than ascending order
+    """
+    diag_shape = (adj.shape[0],adj.shape[1])
+    D = adj.sum(1).flatten() if deg is None else deg
+    norm_diag = sp.dia_matrix((1/D,0),shape=diag_shape)
+    adj_norm = norm_diag.dot(adj)
+    if sort_indices:
+        adj_norm.sort_indices()
+    return adj_norm
+
+
 def _adj_to_sparse_matrix(adj_ent, adj_rel, n_ent, type):
     row = adj_ent[0]
     col = adj_ent[1]
@@ -34,6 +59,8 @@ def _adj_to_sparse_matrix(adj_ent, adj_rel, n_ent, type):
         v = torch.LongTensor(value)
         return torch.sparse.FloatTensor(i, v, torch.Size((n_ent, n_ent)))
     elif type == 'csr':
+        # remove relation data
+        value = np.ones(value.shape)
         return sp.csr_matrix((value, (row, col)), shape=(n_ent, n_ent))
 
 
@@ -114,15 +141,24 @@ class Minibatch:
         self.subgraphs_remaining_nodes = []
         self.subgraphs_remaining_edge_index = []
 
-        self.node_for_sampler  = np.arange(1, n_entity)
+        self.node_for_sampler  = np.arange(n_entity)
 
         tmp1, tmp2 = self.adj_full.nonzero()
         value, count = np.unique(tmp1, return_counts=True)
-        self.deg_train = np.concatenate(([1], count))
+        self.deg_train = count
         self.args = args
         self.sample_coverage = 50
         self.norm_loss_train = np.zeros(self.adj_full.shape[0])
         self.norm_aggr_train = np.zeros(self.adj_full.size)
+
+        # normalize for adj_full
+        degree = np.repeat(self.deg_train, self.deg_train)
+        value = self.adj_full.data / degree
+        coo_matrix = self.adj_full.tocoo()
+        rowcol = torch.cat((torch.from_numpy(coo_matrix.row).unsqueeze(0), torch.from_numpy(coo_matrix.col).unsqueeze(0)), dim=0)
+        self.adj_norm_full = torch.sparse_coo_tensor(rowcol, torch.from_numpy(value.astype(np.float32)), coo_matrix.shape)
+        self.adj_norm_full = self.adj_norm_full.coalesce()
+        i = 1
 
     def set_sampler(self, train_phases):
         """
@@ -154,12 +190,12 @@ class Minibatch:
         if self.method_sample == 'mrw':
             raise NotImplementedError
         elif self.method_sample == 'rw':
-            self.size_subg_budget = 3000 * 2
+            self.size_subg_budget = train_phases['size_subg_edge']
             self.graph_sampler = rw_sampling(
                 self.adj_full,
                 self.node_for_sampler,
                 self.size_subg_budget,
-                3000,
+                train_phases['size_subg_edge'] // 2,
                 2,
             )
         elif self.method_sample == 'node':
@@ -253,8 +289,8 @@ class Minibatch:
                                 in this array are all 1.
         """
         if mode in ['val', 'test', 'valtest']:
-            self.node_subgraph = np.arange(self.adj_full_norm.shape[0])
-            adj = self.adj_full_norm
+            self.node_subgraph = np.arange(self.adj_norm_full.shape[0])
+            adj = self.adj_norm_full
         else:
             assert mode == 'train'
             if len(self.subgraphs_remaining_nodes) == 0:
@@ -268,10 +304,10 @@ class Minibatch:
             row = []
             for i in range(len(indptr) - 1):
                 row.extend([i] * len(col[indptr[i]:indptr[i+1]]))
-            t_row = [self.node_subgraph[i] for i in row]
-            t_col = [self.node_subgraph[i] for i in col]
-            data = [self.adj_full[i, j] for i, j in zip(t_row, t_col)]
-            adj = sp.csr_matrix((data, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
+            # t_row = [self.node_subgraph[i] for i in row]
+            # t_col = [self.node_subgraph[i] for i in col]
+            # data = [self.adj_full[i, j] for i, j in zip(t_row, t_col)]
+            # adj = sp.csr_matrix((data, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
             # adj = SparseTensor(row=torch.tensor(t_row), col=torch.tensor(t_col), value=torch.tensor(data), sparse_sizes=(self.size_subgraph + 1, self.size_subgraph + 1))
             adj_edge_index = self.subgraphs_remaining_edge_index.pop()
             adj_edge_index = self.norm_aggr_train[adj_edge_index]
@@ -280,23 +316,12 @@ class Minibatch:
             repeat = np.array([indptr[i+1] - indptr[i] for i in range(len(indptr) - 1)])
             degree = np.repeat(degree, repeat)
             adj_edge_index /= degree
-            adj_edge_index = sp.csr_matrix((adj_edge_index, (row, col)), shape=(self.size_subgraph, self.size_subgraph))
-
-            print("{} nodes, {} edges, {} degree".format(self.node_subgraph.size, adj.size,
-                                                        adj.size / self.node_subgraph.size))
+            indices = np.concatenate((np.array(row).reshape(1, -1), col.reshape(1, -1)))
+            adj = torch.sparse_coo_tensor(torch.from_numpy(indices), torch.from_numpy(adj_edge_index), (self.size_subgraph, self.size_subgraph))
+            adj = adj.coalesce()
+            print("{} nodes, {} edges".format(self.node_subgraph.size, indices.shape[1]))
             self.batch_num += 1
-        # norm_loss = self.norm_loss_test if mode in ['val', 'test', 'valtest'] else self.norm_loss_train
-        # norm_loss = norm_loss[self.node_subgraph]
-        # return self.node_subgraph, adj, norm_loss
-        # t1 = time.time()
-        adj_matrix = build_adj_matrix(self.node_subgraph, adj, neighbor_size=self.args.neighbor_sample_size_train)
-        adj_edge_index = build_rel_matrix(self.node_subgraph, adj_edge_index, adj_matrix)
-        # t2 = time.time()
-        # print(f'san dcm {t2-t1}')
-        # rel_matrix = build_rel_matrix(self.node_subgraph, adj, adj_matrix)
-        # self.node_subgraph = np.insert(self.node_subgraph, 0, 0)
-        # print(f'san dcm {time.time() - t2}')
-        return self.node_subgraph, adj_matrix, adj_edge_index
+        return self.node_subgraph, adj
 
     def num_training_batches(self):
         return math.ceil(self.node_for_sampler.shape[0] / float(self.size_subg_budget))
