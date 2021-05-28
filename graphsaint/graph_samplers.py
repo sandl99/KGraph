@@ -164,13 +164,7 @@ class edge_sampling(GraphSampler):
         # but it is not too important to have an accurate estimation of subgraph
         # size. So it's probably just fine to use this number.
         self.size_subgraph = num_edges_subgraph * 2
-
-        # modify def_train for weighted graph
-        # self.deg_train = np.array(adj_train.sum(1)).flatten()
-        tmp1, tmp2 = adj_train.nonzero()
-        value, count = np.unique(tmp1, return_counts=True)
-        self.deg_train = count
-        self.deg_train = np.insert(self.deg_train, 0, 0)
+        self.deg_train = np.array(adj_train.sum(1)).flatten()
         self.adj_train_norm = scipy.sparse.dia_matrix((1 / self.deg_train, 0), shape=adj_train.shape).dot(adj_train)
         super().__init__(adj_train, node_train, self.size_subgraph, {})
         self.cy_sampler = cy.Edge2(

@@ -45,7 +45,7 @@ class Args:
         self.dim = 16
         self.n_iter = 1
         self.batch_size = 512
-        self.l2_weight = 1e-5
+        self.l2_weight = 2e-5
         self.lr = 1e-3
         self.ratio = 1
         self.save_dir = './kgraph_models'
@@ -69,7 +69,7 @@ def parse_arg():
     return Args()
 
 
-def train(_model, _optimizer, _minibatch, _train_data, _device, _args):
+def train(_model, _optimizer, _minibatch: Minibatch, _train_data, _device, _args):
     global phase_iter
     phase_iter += 1
     logging.info(f'\n----- Starting training phase {phase_iter} ------ Estimator Epoch: {_minibatch.num_training_batches()}')

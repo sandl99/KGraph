@@ -52,9 +52,9 @@ def build_ratings(node_subgraph, ratings):
 
 class SubgraphRating(Dataset):
     def __init__(self, node_subgraph, ratings, graph='subgraph', verbose=False):
-        for i in range(len(node_subgraph) - 1):
-            if node_subgraph[i] > node_subgraph[i+1]:
-                assert False
+        # for i in range(len(node_subgraph) - 1):
+        #     if node_subgraph[i] > node_subgraph[i+1]:
+        #         assert False
         assert graph == 'subgraph' or graph == 'full'
         self.graph = graph
         t1 = time.time()

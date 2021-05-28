@@ -140,9 +140,7 @@ class Minibatch:
         self.subgraphs_remaining_data = []
         self.subgraphs_remaining_nodes = []
         self.subgraphs_remaining_edge_index = []
-
-        self.node_for_sampler  = np.arange(n_entity)
-
+        
         tmp1, tmp2 = self.adj_full.nonzero()
         value, count = np.unique(tmp1, return_counts=True)
         self.deg_train = count
@@ -150,7 +148,7 @@ class Minibatch:
         self.sample_coverage = 50
         self.norm_loss_train = np.zeros(self.adj_full.shape[0])
         self.norm_aggr_train = np.zeros(self.adj_full.size)
-
+        self.node_for_sampler  = value
         # normalize for adj_full
         degree = np.repeat(self.deg_train, self.deg_train)
         value = self.adj_full.data / degree
@@ -190,17 +188,17 @@ class Minibatch:
         if self.method_sample == 'mrw':
             raise NotImplementedError
         elif self.method_sample == 'rw':
-            self.size_subg_budget = train_phases['size_subg_edge']
+            self.size_subg_budget = 3000 * 2 # train_phases['size_subg_edge']
             self.graph_sampler = rw_sampling(
                 self.adj_full,
                 self.node_for_sampler,
                 self.size_subg_budget,
-                train_phases['size_subg_edge'] // 2,
+                3000,
                 2,
             )
         elif self.method_sample == 'node':
             self.size_subg_budget = train_phases['size_subg_edge']
-            self.graph_sampler = edge_sampling(
+            self.graph_sampler = node_sampling(
                 self.adj_full,
                 self.node_for_sampler,
                 train_phases['size_subg_edge']
