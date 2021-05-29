@@ -3,7 +3,7 @@ from torch.utils.data import Dataset
 import numpy as np
 import time
 from tqdm import tqdm
-from filter import fast_filter
+# from filter import fast_filter
 
 def binary_search(arr, k):
     low = 0
