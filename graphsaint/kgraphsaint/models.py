@@ -9,8 +9,6 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from graphsaint.kgraphsaint.aggregator import Aggregator
-from graphsaint.kgraphsaint.utils import index_select
-from torch_sparse import SparseTensor, tensor
 
 
 class KGraphSAINT(nn.Module):

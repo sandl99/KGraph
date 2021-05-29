@@ -1,0 +1,26 @@
+[05/29/2021 15:30:22.345 train.py:188] Parameter total_train_ins := 0
+[05/29/2021 15:30:22.346 train.py:188] Parameter dataset := movie
+[05/29/2021 15:30:22.346 train.py:188] Parameter aggregator := sum
+[05/29/2021 15:30:22.347 train.py:188] Parameter n_epochs := 500
+[05/29/2021 15:30:22.347 train.py:188] Parameter neighbor_sample_size_train := -1
+[05/29/2021 15:30:22.347 train.py:188] Parameter neighbor_sample_size_eval := -1
+[05/29/2021 15:30:22.347 train.py:188] Parameter dim := 32
+[05/29/2021 15:30:22.349 train.py:188] Parameter n_iter := 2
+[05/29/2021 15:30:22.350 train.py:188] Parameter batch_size := 65536
+[05/29/2021 15:30:22.351 train.py:188] Parameter l2_weight := 1e-06
+[05/29/2021 15:30:22.352 train.py:188] Parameter lr := 0.01
+[05/29/2021 15:30:22.353 train.py:188] Parameter ratio := 1
+[05/29/2021 15:30:22.354 train.py:188] Parameter save_dir := ./kgraph_models
+[05/29/2021 15:30:22.355 train.py:188] Parameter lr_decay := 0.5
+[05/29/2021 15:30:22.356 train.py:188] Parameter sampler := rw
+[05/29/2021 15:30:22.356 train.py:188] Parameter size_subg_edge := 20000
+[05/29/2021 15:30:22.357 train.py:188] Parameter batch_size_eval := 65536
+[05/29/2021 15:30:22.357 train.py:191] Loading knowledge graph from data
+[05/29/2021 15:30:24.756 train.py:193] Loading ratings data
+[05/29/2021 15:31:02.966 train.py:198] Done loading data in 40.609
+[05/29/2021 15:31:29.109 train.py:207] Device: cuda
+[05/29/2021 15:31:29.113 train.py:208] Total number of parameters = 7705408
+[05/29/2021 15:31:29.114 train.py: 90] 
+----- Starting training phase 1 ------ Estimator Epoch: 18
+[05/29/2021 15:31:29.115 train.py: 95] -------- Mini epoch: 0 --------
+[05/29/2021 15:31:29.291 train.py:106] Sampling sub graph in  0.175 seconds

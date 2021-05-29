@@ -1,42 +1,26 @@
-[05/28/2021 17:26:00.744 train.py:173] Parameter dataset := music
-[05/28/2021 17:26:00.745 train.py:173] Parameter aggregator := sum
-[05/28/2021 17:26:00.745 train.py:173] Parameter n_epochs := 500
-[05/28/2021 17:26:00.745 train.py:173] Parameter neighbor_sample_size_train := -1
-[05/28/2021 17:26:00.745 train.py:173] Parameter neighbor_sample_size_eval := -1
-[05/28/2021 17:26:00.745 train.py:173] Parameter dim := 16
-[05/28/2021 17:26:00.746 train.py:173] Parameter n_iter := 1
-[05/28/2021 17:26:00.746 train.py:173] Parameter batch_size := 512
-[05/28/2021 17:26:00.746 train.py:173] Parameter l2_weight := 1e-05
-[05/28/2021 17:26:00.746 train.py:173] Parameter lr := 0.001
-[05/28/2021 17:26:00.746 train.py:173] Parameter ratio := 1
-[05/28/2021 17:26:00.746 train.py:173] Parameter save_dir := ./kgraph_models
-[05/28/2021 17:26:00.746 train.py:173] Parameter lr_decay := 0.5
-[05/28/2021 17:26:00.746 train.py:173] Parameter sampler := node
-[05/28/2021 17:26:00.746 train.py:173] Parameter size_subg_edge := 8000
-[05/28/2021 17:26:00.746 train.py:173] Parameter batch_size_eval := 512
-[05/28/2021 17:26:00.747 train.py:176] Loading knowledge graph from data
-[05/28/2021 17:26:00.847 train.py:178] Loading ratings data
-[05/28/2021 17:26:00.938 train.py:182] Done loading data in 0.191
-[05/28/2021 17:26:08.464 train.py:191] Device: cuda
-[05/28/2021 17:26:08.527 train.py:192] Total number of parameters = 180080
-[05/28/2021 17:26:08.531 train.py: 75] 
+[05/29/2021 15:26:17.965 train.py:188] Parameter total_train_ins := 0
+[05/29/2021 15:26:17.966 train.py:188] Parameter dataset := music
+[05/29/2021 15:26:17.967 train.py:188] Parameter aggregator := sum
+[05/29/2021 15:26:17.968 train.py:188] Parameter n_epochs := 500
+[05/29/2021 15:26:17.968 train.py:188] Parameter neighbor_sample_size_train := -1
+[05/29/2021 15:26:17.969 train.py:188] Parameter neighbor_sample_size_eval := -1
+[05/29/2021 15:26:17.969 train.py:188] Parameter dim := 16
+[05/29/2021 15:26:17.970 train.py:188] Parameter n_iter := 1
+[05/29/2021 15:26:17.970 train.py:188] Parameter batch_size := 512
+[05/29/2021 15:26:17.970 train.py:188] Parameter l2_weight := 1e-07
+[05/29/2021 15:26:17.971 train.py:188] Parameter lr := 0.01
+[05/29/2021 15:26:17.971 train.py:188] Parameter ratio := 1
+[05/29/2021 15:26:17.971 train.py:188] Parameter save_dir := ./kgraph_models
+[05/29/2021 15:26:17.971 train.py:188] Parameter lr_decay := 0.5
+[05/29/2021 15:26:17.972 train.py:188] Parameter sampler := node
+[05/29/2021 15:26:17.972 train.py:188] Parameter size_subg_edge := 8000
+[05/29/2021 15:26:17.972 train.py:188] Parameter batch_size_eval := 512
+[05/29/2021 15:26:17.972 train.py:191] Loading knowledge graph from data
+[05/29/2021 15:26:18.118 train.py:193] Loading ratings data
+[05/29/2021 15:26:40.558 train.py:198] Done loading data in 22.585
+[05/29/2021 15:26:55.719 train.py:207] Device: cuda
+[05/29/2021 15:26:55.735 train.py:208] Total number of parameters = 180080
+[05/29/2021 15:26:55.737 train.py: 90] 
 ----- Starting training phase 1 ------ Estimator Epoch: 2
-[05/28/2021 17:26:08.532 train.py: 80] -------- Mini epoch: 0 --------
-[05/28/2021 17:26:08.618 train.py: 91] Sampling sub graph in  0.086 seconds
-[05/28/2021 17:26:11.307 train.py: 96] Building DataLoader in  2.690 seconds
-[05/28/2021 17:26:13.890 train.py:119] Train loss: 0.12105711817741394
-[05/28/2021 17:26:13.980 train.py:123] Train AUC : 0.49705025754980886
-[05/28/2021 17:26:13.980 train.py:124] Train F1  : 0.5030760844171015
-[05/28/2021 17:26:13.980 train.py: 80] -------- Mini epoch: 1 --------
-[05/28/2021 17:26:14.024 train.py: 91] Sampling sub graph in  0.043 seconds
-[05/28/2021 17:26:16.666 train.py: 96] Building DataLoader in  2.642 seconds
-[05/28/2021 17:26:16.959 train.py:119] Train loss: 0.11727103734245667
-[05/28/2021 17:26:16.972 train.py:123] Train AUC : 0.5006322095110811
-[05/28/2021 17:26:16.972 train.py:124] Train F1  : 0.5238826713481092
-[05/28/2021 17:26:17.050 train.py:153] Eval loss: 1.0358723051407759
-[05/28/2021 17:26:17.059 train.py:157] Eval AUC : 0.5056134445158296
-[05/28/2021 17:26:17.059 train.py:158] Eval F1  : 0.5078392078274195
-[05/28/2021 17:26:17.783 train.py: 75] 
------ Starting training phase 2 ------ Estimator Epoch: 2
-[05/28/2021 17:26:17.784 train.py: 80] -------- Mini epoch: 0 --------
-[05/28/2021 17:26:17.827 train.py: 91] Sampling sub graph in  0.043 seconds
+[05/29/2021 15:26:55.739 train.py: 95] -------- Mini epoch: 0 --------
+[05/29/2021 15:26:55.840 train.py:106] Sampling sub graph in  0.100 seconds

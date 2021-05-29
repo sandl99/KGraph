@@ -2,7 +2,6 @@ import numpy as np
 import os
 import argparse
 import torch
-from torch_sparse import SparseTensor
 
 
 prefix = './data/'
@@ -122,75 +121,5 @@ def construct_adj(args, kg, entity_num):
         length.append(n_neighbors)
     length = np.array(length)
     return np.array(adj_row), np.array(adj_col), np.array(adj_relation)
-#
-# if __name__ == '__main__':
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--dataset', default='movie')
-#     parser.add_argument('--ratio', default=1)
-#     parser.add_argument('--neighbor_sample_size', default=8)
-#     args = parser.parse_args()
-#     load_kg(args)
-#     i = 1
-
-
-def load_kg_ver0(args):
-    print('reading KG file ...')
-
-    # reading kg file
-    kg_file = prefix + args.dataset + '/kg_final'
-    if os.path.exists(kg_file + '.npy'):
-        kg_np = np.load(kg_file + '.npy')
-    else:
-        kg_np = np.loadtxt(kg_file + '.txt', dtype=np.int64)
-        np.save(kg_file + '.npy', kg_np)
-
-    n_entity = len(set(kg_np[:, 0]) | set(kg_np[:, 2]))
-    n_relation = len(set(kg_np[:, 1]))
-
-    kg = construct_kg(kg_np)
-    for i in range(1, n_entity + 1):
-        if args.neighbor_sample_size_eval != -1:
-            kg[i] = kg[i][:args.neighbor_sample_size_eval]
-    adj_entity, adj_relation = construct_adj_ver0(args, kg, n_entity + 1)
-
-    return adj_entity, adj_relation
-
-
-def construct_adj_ver0(args, kg, entity_num):
-    print('constructing adjacency matrix ...')
-    # each line of adj_entity stores the sampled neighbor entities for a given entity
-    # each line of adj_relation stores the corresponding sampled neighbor relations
-    # adj_entity = np.zeros([entity_num, args.neighbor_sample_size_eval], dtype=np.int64)
-    # adj_relation = np.zeros([entity_num, args.neighbor_sample_size_eval], dtype=np.int64)
-    # for entity in range(1, entity_num):
-    #     neighbors = kg[entity]
-    #     n_neighbors = len(neighbors)
-    #     if n_neighbors >= args.neighbor_sample_size_eval:
-    #         sampled_indices = np.random.choice(list(range(n_neighbors)), size=args.neighbor_sample_size_eval, replace=False)
-    #     else:
-    #         sampled_indices = np.append(np.arange(n_neighbors), np.full((args.neighbor_sample_size_eval - n_neighbors), -1))
-    #     adj_entity[entity] = np.array([neighbors[i][0] if i != -1 else 0 for i in sampled_indices])
-    #     adj_relation[entity] = np.array([neighbors[i][1] if i != -1 else 0 for i in sampled_indices])
-
-    # return adj_entity, adj_relation
-    neighbor = torch.zeros(entity_num, dtype=torch.long)
-    zero = torch.zeros(1, dtype=torch.long)
-    for i in range(1, neighbor.size(0)):
-        _neighbors = kg[i]
-        neighbor[i] = len(_neighbors)
-    neighbor_size = neighbor.max()
-    rowptr = torch.cumsum(torch.cat((zero, neighbor), dim=0), dim=0)
-    col = [torch.arange(i, dtype=torch.long) for i in neighbor]
-    tail, rel = [], []
-    for i in range(1, entity_num):
-        _neighbors = kg[i]
-        for n in _neighbors:
-            tail.append(n[0])
-            rel.append(n[1])
-    col = torch.cat(col, dim=0)
-    tail = torch.tensor(tail)
-    rel = torch.tensor(rel)
-    return SparseTensor(rowptr=rowptr, col=col, value=tail, sparse_sizes=(entity_num, neighbor_size)), SparseTensor(rowptr=rowptr, col=col, value=rel, sparse_sizes=(entity_num, neighbor_size))
-
 
 

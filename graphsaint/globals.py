@@ -19,36 +19,36 @@ timestamp = datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %
 #np.random.seed(seed)
 #tf.set_random_seed(seed)
 
-# class ARGS:
-#     def __init__(self):
-#         self.num_cpu_core = 20
-#         self.log_device_placement = False
-#         self.dir_log = '.'
-#         self.gpu = 0
-#         self.dtype = 's'
-#         self.timeline = False
-#         self.tensorboard = False
-#         self.dualGPU = False
-#         self.cpu_eval = False
-#         self.saved_model_path = ""
+class ARGS:
+    def __init__(self):
+        self.num_cpu_core = 20
+        self.log_device_placement = False
+        self.dir_log = '.'
+        self.gpu = 0
+        self.dtype = 's'
+        self.timeline = False
+        self.tensorboard = False
+        self.dualGPU = False
+        self.cpu_eval = False
+        self.saved_model_path = ""
 
 
-parser = argparse.ArgumentParser(description="argument for GraphSAINT training")
-parser.add_argument("--num_cpu_core",default=20,type=int,help="Number of CPU cores for parallel sampling")
-parser.add_argument("--log_device_placement",default=False,action="store_true",help="Whether to log device placement")
-parser.add_argument("--data_prefix",required=False,default='./data/ppi', type=str,help="prefix identifying training data")
-parser.add_argument("--dir_log",default=".",type=str,help="base directory for logging and saving embeddings")
-parser.add_argument("--gpu",default="0",type=str,help="which GPU to use")
-parser.add_argument("--eval_train_every",default=15,type=int,help="How often to evaluate training subgraph accuracy")
-parser.add_argument("--train_config",required=False,type=str,default='./train_config/table2/ppi2_n.yml',help="path to the configuration of training (*.yml)")
-parser.add_argument("--dtype",default="s",type=str,help="d for double, s for single precision floating point")
-parser.add_argument("--timeline",default=False,action="store_true",help="to save timeline.json or not")
-parser.add_argument("--tensorboard",default=False,action="store_true",help="to save data to tensorboard or not")
-parser.add_argument("--dualGPU",default=False,action="store_true",help="whether to distribute the model to two GPUs")
-parser.add_argument("--cpu_eval",default=False,action="store_true",help="whether to use CPU to do evaluation")
-parser.add_argument("--saved_model_path",default="",type=str,help="path to pretrained model file")
-args_global = parser.parse_args()
-# args_global = ARGS()
+# parser = argparse.ArgumentParser(description="argument for GraphSAINT training")
+# parser.add_argument("--num_cpu_core",default=20,type=int,help="Number of CPU cores for parallel sampling")
+# parser.add_argument("--log_device_placement",default=False,action="store_true",help="Whether to log device placement")
+# parser.add_argument("--data_prefix",required=False,default='./data/ppi', type=str,help="prefix identifying training data")
+# parser.add_argument("--dir_log",default=".",type=str,help="base directory for logging and saving embeddings")
+# parser.add_argument("--gpu",default="0",type=str,help="which GPU to use")
+# parser.add_argument("--eval_train_every",default=15,type=int,help="How often to evaluate training subgraph accuracy")
+# parser.add_argument("--train_config",required=False,type=str,default='./train_config/table2/ppi2_n.yml',help="path to the configuration of training (*.yml)")
+# parser.add_argument("--dtype",default="s",type=str,help="d for double, s for single precision floating point")
+# parser.add_argument("--timeline",default=False,action="store_true",help="to save timeline.json or not")
+# parser.add_argument("--tensorboard",default=False,action="store_true",help="to save data to tensorboard or not")
+# parser.add_argument("--dualGPU",default=False,action="store_true",help="whether to distribute the model to two GPUs")
+# parser.add_argument("--cpu_eval",default=False,action="store_true",help="whether to use CPU to do evaluation")
+# parser.add_argument("--saved_model_path",default="",type=str,help="path to pretrained model file")
+# args_global = parser.parse_args()
+args_global = ARGS()
 
 NUM_PAR_SAMPLER = args_global.num_cpu_core
 SAMPLES_PER_PROC = -(-200 // NUM_PAR_SAMPLER) # round up division

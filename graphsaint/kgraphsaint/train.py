@@ -17,45 +17,55 @@ import numpy as np
 name_model = ''
 
 
+parser = argparse.ArgumentParser(description='command line options')
+parser.add_argument('--sampler', action="store", dest="sampler", default='node', help="sampler")
+parser.add_argument('--lr', action='store', dest='lr', type=float, default=0.01, help='learning rate')
+parser.add_argument('--l2_weight', action='store', dest='l2_weight', type=float, default=1e-7, help='l2_weight')
+__arg = parser.parse_args()
+
 class Args:
     def __init__(self):
         self.total_train_ins = 0
         # movie
-        # self.dataset = 'movie'
-        # self.aggregator = 'sum'
-        # self.n_epochs = 500
-        # self.neighbor_sample_size_train = -1
-        # self.neighbor_sample_size_eval = -1
-        # self.dim = 32
-        # self.n_iter = 2
-        # self.batch_size = 8192 * 256
-        # self.l2_weight = 1e-7
-        # self.lr = 2e-2
-        # self.ratio = 1
-        # self.save_dir = './kgraph_models'
-        # self.lr_decay = 0.5
-        # self.sampler = 'node'
-        # self.size_subg_edge = 20000
-        # self.batch_size_eval = 8192 * 8
-        # music
-        self.dataset = 'music'
+        self.dataset = 'movie'
         self.aggregator = 'sum'
         self.n_epochs = 500
         self.neighbor_sample_size_train = -1
         self.neighbor_sample_size_eval = -1
-        self.dim = 16
-        self.n_iter = 1
-        self.batch_size = 512
-        self.l2_weight = 7.37e-6
-        self.lr = 1e-3
+        self.dim = 32
+        self.n_iter = 2
+        self.batch_size = 8192 * 8
+        self.l2_weight = 1e-7
+        self.lr = 2e-2
         self.ratio = 1
         self.save_dir = './kgraph_models'
         self.lr_decay = 0.5
-        self.sampler = 'rw'
-        self.size_subg_edge = 8000
-        self.batch_size_eval = 512
+        self.sampler = 'node'
+        self.size_subg_edge = 20000
+        self.batch_size_eval = 8192 * 8
+        # music
+        # self.dataset = 'music'
+        # self.aggregator = 'sum'
+        # self.n_epochs = 500
+        # self.neighbor_sample_size_train = -1
+        # self.neighbor_sample_size_eval = -1
+        # self.dim = 16
+        # self.n_iter = 1
+        # self.batch_size = 512
+        # self.l2_weight = 1e-5
+        # self.lr = 1e-3
+        # self.ratio = 1
+        # self.save_dir = './kgraph_models'
+        # self.lr_decay = 0.5
+        # self.sampler = 'edge'
+        # self.size_subg_edge = 7000
+        # self.batch_size_eval = 512
 
 arg = Args()
+arg.lr = __arg.lr
+arg.l2_weight = __arg.l2_weight
+arg.sampler = __arg.sampler
+
 logging.basicConfig(filename=f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log', filemode='w',
                     format='[%(asctime)s.%(msecs)03d %(filename)s:%(lineno)3s] %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S', level=logging.INFO)
@@ -67,7 +77,11 @@ phase_iter = 0
 print(f'./logs/{arg.dataset}/{arg.sampler}_{arg.size_subg_edge}_training.log')
 
 def parse_arg():
-    return Args()
+    dcm = Args()
+    dcm.lr = __arg.lr
+    dcm.l2_weight = __arg.l2_weight
+    dcm.sampler = __arg.sampler
+    return dcm
 
 
 def train(_model, _optimizer, _minibatch: Minibatch, _train_data, _device, _args):
@@ -202,7 +216,7 @@ def main():
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.l2_weight)
 
     # train phases
-    for i in range(epoch, 100):
+    for i in range(epoch, 20):
         for param_group in optimizer.param_groups:
             lr = param_group['lr']
         logging.debug(f'Training with learning rate {lr}')

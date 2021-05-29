@@ -1,0 +1,32 @@
+[05/29/2021 18:45:58.878 train.py:188] Parameter total_train_ins := 0
+[05/29/2021 18:45:58.878 train.py:188] Parameter dataset := music
+[05/29/2021 18:45:58.879 train.py:188] Parameter aggregator := sum
+[05/29/2021 18:45:58.879 train.py:188] Parameter n_epochs := 500
+[05/29/2021 18:45:58.880 train.py:188] Parameter neighbor_sample_size_train := -1
+[05/29/2021 18:45:58.880 train.py:188] Parameter neighbor_sample_size_eval := -1
+[05/29/2021 18:45:58.880 train.py:188] Parameter dim := 16
+[05/29/2021 18:45:58.881 train.py:188] Parameter n_iter := 1
+[05/29/2021 18:45:58.881 train.py:188] Parameter batch_size := 512
+[05/29/2021 18:45:58.882 train.py:188] Parameter l2_weight := 1e-07
+[05/29/2021 18:45:58.882 train.py:188] Parameter lr := 0.01
+[05/29/2021 18:45:58.883 train.py:188] Parameter ratio := 1
+[05/29/2021 18:45:58.883 train.py:188] Parameter save_dir := ./kgraph_models
+[05/29/2021 18:45:58.883 train.py:188] Parameter lr_decay := 0.5
+[05/29/2021 18:45:58.883 train.py:188] Parameter sampler := node
+[05/29/2021 18:45:58.884 train.py:188] Parameter size_subg_edge := 7000
+[05/29/2021 18:45:58.884 train.py:188] Parameter batch_size_eval := 512
+[05/29/2021 18:45:58.884 train.py:191] Loading knowledge graph from data
+[05/29/2021 18:45:59.005 train.py:193] Loading ratings data
+[05/29/2021 18:45:59.093 train.py:198] Done loading data in 0.209
+[05/29/2021 18:46:02.363 train.py:207] Device: cuda
+[05/29/2021 18:46:02.364 train.py:208] Total number of parameters = 180080
+[05/29/2021 18:46:02.365 train.py: 90] 
+----- Starting training phase 1 ------ Estimator Epoch: 2
+[05/29/2021 18:46:02.365 train.py: 95] -------- Mini epoch: 0 --------
+[05/29/2021 18:46:02.423 train.py:106] Sampling sub graph in  0.057 seconds
+[05/29/2021 18:46:04.059 train.py:111] Building DataLoader in  1.636 seconds
+[05/29/2021 18:46:04.498 train.py:134] Train loss: 0.9784535095095634
+[05/29/2021 18:46:04.510 train.py:138] Train AUC : 0.49393364126118744
+[05/29/2021 18:46:04.510 train.py:139] Train F1  : 0.5016670941266992
+[05/29/2021 18:46:04.510 train.py: 95] -------- Mini epoch: 1 --------
+[05/29/2021 18:46:04.552 train.py:106] Sampling sub graph in  0.041 seconds
