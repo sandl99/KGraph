@@ -1,26 +1,1709 @@
-[05/28/2021 20:57:09.537 train.py:173] Parameter dataset := music
-[05/28/2021 20:57:09.539 train.py:173] Parameter aggregator := sum
-[05/28/2021 20:57:09.540 train.py:173] Parameter n_epochs := 500
-[05/28/2021 20:57:09.540 train.py:173] Parameter neighbor_sample_size_train := -1
-[05/28/2021 20:57:09.541 train.py:173] Parameter neighbor_sample_size_eval := -1
-[05/28/2021 20:57:09.541 train.py:173] Parameter dim := 16
-[05/28/2021 20:57:09.542 train.py:173] Parameter n_iter := 1
-[05/28/2021 20:57:09.542 train.py:173] Parameter batch_size := 512
-[05/28/2021 20:57:09.543 train.py:173] Parameter l2_weight := 2e-05
-[05/28/2021 20:57:09.543 train.py:173] Parameter lr := 0.001
-[05/28/2021 20:57:09.544 train.py:173] Parameter ratio := 1
-[05/28/2021 20:57:09.544 train.py:173] Parameter save_dir := ./kgraph_models
-[05/28/2021 20:57:09.544 train.py:173] Parameter lr_decay := 0.5
-[05/28/2021 20:57:09.545 train.py:173] Parameter sampler := rw
-[05/28/2021 20:57:09.545 train.py:173] Parameter size_subg_edge := 8000
-[05/28/2021 20:57:09.546 train.py:173] Parameter batch_size_eval := 512
-[05/28/2021 20:57:09.546 train.py:176] Loading knowledge graph from data
-[05/28/2021 20:57:09.658 train.py:178] Loading ratings data
-[05/28/2021 20:57:09.789 train.py:182] Done loading data in 0.243
-[05/28/2021 20:57:41.999 train.py:191] Device: cuda
-[05/28/2021 20:57:42.073 train.py:192] Total number of parameters = 180080
-[05/28/2021 20:57:42.097 train.py: 75] 
+[05/29/2021 00:22:17.915 train.py:174] Parameter total_train_ins := 0
+[05/29/2021 00:22:17.915 train.py:174] Parameter dataset := music
+[05/29/2021 00:22:17.916 train.py:174] Parameter aggregator := sum
+[05/29/2021 00:22:17.916 train.py:174] Parameter n_epochs := 500
+[05/29/2021 00:22:17.916 train.py:174] Parameter neighbor_sample_size_train := -1
+[05/29/2021 00:22:17.917 train.py:174] Parameter neighbor_sample_size_eval := -1
+[05/29/2021 00:22:17.917 train.py:174] Parameter dim := 16
+[05/29/2021 00:22:17.917 train.py:174] Parameter n_iter := 1
+[05/29/2021 00:22:17.918 train.py:174] Parameter batch_size := 512
+[05/29/2021 00:22:17.919 train.py:174] Parameter l2_weight := 7.37e-06
+[05/29/2021 00:22:17.919 train.py:174] Parameter lr := 0.001
+[05/29/2021 00:22:17.921 train.py:174] Parameter ratio := 1
+[05/29/2021 00:22:17.921 train.py:174] Parameter save_dir := ./kgraph_models
+[05/29/2021 00:22:17.923 train.py:174] Parameter lr_decay := 0.5
+[05/29/2021 00:22:17.924 train.py:174] Parameter sampler := rw
+[05/29/2021 00:22:17.926 train.py:174] Parameter size_subg_edge := 8000
+[05/29/2021 00:22:17.929 train.py:174] Parameter batch_size_eval := 512
+[05/29/2021 00:22:17.932 train.py:177] Loading knowledge graph from data
+[05/29/2021 00:22:18.117 train.py:179] Loading ratings data
+[05/29/2021 00:22:18.220 train.py:184] Done loading data in 0.288
+[05/29/2021 00:22:30.291 train.py:193] Device: cuda
+[05/29/2021 00:22:30.292 train.py:194] Total number of parameters = 180080
+[05/29/2021 00:22:30.292 train.py: 76] 
 ----- Starting training phase 1 ------ Estimator Epoch: 2
-[05/28/2021 20:57:42.100 train.py: 80] -------- Mini epoch: 0 --------
-[05/28/2021 20:57:52.692 train.py: 91] Sampling sub graph in  10.591 seconds
-[05/28/2021 20:57:55.310 train.py: 96] Building DataLoader in  2.617 seconds
+[05/29/2021 00:22:30.293 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:22:30.384 train.py: 92] Sampling sub graph in  0.091 seconds
+[05/29/2021 00:22:33.134 train.py: 97] Building DataLoader in  2.750 seconds
+[05/29/2021 00:22:33.765 train.py:120] Train loss: 1.0997845083475113
+[05/29/2021 00:22:33.788 train.py:124] Train AUC : 0.5017630713848347
+[05/29/2021 00:22:33.788 train.py:125] Train F1  : 0.5055070805321127
+[05/29/2021 00:22:33.788 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:22:33.892 train.py: 92] Sampling sub graph in  0.103 seconds
+[05/29/2021 00:22:36.799 train.py: 97] Building DataLoader in  2.908 seconds
+[05/29/2021 00:22:37.273 train.py:120] Train loss: 1.0850895827170461
+[05/29/2021 00:22:37.295 train.py:124] Train AUC : 0.5010043868493887
+[05/29/2021 00:22:37.296 train.py:125] Train F1  : 0.5134094440316151
+[05/29/2021 00:22:37.375 train.py:154] Eval loss: 1.0296132845037125
+[05/29/2021 00:22:37.386 train.py:158] Eval AUC : 0.4965087603062427
+[05/29/2021 00:22:37.386 train.py:159] Eval F1  : 0.5003548616039745
+[05/29/2021 00:22:38.016 train.py: 76] 
+----- Starting training phase 2 ------ Estimator Epoch: 2
+[05/29/2021 00:22:38.017 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:22:38.077 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:22:40.984 train.py: 97] Building DataLoader in  2.907 seconds
+[05/29/2021 00:22:41.440 train.py:120] Train loss: 1.000175747089088
+[05/29/2021 00:22:41.468 train.py:124] Train AUC : 0.5043404372253265
+[05/29/2021 00:22:41.475 train.py:125] Train F1  : 0.5094892548144012
+[05/29/2021 00:22:41.476 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:22:41.592 train.py: 92] Sampling sub graph in  0.116 seconds
+[05/29/2021 00:22:44.411 train.py: 97] Building DataLoader in  2.819 seconds
+[05/29/2021 00:22:44.861 train.py:120] Train loss: 0.9789083376526833
+[05/29/2021 00:22:44.877 train.py:124] Train AUC : 0.5089133565795946
+[05/29/2021 00:22:44.878 train.py:125] Train F1  : 0.5241500269832704
+[05/29/2021 00:22:44.956 train.py:154] Eval loss: 0.9539181064156925
+[05/29/2021 00:22:44.969 train.py:158] Eval AUC : 0.4967481239069137
+[05/29/2021 00:22:44.969 train.py:159] Eval F1  : 0.5033034450212365
+[05/29/2021 00:22:45.502 train.py: 76] 
+----- Starting training phase 3 ------ Estimator Epoch: 2
+[05/29/2021 00:22:45.502 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:22:45.560 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:22:48.414 train.py: 97] Building DataLoader in  2.854 seconds
+[05/29/2021 00:22:48.805 train.py:120] Train loss: 0.8937646988779306
+[05/29/2021 00:22:48.822 train.py:124] Train AUC : 0.5161657494657004
+[05/29/2021 00:22:48.822 train.py:125] Train F1  : 0.5239721155214113
+[05/29/2021 00:22:48.822 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:22:48.880 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:22:51.606 train.py: 97] Building DataLoader in  2.726 seconds
+[05/29/2021 00:22:51.997 train.py:120] Train loss: 0.8853765185922384
+[05/29/2021 00:22:52.021 train.py:124] Train AUC : 0.5119858231884906
+[05/29/2021 00:22:52.021 train.py:125] Train F1  : 0.5177984474438772
+[05/29/2021 00:22:52.099 train.py:154] Eval loss: 0.8821996029685525
+[05/29/2021 00:22:52.113 train.py:158] Eval AUC : 0.49638927369989644
+[05/29/2021 00:22:52.114 train.py:159] Eval F1  : 0.5035310734463276
+[05/29/2021 00:22:52.635 train.py: 76] 
+----- Starting training phase 4 ------ Estimator Epoch: 2
+[05/29/2021 00:22:52.635 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:22:52.692 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:22:55.483 train.py: 97] Building DataLoader in  2.792 seconds
+[05/29/2021 00:22:55.887 train.py:120] Train loss: 0.8627968654036522
+[05/29/2021 00:22:55.905 train.py:124] Train AUC : 0.5225752170620934
+[05/29/2021 00:22:55.906 train.py:125] Train F1  : 0.5204532891100055
+[05/29/2021 00:22:55.906 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:22:55.966 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:22:58.741 train.py: 97] Building DataLoader in  2.775 seconds
+[05/29/2021 00:22:59.144 train.py:120] Train loss: 0.8016039929352701
+[05/29/2021 00:22:59.165 train.py:124] Train AUC : 0.5248330770662686
+[05/29/2021 00:22:59.166 train.py:125] Train F1  : 0.5246712851689525
+[05/29/2021 00:22:59.244 train.py:154] Eval loss: 0.8225974861313315
+[05/29/2021 00:22:59.255 train.py:158] Eval AUC : 0.49695876610629264
+[05/29/2021 00:22:59.255 train.py:159] Eval F1  : 0.5019450666037959
+[05/29/2021 00:22:59.758 train.py: 76] 
+----- Starting training phase 5 ------ Estimator Epoch: 2
+[05/29/2021 00:22:59.758 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:22:59.817 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:23:02.615 train.py: 97] Building DataLoader in  2.798 seconds
+[05/29/2021 00:23:03.029 train.py:120] Train loss: 0.7564979726448655
+[05/29/2021 00:23:03.048 train.py:124] Train AUC : 0.5258398677188121
+[05/29/2021 00:23:03.048 train.py:125] Train F1  : 0.5188865346679331
+[05/29/2021 00:23:03.048 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:03.108 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:23:05.934 train.py: 97] Building DataLoader in  2.826 seconds
+[05/29/2021 00:23:06.342 train.py:120] Train loss: 0.8003693344071507
+[05/29/2021 00:23:06.359 train.py:124] Train AUC : 0.5272306100021418
+[05/29/2021 00:23:06.360 train.py:125] Train F1  : 0.533556821991284
+[05/29/2021 00:23:06.445 train.py:154] Eval loss: 0.7736485705656164
+[05/29/2021 00:23:06.456 train.py:158] Eval AUC : 0.4970282272816504
+[05/29/2021 00:23:06.456 train.py:159] Eval F1  : 0.49994098902395845
+[05/29/2021 00:23:07.004 train.py: 76] 
+----- Starting training phase 6 ------ Estimator Epoch: 2
+[05/29/2021 00:23:07.005 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:07.060 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:23:09.802 train.py: 97] Building DataLoader in  2.742 seconds
+[05/29/2021 00:23:10.223 train.py:120] Train loss: 0.7417567418888211
+[05/29/2021 00:23:10.244 train.py:124] Train AUC : 0.5316929723060181
+[05/29/2021 00:23:10.247 train.py:125] Train F1  : 0.5324985931344963
+[05/29/2021 00:23:10.247 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:10.307 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:23:13.083 train.py: 97] Building DataLoader in  2.776 seconds
+[05/29/2021 00:23:13.407 train.py:120] Train loss: 0.7041715970262885
+[05/29/2021 00:23:13.421 train.py:124] Train AUC : 0.5327564819310355
+[05/29/2021 00:23:13.421 train.py:125] Train F1  : 0.5308927796266821
+[05/29/2021 00:23:13.484 train.py:154] Eval loss: 0.7437239429529976
+[05/29/2021 00:23:13.493 train.py:158] Eval AUC : 0.4963332251400935
+[05/29/2021 00:23:13.494 train.py:159] Eval F1  : 0.49420666824308346
+[05/29/2021 00:23:13.969 train.py: 76] 
+----- Starting training phase 7 ------ Estimator Epoch: 2
+[05/29/2021 00:23:13.969 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:14.018 train.py: 92] Sampling sub graph in  0.049 seconds
+[05/29/2021 00:23:16.549 train.py: 97] Building DataLoader in  2.531 seconds
+[05/29/2021 00:23:16.985 train.py:120] Train loss: 0.729095907881856
+[05/29/2021 00:23:16.999 train.py:124] Train AUC : 0.5384276105197414
+[05/29/2021 00:23:16.999 train.py:125] Train F1  : 0.543137919349373
+[05/29/2021 00:23:16.999 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:17.055 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:23:19.649 train.py: 97] Building DataLoader in  2.594 seconds
+[05/29/2021 00:23:19.988 train.py:120] Train loss: 0.7192619051784277
+[05/29/2021 00:23:20.003 train.py:124] Train AUC : 0.5422298044856091
+[05/29/2021 00:23:20.004 train.py:125] Train F1  : 0.5446015773728584
+[05/29/2021 00:23:20.065 train.py:154] Eval loss: 0.7253510636441848
+[05/29/2021 00:23:20.074 train.py:158] Eval AUC : 0.49538915546810863
+[05/29/2021 00:23:20.074 train.py:159] Eval F1  : 0.49242424242424243
+[05/29/2021 00:23:20.599 train.py: 76] 
+----- Starting training phase 8 ------ Estimator Epoch: 2
+[05/29/2021 00:23:20.599 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:20.659 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:23:23.371 train.py: 97] Building DataLoader in  2.712 seconds
+[05/29/2021 00:23:23.778 train.py:120] Train loss: 0.7543065492063761
+[05/29/2021 00:23:23.794 train.py:124] Train AUC : 0.5437737676462633
+[05/29/2021 00:23:23.794 train.py:125] Train F1  : 0.5505271277963487
+[05/29/2021 00:23:23.795 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:23.847 train.py: 92] Sampling sub graph in  0.052 seconds
+[05/29/2021 00:23:26.481 train.py: 97] Building DataLoader in  2.634 seconds
+[05/29/2021 00:23:26.821 train.py:120] Train loss: 0.6678462498821318
+[05/29/2021 00:23:26.836 train.py:124] Train AUC : 0.5477525100227423
+[05/29/2021 00:23:26.837 train.py:125] Train F1  : 0.5377434766629915
+[05/29/2021 00:23:26.908 train.py:154] Eval loss: 0.7150502345141243
+[05/29/2021 00:23:26.918 train.py:158] Eval AUC : 0.494550128047257
+[05/29/2021 00:23:26.918 train.py:159] Eval F1  : 0.4945041957215459
+[05/29/2021 00:23:27.414 train.py: 76] 
+----- Starting training phase 9 ------ Estimator Epoch: 2
+[05/29/2021 00:23:27.414 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:27.465 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:23:30.121 train.py: 97] Building DataLoader in  2.656 seconds
+[05/29/2021 00:23:30.458 train.py:120] Train loss: 0.6819478087127209
+[05/29/2021 00:23:30.472 train.py:124] Train AUC : 0.5443287093432818
+[05/29/2021 00:23:30.472 train.py:125] Train F1  : 0.5442370708078074
+[05/29/2021 00:23:30.472 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:30.525 train.py: 92] Sampling sub graph in  0.052 seconds
+[05/29/2021 00:23:33.151 train.py: 97] Building DataLoader in  2.627 seconds
+[05/29/2021 00:23:33.476 train.py:120] Train loss: 0.7127572204917669
+[05/29/2021 00:23:33.491 train.py:124] Train AUC : 0.5515272390982027
+[05/29/2021 00:23:33.492 train.py:125] Train F1  : 0.5467023539908035
+[05/29/2021 00:23:33.556 train.py:154] Eval loss: 0.7085188451935264
+[05/29/2021 00:23:33.565 train.py:158] Eval AUC : 0.4942946748848913
+[05/29/2021 00:23:33.566 train.py:159] Eval F1  : 0.4972909305064782
+[05/29/2021 00:23:34.056 train.py: 76] 
+----- Starting training phase 10 ------ Estimator Epoch: 2
+[05/29/2021 00:23:34.057 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:34.109 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:23:36.619 train.py: 97] Building DataLoader in  2.510 seconds
+[05/29/2021 00:23:36.953 train.py:120] Train loss: 0.7128180265426636
+[05/29/2021 00:23:36.966 train.py:124] Train AUC : 0.560799322046681
+[05/29/2021 00:23:36.966 train.py:125] Train F1  : 0.5613185334678775
+[05/29/2021 00:23:36.967 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:37.017 train.py: 92] Sampling sub graph in  0.050 seconds
+[05/29/2021 00:23:39.558 train.py: 97] Building DataLoader in  2.540 seconds
+[05/29/2021 00:23:39.938 train.py:120] Train loss: 0.6930258721113205
+[05/29/2021 00:23:39.954 train.py:124] Train AUC : 0.5505620033418499
+[05/29/2021 00:23:39.954 train.py:125] Train F1  : 0.5454290718038528
+[05/29/2021 00:23:40.024 train.py:154] Eval loss: 0.7051211595535278
+[05/29/2021 00:23:40.033 train.py:158] Eval AUC : 0.49519560668522683
+[05/29/2021 00:23:40.033 train.py:159] Eval F1  : 0.4988218661639962
+[05/29/2021 00:23:40.502 train.py: 76] 
+----- Starting training phase 11 ------ Estimator Epoch: 2
+[05/29/2021 00:23:40.503 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:40.556 train.py: 92] Sampling sub graph in  0.053 seconds
+[05/29/2021 00:23:43.130 train.py: 97] Building DataLoader in  2.574 seconds
+[05/29/2021 00:23:43.462 train.py:120] Train loss: 0.6939503718167543
+[05/29/2021 00:23:43.477 train.py:124] Train AUC : 0.5621139563843972
+[05/29/2021 00:23:43.477 train.py:125] Train F1  : 0.5564493758668515
+[05/29/2021 00:23:43.477 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:43.529 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:23:46.055 train.py: 97] Building DataLoader in  2.526 seconds
+[05/29/2021 00:23:46.373 train.py:120] Train loss: 0.6876360522583127
+[05/29/2021 00:23:46.386 train.py:124] Train AUC : 0.5636887795273892
+[05/29/2021 00:23:46.387 train.py:125] Train F1  : 0.5532004491858507
+[05/29/2021 00:23:46.451 train.py:154] Eval loss: 0.7038394072476555
+[05/29/2021 00:23:46.459 train.py:158] Eval AUC : 0.4951076578505907
+[05/29/2021 00:23:46.459 train.py:159] Eval F1  : 0.5008830801836807
+[05/29/2021 00:23:46.945 train.py: 76] 
+----- Starting training phase 12 ------ Estimator Epoch: 2
+[05/29/2021 00:23:46.946 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:47.005 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:23:49.477 train.py: 97] Building DataLoader in  2.472 seconds
+[05/29/2021 00:23:49.789 train.py:120] Train loss: 0.6736435908824205
+[05/29/2021 00:23:49.802 train.py:124] Train AUC : 0.5622382568286183
+[05/29/2021 00:23:49.802 train.py:125] Train F1  : 0.5474892395982782
+[05/29/2021 00:23:49.802 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:49.853 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:23:52.305 train.py: 97] Building DataLoader in  2.452 seconds
+[05/29/2021 00:23:52.694 train.py:120] Train loss: 0.7102154087042436
+[05/29/2021 00:23:52.709 train.py:124] Train AUC : 0.5580405218922734
+[05/29/2021 00:23:52.710 train.py:125] Train F1  : 0.5608472657030574
+[05/29/2021 00:23:52.787 train.py:154] Eval loss: 0.7022435069084167
+[05/29/2021 00:23:52.797 train.py:158] Eval AUC : 0.4950927115679766
+[05/29/2021 00:23:52.798 train.py:159] Eval F1  : 0.499057492931197
+[05/29/2021 00:23:53.310 train.py: 76] 
+----- Starting training phase 13 ------ Estimator Epoch: 2
+[05/29/2021 00:23:53.311 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:53.362 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:23:55.933 train.py: 97] Building DataLoader in  2.572 seconds
+[05/29/2021 00:23:56.254 train.py:120] Train loss: 0.6914202449843287
+[05/29/2021 00:23:56.267 train.py:124] Train AUC : 0.5609479221275895
+[05/29/2021 00:23:56.267 train.py:125] Train F1  : 0.5513385056266163
+[05/29/2021 00:23:56.268 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:23:56.319 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:23:58.739 train.py: 97] Building DataLoader in  2.420 seconds
+[05/29/2021 00:23:59.059 train.py:120] Train loss: 0.6925892229191959
+[05/29/2021 00:23:59.073 train.py:124] Train AUC : 0.5731708768141603
+[05/29/2021 00:23:59.074 train.py:125] Train F1  : 0.5623601789709173
+[05/29/2021 00:23:59.135 train.py:154] Eval loss: 0.7015363854520461
+[05/29/2021 00:23:59.144 train.py:158] Eval AUC : 0.4949325130724203
+[05/29/2021 00:23:59.144 train.py:159] Eval F1  : 0.4987601842012044
+[05/29/2021 00:23:59.641 train.py: 76] 
+----- Starting training phase 14 ------ Estimator Epoch: 2
+[05/29/2021 00:23:59.641 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:23:59.746 train.py: 92] Sampling sub graph in  0.105 seconds
+[05/29/2021 00:24:02.297 train.py: 97] Building DataLoader in  2.551 seconds
+[05/29/2021 00:24:02.609 train.py:120] Train loss: 0.6741248220205307
+[05/29/2021 00:24:02.622 train.py:124] Train AUC : 0.5678354770054771
+[05/29/2021 00:24:02.622 train.py:125] Train F1  : 0.558844356323467
+[05/29/2021 00:24:02.622 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:02.672 train.py: 92] Sampling sub graph in  0.050 seconds
+[05/29/2021 00:24:05.198 train.py: 97] Building DataLoader in  2.526 seconds
+[05/29/2021 00:24:05.512 train.py:120] Train loss: 0.6667878683656454
+[05/29/2021 00:24:05.526 train.py:124] Train AUC : 0.5695361283389646
+[05/29/2021 00:24:05.526 train.py:125] Train F1  : 0.5674672641971851
+[05/29/2021 00:24:05.589 train.py:154] Eval loss: 0.7005953473203322
+[05/29/2021 00:24:05.598 train.py:158] Eval AUC : 0.494220807902345
+[05/29/2021 00:24:05.599 train.py:159] Eval F1  : 0.4929793510324484
+[05/29/2021 00:24:06.103 train.py: 76] 
+----- Starting training phase 15 ------ Estimator Epoch: 2
+[05/29/2021 00:24:06.104 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:06.155 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:24:08.730 train.py: 97] Building DataLoader in  2.575 seconds
+[05/29/2021 00:24:09.119 train.py:120] Train loss: 0.6936664134263992
+[05/29/2021 00:24:09.136 train.py:124] Train AUC : 0.5645109399915225
+[05/29/2021 00:24:09.137 train.py:125] Train F1  : 0.5569707401032703
+[05/29/2021 00:24:09.137 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:09.194 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:24:12.079 train.py: 97] Building DataLoader in  2.885 seconds
+[05/29/2021 00:24:12.521 train.py:120] Train loss: 0.6813786290585995
+[05/29/2021 00:24:12.536 train.py:124] Train AUC : 0.5679077875785485
+[05/29/2021 00:24:12.536 train.py:125] Train F1  : 0.5544283761421687
+[05/29/2021 00:24:12.616 train.py:154] Eval loss: 0.7006807993440067
+[05/29/2021 00:24:12.627 train.py:158] Eval AUC : 0.4936328557215262
+[05/29/2021 00:24:12.629 train.py:159] Eval F1  : 0.494735596829528
+[05/29/2021 00:24:13.151 train.py: 76] 
+----- Starting training phase 16 ------ Estimator Epoch: 2
+[05/29/2021 00:24:13.152 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:13.212 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:24:16.059 train.py: 97] Building DataLoader in  2.847 seconds
+[05/29/2021 00:24:16.517 train.py:120] Train loss: 0.6739862412214279
+[05/29/2021 00:24:16.538 train.py:124] Train AUC : 0.5718297855471469
+[05/29/2021 00:24:16.539 train.py:125] Train F1  : 0.5561673221308545
+[05/29/2021 00:24:16.550 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:16.626 train.py: 92] Sampling sub graph in  0.071 seconds
+[05/29/2021 00:24:19.547 train.py: 97] Building DataLoader in  2.920 seconds
+[05/29/2021 00:24:19.972 train.py:120] Train loss: 0.6836659926921129
+[05/29/2021 00:24:19.989 train.py:124] Train AUC : 0.5684647349470502
+[05/29/2021 00:24:19.990 train.py:125] Train F1  : 0.5554449815183393
+[05/29/2021 00:24:20.102 train.py:154] Eval loss: 0.6999545237597298
+[05/29/2021 00:24:20.117 train.py:158] Eval AUC : 0.4940832797944106
+[05/29/2021 00:24:20.117 train.py:159] Eval F1  : 0.4965680473372781
+[05/29/2021 00:24:20.649 train.py: 76] 
+----- Starting training phase 17 ------ Estimator Epoch: 2
+[05/29/2021 00:24:20.649 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:20.708 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:24:23.653 train.py: 97] Building DataLoader in  2.945 seconds
+[05/29/2021 00:24:24.117 train.py:120] Train loss: 0.7018785148393363
+[05/29/2021 00:24:24.136 train.py:124] Train AUC : 0.5732972720805414
+[05/29/2021 00:24:24.137 train.py:125] Train F1  : 0.5670735819788224
+[05/29/2021 00:24:24.137 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:24.200 train.py: 92] Sampling sub graph in  0.063 seconds
+[05/29/2021 00:24:27.160 train.py: 97] Building DataLoader in  2.960 seconds
+[05/29/2021 00:24:27.705 train.py:120] Train loss: 0.6851873444393277
+[05/29/2021 00:24:27.726 train.py:124] Train AUC : 0.5737443578509727
+[05/29/2021 00:24:27.727 train.py:125] Train F1  : 0.5651720542231491
+[05/29/2021 00:24:27.811 train.py:154] Eval loss: 0.6995494400753695
+[05/29/2021 00:24:27.822 train.py:158] Eval AUC : 0.4936289797265946
+[05/29/2021 00:24:27.823 train.py:159] Eval F1  : 0.4965191740412979
+[05/29/2021 00:24:28.396 train.py: 76] 
+----- Starting training phase 18 ------ Estimator Epoch: 2
+[05/29/2021 00:24:28.396 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:28.461 train.py: 92] Sampling sub graph in  0.065 seconds
+[05/29/2021 00:24:31.284 train.py: 97] Building DataLoader in  2.823 seconds
+[05/29/2021 00:24:31.747 train.py:120] Train loss: 0.7079841487575322
+[05/29/2021 00:24:31.767 train.py:124] Train AUC : 0.5785140110049035
+[05/29/2021 00:24:31.767 train.py:125] Train F1  : 0.5622528296740762
+[05/29/2021 00:24:31.767 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:31.848 train.py: 92] Sampling sub graph in  0.081 seconds
+[05/29/2021 00:24:34.893 train.py: 97] Building DataLoader in  3.045 seconds
+[05/29/2021 00:24:35.348 train.py:120] Train loss: 0.6683457959443331
+[05/29/2021 00:24:35.371 train.py:124] Train AUC : 0.5804924436675303
+[05/29/2021 00:24:35.373 train.py:125] Train F1  : 0.5614338155905851
+[05/29/2021 00:24:35.485 train.py:154] Eval loss: 0.6993438180755166
+[05/29/2021 00:24:35.520 train.py:158] Eval AUC : 0.4935135085394582
+[05/29/2021 00:24:35.520 train.py:159] Eval F1  : 0.49480151228733454
+[05/29/2021 00:24:36.080 train.py: 76] 
+----- Starting training phase 19 ------ Estimator Epoch: 2
+[05/29/2021 00:24:36.081 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:36.143 train.py: 92] Sampling sub graph in  0.062 seconds
+[05/29/2021 00:24:39.043 train.py: 97] Building DataLoader in  2.900 seconds
+[05/29/2021 00:24:39.506 train.py:120] Train loss: 0.6641197465360165
+[05/29/2021 00:24:39.523 train.py:124] Train AUC : 0.5848179336100228
+[05/29/2021 00:24:39.523 train.py:125] Train F1  : 0.5691796649335644
+[05/29/2021 00:24:39.523 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:39.600 train.py: 92] Sampling sub graph in  0.076 seconds
+[05/29/2021 00:24:42.364 train.py: 97] Building DataLoader in  2.764 seconds
+[05/29/2021 00:24:42.753 train.py:120] Train loss: 0.6825782712548971
+[05/29/2021 00:24:42.770 train.py:124] Train AUC : 0.5824541419240375
+[05/29/2021 00:24:42.771 train.py:125] Train F1  : 0.5713299268056898
+[05/29/2021 00:24:42.845 train.py:154] Eval loss: 0.6993084514842314
+[05/29/2021 00:24:42.856 train.py:158] Eval AUC : 0.49303941022414965
+[05/29/2021 00:24:42.857 train.py:159] Eval F1  : 0.4953889808465358
+[05/29/2021 00:24:43.378 train.py: 76] 
+----- Starting training phase 20 ------ Estimator Epoch: 2
+[05/29/2021 00:24:43.379 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:43.438 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:24:46.315 train.py: 97] Building DataLoader in  2.877 seconds
+[05/29/2021 00:24:46.779 train.py:120] Train loss: 0.6745808378327638
+[05/29/2021 00:24:46.798 train.py:124] Train AUC : 0.579726602230717
+[05/29/2021 00:24:46.799 train.py:125] Train F1  : 0.5726210350584306
+[05/29/2021 00:24:46.799 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:46.862 train.py: 92] Sampling sub graph in  0.062 seconds
+[05/29/2021 00:24:49.711 train.py: 97] Building DataLoader in  2.849 seconds
+[05/29/2021 00:24:50.141 train.py:120] Train loss: 0.7016368587501347
+[05/29/2021 00:24:50.157 train.py:124] Train AUC : 0.5820631194005378
+[05/29/2021 00:24:50.158 train.py:125] Train F1  : 0.576044865803178
+[05/29/2021 00:24:50.243 train.py:154] Eval loss: 0.6989470334614024
+[05/29/2021 00:24:50.256 train.py:158] Eval AUC : 0.492875530927651
+[05/29/2021 00:24:50.257 train.py:159] Eval F1  : 0.4915776986951364
+[05/29/2021 00:24:50.851 train.py: 76] 
+----- Starting training phase 21 ------ Estimator Epoch: 2
+[05/29/2021 00:24:50.852 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:50.956 train.py: 92] Sampling sub graph in  0.104 seconds
+[05/29/2021 00:24:53.751 train.py: 97] Building DataLoader in  2.795 seconds
+[05/29/2021 00:24:54.147 train.py:120] Train loss: 0.671182066667825
+[05/29/2021 00:24:54.164 train.py:124] Train AUC : 0.5815772635997666
+[05/29/2021 00:24:54.164 train.py:125] Train F1  : 0.5648459383753501
+[05/29/2021 00:24:54.165 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:24:54.221 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:24:56.958 train.py: 97] Building DataLoader in  2.737 seconds
+[05/29/2021 00:24:57.353 train.py:120] Train loss: 0.6894589476287365
+[05/29/2021 00:24:57.369 train.py:124] Train AUC : 0.5888522997216932
+[05/29/2021 00:24:57.370 train.py:125] Train F1  : 0.5722680845109837
+[05/29/2021 00:24:57.451 train.py:154] Eval loss: 0.6989376720260171
+[05/29/2021 00:24:57.462 train.py:158] Eval AUC : 0.49249403821786775
+[05/29/2021 00:24:57.462 train.py:159] Eval F1  : 0.48993606440918774
+[05/29/2021 00:24:57.993 train.py: 76] 
+----- Starting training phase 22 ------ Estimator Epoch: 2
+[05/29/2021 00:24:57.994 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:24:58.055 train.py: 92] Sampling sub graph in  0.061 seconds
+[05/29/2021 00:25:00.911 train.py: 97] Building DataLoader in  2.856 seconds
+[05/29/2021 00:25:01.369 train.py:120] Train loss: 0.7056307978928089
+[05/29/2021 00:25:01.385 train.py:124] Train AUC : 0.5814573094622115
+[05/29/2021 00:25:01.386 train.py:125] Train F1  : 0.5696573336058315
+[05/29/2021 00:25:01.386 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:01.452 train.py: 92] Sampling sub graph in  0.066 seconds
+[05/29/2021 00:25:04.321 train.py: 97] Building DataLoader in  2.869 seconds
+[05/29/2021 00:25:04.775 train.py:120] Train loss: 0.6637674486264586
+[05/29/2021 00:25:04.791 train.py:124] Train AUC : 0.5914184431290018
+[05/29/2021 00:25:04.791 train.py:125] Train F1  : 0.5702263493905978
+[05/29/2021 00:25:04.873 train.py:154] Eval loss: 0.6986405779333675
+[05/29/2021 00:25:04.885 train.py:158] Eval AUC : 0.4923992854784595
+[05/29/2021 00:25:04.886 train.py:159] Eval F1  : 0.49089188549798907
+[05/29/2021 00:25:05.469 train.py: 76] 
+----- Starting training phase 23 ------ Estimator Epoch: 2
+[05/29/2021 00:25:05.469 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:05.537 train.py: 92] Sampling sub graph in  0.068 seconds
+[05/29/2021 00:25:08.724 train.py: 97] Building DataLoader in  3.187 seconds
+[05/29/2021 00:25:09.334 train.py:120] Train loss: 0.6812531100586057
+[05/29/2021 00:25:09.356 train.py:124] Train AUC : 0.594156473006912
+[05/29/2021 00:25:09.356 train.py:125] Train F1  : 0.5757617921246696
+[05/29/2021 00:25:09.357 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:09.418 train.py: 92] Sampling sub graph in  0.061 seconds
+[05/29/2021 00:25:12.341 train.py: 97] Building DataLoader in  2.924 seconds
+[05/29/2021 00:25:12.857 train.py:120] Train loss: 0.6956638563424349
+[05/29/2021 00:25:12.879 train.py:124] Train AUC : 0.6014741979206104
+[05/29/2021 00:25:12.879 train.py:125] Train F1  : 0.5841712839455503
+[05/29/2021 00:25:12.963 train.py:154] Eval loss: 0.6983196630197412
+[05/29/2021 00:25:12.974 train.py:158] Eval AUC : 0.4923157703358675
+[05/29/2021 00:25:12.975 train.py:159] Eval F1  : 0.48798958703112055
+[05/29/2021 00:25:13.524 train.py: 76] 
+----- Starting training phase 24 ------ Estimator Epoch: 2
+[05/29/2021 00:25:13.524 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:13.586 train.py: 92] Sampling sub graph in  0.061 seconds
+[05/29/2021 00:25:16.484 train.py: 97] Building DataLoader in  2.898 seconds
+[05/29/2021 00:25:17.005 train.py:120] Train loss: 0.6835969723761082
+[05/29/2021 00:25:17.025 train.py:124] Train AUC : 0.5965740758850517
+[05/29/2021 00:25:17.025 train.py:125] Train F1  : 0.5831152733783225
+[05/29/2021 00:25:17.025 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:17.105 train.py: 92] Sampling sub graph in  0.080 seconds
+[05/29/2021 00:25:19.914 train.py: 97] Building DataLoader in  2.808 seconds
+[05/29/2021 00:25:20.333 train.py:120] Train loss: 0.6797954672947526
+[05/29/2021 00:25:20.368 train.py:124] Train AUC : 0.5982922183372796
+[05/29/2021 00:25:20.368 train.py:125] Train F1  : 0.5813872912480077
+[05/29/2021 00:25:20.447 train.py:154] Eval loss: 0.6984037967289195
+[05/29/2021 00:25:20.457 train.py:158] Eval AUC : 0.49275966935253596
+[05/29/2021 00:25:20.458 train.py:159] Eval F1  : 0.4912570888468809
+[05/29/2021 00:25:21.037 train.py: 76] 
+----- Starting training phase 25 ------ Estimator Epoch: 2
+[05/29/2021 00:25:21.038 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:21.098 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:25:23.821 train.py: 97] Building DataLoader in  2.723 seconds
+[05/29/2021 00:25:24.213 train.py:120] Train loss: 0.6773003088310361
+[05/29/2021 00:25:24.229 train.py:124] Train AUC : 0.6013942984206668
+[05/29/2021 00:25:24.230 train.py:125] Train F1  : 0.5812289562289562
+[05/29/2021 00:25:24.230 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:24.295 train.py: 92] Sampling sub graph in  0.065 seconds
+[05/29/2021 00:25:26.966 train.py: 97] Building DataLoader in  2.671 seconds
+[05/29/2021 00:25:27.428 train.py:120] Train loss: 0.6726950876181945
+[05/29/2021 00:25:27.445 train.py:124] Train AUC : 0.6039209819418415
+[05/29/2021 00:25:27.445 train.py:125] Train F1  : 0.5795058036032187
+[05/29/2021 00:25:27.526 train.py:154] Eval loss: 0.6980487283538369
+[05/29/2021 00:25:27.538 train.py:158] Eval AUC : 0.49286404236713427
+[05/29/2021 00:25:27.539 train.py:159] Eval F1  : 0.49094567404426565
+[05/29/2021 00:25:28.101 train.py: 76] 
+----- Starting training phase 26 ------ Estimator Epoch: 2
+[05/29/2021 00:25:28.101 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:28.162 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:25:30.940 train.py: 97] Building DataLoader in  2.778 seconds
+[05/29/2021 00:25:31.339 train.py:120] Train loss: 0.6761503219604492
+[05/29/2021 00:25:31.357 train.py:124] Train AUC : 0.6042511986790826
+[05/29/2021 00:25:31.357 train.py:125] Train F1  : 0.5816760868048287
+[05/29/2021 00:25:31.358 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:31.417 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:25:34.119 train.py: 97] Building DataLoader in  2.703 seconds
+[05/29/2021 00:25:34.522 train.py:120] Train loss: 0.6870085196569562
+[05/29/2021 00:25:34.539 train.py:124] Train AUC : 0.6124326427386404
+[05/29/2021 00:25:34.539 train.py:125] Train F1  : 0.5931841652323581
+[05/29/2021 00:25:34.624 train.py:154] Eval loss: 0.697587135960074
+[05/29/2021 00:25:34.635 train.py:158] Eval AUC : 0.49309780111182494
+[05/29/2021 00:25:34.635 train.py:159] Eval F1  : 0.49379799173065564
+[05/29/2021 00:25:35.155 train.py: 76] 
+----- Starting training phase 27 ------ Estimator Epoch: 2
+[05/29/2021 00:25:35.156 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:35.213 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:25:38.014 train.py: 97] Building DataLoader in  2.801 seconds
+[05/29/2021 00:25:38.408 train.py:120] Train loss: 0.688328493386507
+[05/29/2021 00:25:38.424 train.py:124] Train AUC : 0.6148121478497237
+[05/29/2021 00:25:38.425 train.py:125] Train F1  : 0.5917582417582418
+[05/29/2021 00:25:38.425 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:38.482 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:25:41.270 train.py: 97] Building DataLoader in  2.788 seconds
+[05/29/2021 00:25:41.709 train.py:120] Train loss: 0.6920855548232794
+[05/29/2021 00:25:41.730 train.py:124] Train AUC : 0.6140307437920778
+[05/29/2021 00:25:41.730 train.py:125] Train F1  : 0.5998133084411256
+[05/29/2021 00:25:41.806 train.py:154] Eval loss: 0.6976447035284603
+[05/29/2021 00:25:41.817 train.py:158] Eval AUC : 0.4930635863939751
+[05/29/2021 00:25:41.817 train.py:159] Eval F1  : 0.49616428655729966
+[05/29/2021 00:25:42.400 train.py: 76] 
+----- Starting training phase 28 ------ Estimator Epoch: 2
+[05/29/2021 00:25:42.400 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:42.456 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:25:45.114 train.py: 97] Building DataLoader in  2.658 seconds
+[05/29/2021 00:25:45.556 train.py:120] Train loss: 0.6801290092989802
+[05/29/2021 00:25:45.582 train.py:124] Train AUC : 0.6204082046329242
+[05/29/2021 00:25:45.583 train.py:125] Train F1  : 0.5971358714634998
+[05/29/2021 00:25:45.584 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:45.651 train.py: 92] Sampling sub graph in  0.067 seconds
+[05/29/2021 00:25:48.321 train.py: 97] Building DataLoader in  2.669 seconds
+[05/29/2021 00:25:48.827 train.py:120] Train loss: 0.6879535187035799
+[05/29/2021 00:25:48.844 train.py:124] Train AUC : 0.6157063564040386
+[05/29/2021 00:25:48.845 train.py:125] Train F1  : 0.6017137844949734
+[05/29/2021 00:25:48.925 train.py:154] Eval loss: 0.6972603973220376
+[05/29/2021 00:25:48.937 train.py:158] Eval AUC : 0.49330141632758684
+[05/29/2021 00:25:48.938 train.py:159] Eval F1  : 0.49764705882352944
+[05/29/2021 00:25:49.474 train.py: 76] 
+----- Starting training phase 29 ------ Estimator Epoch: 2
+[05/29/2021 00:25:49.474 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:49.531 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:25:52.249 train.py: 97] Building DataLoader in  2.718 seconds
+[05/29/2021 00:25:52.675 train.py:120] Train loss: 0.6860626377165318
+[05/29/2021 00:25:52.694 train.py:124] Train AUC : 0.6202738604595237
+[05/29/2021 00:25:52.694 train.py:125] Train F1  : 0.5973347987360902
+[05/29/2021 00:25:52.695 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:25:52.758 train.py: 92] Sampling sub graph in  0.062 seconds
+[05/29/2021 00:25:55.614 train.py: 97] Building DataLoader in  2.856 seconds
+[05/29/2021 00:25:56.058 train.py:120] Train loss: 0.6801810106262565
+[05/29/2021 00:25:56.077 train.py:124] Train AUC : 0.6254674496304797
+[05/29/2021 00:25:56.080 train.py:125] Train F1  : 0.6032276015581525
+[05/29/2021 00:25:56.179 train.py:154] Eval loss: 0.6972364117117489
+[05/29/2021 00:25:56.193 train.py:158] Eval AUC : 0.4935025219063426
+[05/29/2021 00:25:56.193 train.py:159] Eval F1  : 0.4954041951449446
+[05/29/2021 00:25:56.743 train.py: 76] 
+----- Starting training phase 30 ------ Estimator Epoch: 2
+[05/29/2021 00:25:56.743 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:25:56.805 train.py: 92] Sampling sub graph in  0.061 seconds
+[05/29/2021 00:25:59.697 train.py: 97] Building DataLoader in  2.893 seconds
+[05/29/2021 00:26:00.171 train.py:120] Train loss: 0.6732758525758982
+[05/29/2021 00:26:00.187 train.py:124] Train AUC : 0.6318769193079512
+[05/29/2021 00:26:00.187 train.py:125] Train F1  : 0.6102777777777777
+[05/29/2021 00:26:00.187 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:00.247 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:26:03.313 train.py: 97] Building DataLoader in  3.067 seconds
+[05/29/2021 00:26:03.808 train.py:120] Train loss: 0.6756834425032139
+[05/29/2021 00:26:03.830 train.py:124] Train AUC : 0.6290221457233162
+[05/29/2021 00:26:03.830 train.py:125] Train F1  : 0.6023562023562025
+[05/29/2021 00:26:03.918 train.py:154] Eval loss: 0.6971212800811318
+[05/29/2021 00:26:03.929 train.py:158] Eval AUC : 0.4938947224006853
+[05/29/2021 00:26:03.929 train.py:159] Eval F1  : 0.49811941701927603
+[05/29/2021 00:26:04.482 train.py: 76] 
+----- Starting training phase 31 ------ Estimator Epoch: 2
+[05/29/2021 00:26:04.483 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:04.547 train.py: 92] Sampling sub graph in  0.064 seconds
+[05/29/2021 00:26:07.501 train.py: 97] Building DataLoader in  2.955 seconds
+[05/29/2021 00:26:07.928 train.py:120] Train loss: 0.648604441434145
+[05/29/2021 00:26:07.946 train.py:124] Train AUC : 0.6347236928885106
+[05/29/2021 00:26:07.947 train.py:125] Train F1  : 0.6044721939886744
+[05/29/2021 00:26:07.947 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:08.004 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:26:10.664 train.py: 97] Building DataLoader in  2.660 seconds
+[05/29/2021 00:26:11.067 train.py:120] Train loss: 0.6770660728216171
+[05/29/2021 00:26:11.085 train.py:124] Train AUC : 0.6402951176752383
+[05/29/2021 00:26:11.086 train.py:125] Train F1  : 0.6099458258091403
+[05/29/2021 00:26:11.157 train.py:154] Eval loss: 0.696563299964456
+[05/29/2021 00:26:11.167 train.py:158] Eval AUC : 0.49395838352607346
+[05/29/2021 00:26:11.168 train.py:159] Eval F1  : 0.4984702282890092
+[05/29/2021 00:26:11.723 train.py: 76] 
+----- Starting training phase 32 ------ Estimator Epoch: 2
+[05/29/2021 00:26:11.724 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:11.795 train.py: 92] Sampling sub graph in  0.071 seconds
+[05/29/2021 00:26:14.576 train.py: 97] Building DataLoader in  2.782 seconds
+[05/29/2021 00:26:14.961 train.py:120] Train loss: 0.6860579885542393
+[05/29/2021 00:26:14.978 train.py:124] Train AUC : 0.651125508626364
+[05/29/2021 00:26:14.978 train.py:125] Train F1  : 0.6217848659653885
+[05/29/2021 00:26:14.978 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:15.038 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:26:17.825 train.py: 97] Building DataLoader in  2.787 seconds
+[05/29/2021 00:26:18.238 train.py:120] Train loss: 0.6826098188757896
+[05/29/2021 00:26:18.255 train.py:124] Train AUC : 0.657170536047033
+[05/29/2021 00:26:18.256 train.py:125] Train F1  : 0.6239585521249037
+[05/29/2021 00:26:18.332 train.py:154] Eval loss: 0.6968321695047266
+[05/29/2021 00:26:18.343 train.py:158] Eval AUC : 0.4940554228236428
+[05/29/2021 00:26:18.343 train.py:159] Eval F1  : 0.4999411833901894
+[05/29/2021 00:26:18.856 train.py: 76] 
+----- Starting training phase 33 ------ Estimator Epoch: 2
+[05/29/2021 00:26:18.857 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:18.911 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:26:21.556 train.py: 97] Building DataLoader in  2.645 seconds
+[05/29/2021 00:26:21.970 train.py:120] Train loss: 0.6748964190483093
+[05/29/2021 00:26:21.996 train.py:124] Train AUC : 0.6438394520823256
+[05/29/2021 00:26:21.997 train.py:125] Train F1  : 0.6111587982832618
+[05/29/2021 00:26:21.997 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:22.055 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:26:24.752 train.py: 97] Building DataLoader in  2.697 seconds
+[05/29/2021 00:26:25.205 train.py:120] Train loss: 0.6941091211047024
+[05/29/2021 00:26:25.224 train.py:124] Train AUC : 0.6573560171784896
+[05/29/2021 00:26:25.224 train.py:125] Train F1  : 0.6338130927903429
+[05/29/2021 00:26:25.307 train.py:154] Eval loss: 0.6963490282787996
+[05/29/2021 00:26:25.319 train.py:158] Eval AUC : 0.4946914206107007
+[05/29/2021 00:26:25.320 train.py:159] Eval F1  : 0.501641651031895
+[05/29/2021 00:26:25.840 train.py: 76] 
+----- Starting training phase 34 ------ Estimator Epoch: 2
+[05/29/2021 00:26:25.840 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:25.897 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:26:28.569 train.py: 97] Building DataLoader in  2.672 seconds
+[05/29/2021 00:26:28.974 train.py:120] Train loss: 0.6860681045800447
+[05/29/2021 00:26:28.995 train.py:124] Train AUC : 0.6577269700104327
+[05/29/2021 00:26:28.995 train.py:125] Train F1  : 0.6318476611011453
+[05/29/2021 00:26:28.995 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:29.054 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:26:31.749 train.py: 97] Building DataLoader in  2.695 seconds
+[05/29/2021 00:26:32.156 train.py:120] Train loss: 0.6850830633193254
+[05/29/2021 00:26:32.172 train.py:124] Train AUC : 0.6621124324785785
+[05/29/2021 00:26:32.172 train.py:125] Train F1  : 0.6335628346894776
+[05/29/2021 00:26:32.251 train.py:154] Eval loss: 0.6964049584725324
+[05/29/2021 00:26:32.262 train.py:158] Eval AUC : 0.4956808310579291
+[05/29/2021 00:26:32.263 train.py:159] Eval F1  : 0.5011138468753663
+[05/29/2021 00:26:32.774 train.py: 76] 
+----- Starting training phase 35 ------ Estimator Epoch: 2
+[05/29/2021 00:26:32.774 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:32.834 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:26:35.639 train.py: 97] Building DataLoader in  2.806 seconds
+[05/29/2021 00:26:36.118 train.py:120] Train loss: 0.6733778165653348
+[05/29/2021 00:26:36.133 train.py:124] Train AUC : 0.6624887600681092
+[05/29/2021 00:26:36.134 train.py:125] Train F1  : 0.6383357284609595
+[05/29/2021 00:26:36.134 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:36.190 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:26:38.940 train.py: 97] Building DataLoader in  2.750 seconds
+[05/29/2021 00:26:39.334 train.py:120] Train loss: 0.6656412687152624
+[05/29/2021 00:26:39.350 train.py:124] Train AUC : 0.6735114765845058
+[05/29/2021 00:26:39.350 train.py:125] Train F1  : 0.6369944627461974
+[05/29/2021 00:26:39.441 train.py:154] Eval loss: 0.6959514688043034
+[05/29/2021 00:26:39.451 train.py:158] Eval AUC : 0.4965345259128387
+[05/29/2021 00:26:39.452 train.py:159] Eval F1  : 0.5019305019305018
+[05/29/2021 00:26:39.998 train.py: 76] 
+----- Starting training phase 36 ------ Estimator Epoch: 2
+[05/29/2021 00:26:39.999 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:40.069 train.py: 92] Sampling sub graph in  0.070 seconds
+[05/29/2021 00:26:42.737 train.py: 97] Building DataLoader in  2.667 seconds
+[05/29/2021 00:26:43.151 train.py:120] Train loss: 0.6957833282649517
+[05/29/2021 00:26:43.170 train.py:124] Train AUC : 0.6731370171942805
+[05/29/2021 00:26:43.170 train.py:125] Train F1  : 0.6394214368561097
+[05/29/2021 00:26:43.171 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:43.232 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:26:46.135 train.py: 97] Building DataLoader in  2.903 seconds
+[05/29/2021 00:26:46.725 train.py:120] Train loss: 0.6646575201302767
+[05/29/2021 00:26:46.747 train.py:124] Train AUC : 0.6864174255116787
+[05/29/2021 00:26:46.747 train.py:125] Train F1  : 0.6418651507519608
+[05/29/2021 00:26:46.871 train.py:154] Eval loss: 0.6954147815704346
+[05/29/2021 00:26:46.890 train.py:158] Eval AUC : 0.49748587353214124
+[05/29/2021 00:26:46.891 train.py:159] Eval F1  : 0.5057901508948415
+[05/29/2021 00:26:47.693 train.py: 76] 
+----- Starting training phase 37 ------ Estimator Epoch: 2
+[05/29/2021 00:26:47.694 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:47.752 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:26:50.782 train.py: 97] Building DataLoader in  3.030 seconds
+[05/29/2021 00:26:51.292 train.py:120] Train loss: 0.6737109012901783
+[05/29/2021 00:26:51.312 train.py:124] Train AUC : 0.6827215258031059
+[05/29/2021 00:26:51.313 train.py:125] Train F1  : 0.6511755057408419
+[05/29/2021 00:26:51.313 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:51.377 train.py: 92] Sampling sub graph in  0.064 seconds
+[05/29/2021 00:26:54.321 train.py: 97] Building DataLoader in  2.944 seconds
+[05/29/2021 00:26:54.784 train.py:120] Train loss: 0.6927474862895906
+[05/29/2021 00:26:54.813 train.py:124] Train AUC : 0.6873387388456068
+[05/29/2021 00:26:54.813 train.py:125] Train F1  : 0.6608102792710108
+[05/29/2021 00:26:54.914 train.py:154] Eval loss: 0.6953895933487836
+[05/29/2021 00:26:54.928 train.py:158] Eval AUC : 0.49835024828675445
+[05/29/2021 00:26:54.929 train.py:159] Eval F1  : 0.5071636575422248
+[05/29/2021 00:26:55.483 train.py: 76] 
+----- Starting training phase 38 ------ Estimator Epoch: 2
+[05/29/2021 00:26:55.484 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:26:55.543 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:26:58.469 train.py: 97] Building DataLoader in  2.926 seconds
+[05/29/2021 00:26:58.912 train.py:120] Train loss: 0.6607301458716393
+[05/29/2021 00:26:58.929 train.py:124] Train AUC : 0.6931746074338716
+[05/29/2021 00:26:58.930 train.py:125] Train F1  : 0.6503551696921863
+[05/29/2021 00:26:58.930 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:26:58.993 train.py: 92] Sampling sub graph in  0.063 seconds
+[05/29/2021 00:27:01.807 train.py: 97] Building DataLoader in  2.814 seconds
+[05/29/2021 00:27:02.205 train.py:120] Train loss: 0.6905179414898157
+[05/29/2021 00:27:02.223 train.py:124] Train AUC : 0.7015532755037817
+[05/29/2021 00:27:02.223 train.py:125] Train F1  : 0.6641876816983301
+[05/29/2021 00:27:02.320 train.py:154] Eval loss: 0.6951539902126088
+[05/29/2021 00:27:02.340 train.py:158] Eval AUC : 0.49997699499411075
+[05/29/2021 00:27:02.340 train.py:159] Eval F1  : 0.5076367028098403
+[05/29/2021 00:27:02.909 train.py: 76] 
+----- Starting training phase 39 ------ Estimator Epoch: 2
+[05/29/2021 00:27:02.910 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:02.967 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:27:05.777 train.py: 97] Building DataLoader in  2.810 seconds
+[05/29/2021 00:27:06.152 train.py:120] Train loss: 0.6605594158172607
+[05/29/2021 00:27:06.169 train.py:124] Train AUC : 0.7046702285283805
+[05/29/2021 00:27:06.169 train.py:125] Train F1  : 0.6640465997613868
+[05/29/2021 00:27:06.171 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:06.255 train.py: 92] Sampling sub graph in  0.084 seconds
+[05/29/2021 00:27:09.195 train.py: 97] Building DataLoader in  2.939 seconds
+[05/29/2021 00:27:09.601 train.py:120] Train loss: 0.6500951610505581
+[05/29/2021 00:27:09.619 train.py:124] Train AUC : 0.7065852648475122
+[05/29/2021 00:27:09.619 train.py:125] Train F1  : 0.662375741972395
+[05/29/2021 00:27:09.700 train.py:154] Eval loss: 0.6950140946051654
+[05/29/2021 00:27:09.711 train.py:158] Eval AUC : 0.501942319618446
+[05/29/2021 00:27:09.712 train.py:159] Eval F1  : 0.5065827799137831
+[05/29/2021 00:27:10.264 train.py: 76] 
+----- Starting training phase 40 ------ Estimator Epoch: 2
+[05/29/2021 00:27:10.264 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:10.321 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:27:13.031 train.py: 97] Building DataLoader in  2.709 seconds
+[05/29/2021 00:27:13.431 train.py:120] Train loss: 0.6758646117523313
+[05/29/2021 00:27:13.447 train.py:124] Train AUC : 0.71437104275194
+[05/29/2021 00:27:13.447 train.py:125] Train F1  : 0.681189721454104
+[05/29/2021 00:27:13.448 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:13.504 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:27:16.200 train.py: 97] Building DataLoader in  2.696 seconds
+[05/29/2021 00:27:16.594 train.py:120] Train loss: 0.6616287352517247
+[05/29/2021 00:27:16.611 train.py:124] Train AUC : 0.7157902979608115
+[05/29/2021 00:27:16.612 train.py:125] Train F1  : 0.6686274509803922
+[05/29/2021 00:27:16.707 train.py:154] Eval loss: 0.6948342779103447
+[05/29/2021 00:27:16.719 train.py:158] Eval AUC : 0.5038616621158583
+[05/29/2021 00:27:16.719 train.py:159] Eval F1  : 0.5088289962825279
+[05/29/2021 00:27:17.264 train.py: 76] 
+----- Starting training phase 41 ------ Estimator Epoch: 2
+[05/29/2021 00:27:17.264 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:17.324 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:27:20.129 train.py: 97] Building DataLoader in  2.805 seconds
+[05/29/2021 00:27:20.542 train.py:120] Train loss: 0.6802852731198072
+[05/29/2021 00:27:20.558 train.py:124] Train AUC : 0.7201024433057652
+[05/29/2021 00:27:20.563 train.py:125] Train F1  : 0.6815112002674691
+[05/29/2021 00:27:20.564 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:20.621 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:27:23.301 train.py: 97] Building DataLoader in  2.680 seconds
+[05/29/2021 00:27:23.730 train.py:120] Train loss: 0.6816574446856976
+[05/29/2021 00:27:23.748 train.py:124] Train AUC : 0.7264220607811959
+[05/29/2021 00:27:23.748 train.py:125] Train F1  : 0.6810239739943112
+[05/29/2021 00:27:23.829 train.py:154] Eval loss: 0.6944966772023369
+[05/29/2021 00:27:23.845 train.py:158] Eval AUC : 0.5054961608130778
+[05/29/2021 00:27:23.845 train.py:159] Eval F1  : 0.510199350950394
+[05/29/2021 00:27:24.383 train.py: 76] 
+----- Starting training phase 42 ------ Estimator Epoch: 2
+[05/29/2021 00:27:24.383 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:24.438 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:27:27.127 train.py: 97] Building DataLoader in  2.689 seconds
+[05/29/2021 00:27:27.547 train.py:120] Train loss: 0.6802825648337603
+[05/29/2021 00:27:27.564 train.py:124] Train AUC : 0.7257582460404854
+[05/29/2021 00:27:27.566 train.py:125] Train F1  : 0.6828644501278772
+[05/29/2021 00:27:27.567 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:27.625 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:27:30.321 train.py: 97] Building DataLoader in  2.697 seconds
+[05/29/2021 00:27:30.749 train.py:120] Train loss: 0.6965204179286957
+[05/29/2021 00:27:30.768 train.py:124] Train AUC : 0.7354989081167796
+[05/29/2021 00:27:30.769 train.py:125] Train F1  : 0.6927396445795071
+[05/29/2021 00:27:30.848 train.py:154] Eval loss: 0.6940912288777968
+[05/29/2021 00:27:30.860 train.py:158] Eval AUC : 0.5081977571652925
+[05/29/2021 00:27:30.861 train.py:159] Eval F1  : 0.51429889298893
+[05/29/2021 00:27:31.451 train.py: 76] 
+----- Starting training phase 43 ------ Estimator Epoch: 2
+[05/29/2021 00:27:31.452 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:31.523 train.py: 92] Sampling sub graph in  0.072 seconds
+[05/29/2021 00:27:34.386 train.py: 97] Building DataLoader in  2.863 seconds
+[05/29/2021 00:27:34.785 train.py:120] Train loss: 0.6376788280904293
+[05/29/2021 00:27:34.801 train.py:124] Train AUC : 0.7368023548159401
+[05/29/2021 00:27:34.801 train.py:125] Train F1  : 0.6799592490176102
+[05/29/2021 00:27:34.802 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:34.865 train.py: 92] Sampling sub graph in  0.064 seconds
+[05/29/2021 00:27:37.637 train.py: 97] Building DataLoader in  2.772 seconds
+[05/29/2021 00:27:38.088 train.py:120] Train loss: 0.6561492811888456
+[05/29/2021 00:27:38.106 train.py:124] Train AUC : 0.7445415049518354
+[05/29/2021 00:27:38.108 train.py:125] Train F1  : 0.6911785663388912
+[05/29/2021 00:27:38.236 train.py:154] Eval loss: 0.6938939304912791
+[05/29/2021 00:27:38.248 train.py:158] Eval AUC : 0.5102063869704108
+[05/29/2021 00:27:38.250 train.py:159] Eval F1  : 0.5172294571856634
+[05/29/2021 00:27:38.919 train.py: 76] 
+----- Starting training phase 44 ------ Estimator Epoch: 2
+[05/29/2021 00:27:38.920 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:38.979 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:27:41.893 train.py: 97] Building DataLoader in  2.914 seconds
+[05/29/2021 00:27:42.303 train.py:120] Train loss: 0.6549856048077345
+[05/29/2021 00:27:42.321 train.py:124] Train AUC : 0.7476215298114585
+[05/29/2021 00:27:42.322 train.py:125] Train F1  : 0.6941857183178097
+[05/29/2021 00:27:42.322 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:42.379 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:27:45.211 train.py: 97] Building DataLoader in  2.832 seconds
+[05/29/2021 00:27:45.732 train.py:120] Train loss: 0.6398518551141024
+[05/29/2021 00:27:45.749 train.py:124] Train AUC : 0.7519024079292448
+[05/29/2021 00:27:45.749 train.py:125] Train F1  : 0.7001222230210655
+[05/29/2021 00:27:45.828 train.py:154] Eval loss: 0.6936257271205678
+[05/29/2021 00:27:45.839 train.py:158] Eval AUC : 0.5135155943266588
+[05/29/2021 00:27:45.840 train.py:159] Eval F1  : 0.5157276183892152
+[05/29/2021 00:27:46.400 train.py: 76] 
+----- Starting training phase 45 ------ Estimator Epoch: 2
+[05/29/2021 00:27:46.400 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:46.470 train.py: 92] Sampling sub graph in  0.069 seconds
+[05/29/2021 00:27:49.294 train.py: 97] Building DataLoader in  2.825 seconds
+[05/29/2021 00:27:49.689 train.py:120] Train loss: 0.6694671995937824
+[05/29/2021 00:27:49.704 train.py:124] Train AUC : 0.7595400278775934
+[05/29/2021 00:27:49.705 train.py:125] Train F1  : 0.708439721206266
+[05/29/2021 00:27:49.705 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:49.761 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:27:52.408 train.py: 97] Building DataLoader in  2.647 seconds
+[05/29/2021 00:27:52.788 train.py:120] Train loss: 0.6495326925069094
+[05/29/2021 00:27:52.805 train.py:124] Train AUC : 0.7660142810152244
+[05/29/2021 00:27:52.806 train.py:125] Train F1  : 0.7140852974186307
+[05/29/2021 00:27:52.881 train.py:154] Eval loss: 0.6929736067267025
+[05/29/2021 00:27:52.893 train.py:158] Eval AUC : 0.5193353588892458
+[05/29/2021 00:27:52.893 train.py:159] Eval F1  : 0.5233386985513913
+[05/29/2021 00:27:53.437 train.py: 76] 
+----- Starting training phase 46 ------ Estimator Epoch: 2
+[05/29/2021 00:27:53.437 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:27:53.519 train.py: 92] Sampling sub graph in  0.082 seconds
+[05/29/2021 00:27:56.249 train.py: 97] Building DataLoader in  2.730 seconds
+[05/29/2021 00:27:56.645 train.py:120] Train loss: 0.6783552635461092
+[05/29/2021 00:27:56.661 train.py:124] Train AUC : 0.767715979142534
+[05/29/2021 00:27:56.662 train.py:125] Train F1  : 0.7178702163061563
+[05/29/2021 00:27:56.662 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:27:56.717 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:27:59.387 train.py: 97] Building DataLoader in  2.670 seconds
+[05/29/2021 00:27:59.754 train.py:120] Train loss: 0.6577772321179509
+[05/29/2021 00:27:59.770 train.py:124] Train AUC : 0.7731184679733529
+[05/29/2021 00:27:59.770 train.py:125] Train F1  : 0.7172701949860724
+[05/29/2021 00:27:59.840 train.py:154] Eval loss: 0.692681817447438
+[05/29/2021 00:27:59.852 train.py:158] Eval AUC : 0.5258034184602206
+[05/29/2021 00:27:59.852 train.py:159] Eval F1  : 0.52695572378986
+[05/29/2021 00:28:00.363 train.py: 76] 
+----- Starting training phase 47 ------ Estimator Epoch: 2
+[05/29/2021 00:28:00.363 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:00.420 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:28:03.101 train.py: 97] Building DataLoader in  2.682 seconds
+[05/29/2021 00:28:03.469 train.py:120] Train loss: 0.6451790034770966
+[05/29/2021 00:28:03.485 train.py:124] Train AUC : 0.7753333868576631
+[05/29/2021 00:28:03.486 train.py:125] Train F1  : 0.7268595041322314
+[05/29/2021 00:28:03.486 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:03.542 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:28:06.296 train.py: 97] Building DataLoader in  2.754 seconds
+[05/29/2021 00:28:06.702 train.py:120] Train loss: 0.6870560776442289
+[05/29/2021 00:28:06.718 train.py:124] Train AUC : 0.7804961602428218
+[05/29/2021 00:28:06.718 train.py:125] Train F1  : 0.7337998963193365
+[05/29/2021 00:28:06.791 train.py:154] Eval loss: 0.6916737170780406
+[05/29/2021 00:28:06.802 train.py:158] Eval AUC : 0.5344241888853196
+[05/29/2021 00:28:06.802 train.py:159] Eval F1  : 0.5364351693465618
+[05/29/2021 00:28:07.288 train.py: 76] 
+----- Starting training phase 48 ------ Estimator Epoch: 2
+[05/29/2021 00:28:07.288 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:07.344 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:28:09.982 train.py: 97] Building DataLoader in  2.638 seconds
+[05/29/2021 00:28:10.379 train.py:120] Train loss: 0.6297931727021933
+[05/29/2021 00:28:10.395 train.py:124] Train AUC : 0.7801161585925994
+[05/29/2021 00:28:10.395 train.py:125] Train F1  : 0.7225983004464929
+[05/29/2021 00:28:10.395 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:10.456 train.py: 92] Sampling sub graph in  0.061 seconds
+[05/29/2021 00:28:13.248 train.py: 97] Building DataLoader in  2.791 seconds
+[05/29/2021 00:28:13.650 train.py:120] Train loss: 0.6835042838938534
+[05/29/2021 00:28:13.668 train.py:124] Train AUC : 0.7893736240245232
+[05/29/2021 00:28:13.668 train.py:125] Train F1  : 0.7398521592530152
+[05/29/2021 00:28:13.741 train.py:154] Eval loss: 0.6908141584957347
+[05/29/2021 00:28:13.751 train.py:158] Eval AUC : 0.5428548124799228
+[05/29/2021 00:28:13.752 train.py:159] Eval F1  : 0.5425045703839122
+[05/29/2021 00:28:14.284 train.py: 76] 
+----- Starting training phase 49 ------ Estimator Epoch: 2
+[05/29/2021 00:28:14.285 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:14.340 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:28:17.126 train.py: 97] Building DataLoader in  2.787 seconds
+[05/29/2021 00:28:17.529 train.py:120] Train loss: 0.6565349251031876
+[05/29/2021 00:28:17.544 train.py:124] Train AUC : 0.7993381800237576
+[05/29/2021 00:28:17.544 train.py:125] Train F1  : 0.7420097508125677
+[05/29/2021 00:28:17.544 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:17.599 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:28:20.268 train.py: 97] Building DataLoader in  2.669 seconds
+[05/29/2021 00:28:20.661 train.py:120] Train loss: 0.6686476673930883
+[05/29/2021 00:28:20.680 train.py:124] Train AUC : 0.8007360990363501
+[05/29/2021 00:28:20.681 train.py:125] Train F1  : 0.7515831134564643
+[05/29/2021 00:28:20.757 train.py:154] Eval loss: 0.6892998148413265
+[05/29/2021 00:28:20.769 train.py:158] Eval AUC : 0.5528623246600278
+[05/29/2021 00:28:20.769 train.py:159] Eval F1  : 0.548983786252569
+[05/29/2021 00:28:21.284 train.py: 76] 
+----- Starting training phase 50 ------ Estimator Epoch: 2
+[05/29/2021 00:28:21.285 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:21.344 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:28:24.107 train.py: 97] Building DataLoader in  2.763 seconds
+[05/29/2021 00:28:24.510 train.py:120] Train loss: 0.6835876638069749
+[05/29/2021 00:28:24.527 train.py:124] Train AUC : 0.8077153851115006
+[05/29/2021 00:28:24.528 train.py:125] Train F1  : 0.7582716517998355
+[05/29/2021 00:28:24.528 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:24.586 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:28:27.276 train.py: 97] Building DataLoader in  2.689 seconds
+[05/29/2021 00:28:27.706 train.py:120] Train loss: 0.6489686626009643
+[05/29/2021 00:28:27.722 train.py:124] Train AUC : 0.8035844799921565
+[05/29/2021 00:28:27.722 train.py:125] Train F1  : 0.746568827286316
+[05/29/2021 00:28:27.800 train.py:154] Eval loss: 0.6875222886309904
+[05/29/2021 00:28:27.810 train.py:158] Eval AUC : 0.5647629675732591
+[05/29/2021 00:28:27.811 train.py:159] Eval F1  : 0.5538707102952914
+[05/29/2021 00:28:28.398 train.py: 76] 
+----- Starting training phase 51 ------ Estimator Epoch: 2
+[05/29/2021 00:28:28.398 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:28.456 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:28:31.347 train.py: 97] Building DataLoader in  2.891 seconds
+[05/29/2021 00:28:31.777 train.py:120] Train loss: 0.6715093636885285
+[05/29/2021 00:28:31.795 train.py:124] Train AUC : 0.8112557900831667
+[05/29/2021 00:28:31.795 train.py:125] Train F1  : 0.7547832877782117
+[05/29/2021 00:28:31.795 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:31.856 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:28:34.673 train.py: 97] Building DataLoader in  2.818 seconds
+[05/29/2021 00:28:35.049 train.py:120] Train loss: 0.6156720612198114
+[05/29/2021 00:28:35.067 train.py:124] Train AUC : 0.8082561884190158
+[05/29/2021 00:28:35.067 train.py:125] Train F1  : 0.746268656716418
+[05/29/2021 00:28:35.148 train.py:154] Eval loss: 0.6863017993814805
+[05/29/2021 00:28:35.159 train.py:158] Eval AUC : 0.576837918718992
+[05/29/2021 00:28:35.159 train.py:159] Eval F1  : 0.5623639903791089
+[05/29/2021 00:28:35.697 train.py: 76] 
+----- Starting training phase 52 ------ Estimator Epoch: 2
+[05/29/2021 00:28:35.697 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:35.753 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:28:38.579 train.py: 97] Building DataLoader in  2.826 seconds
+[05/29/2021 00:28:38.999 train.py:120] Train loss: 0.6726019149646163
+[05/29/2021 00:28:39.016 train.py:124] Train AUC : 0.8247357007049403
+[05/29/2021 00:28:39.017 train.py:125] Train F1  : 0.7732389022385228
+[05/29/2021 00:28:39.017 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:39.075 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:28:41.840 train.py: 97] Building DataLoader in  2.765 seconds
+[05/29/2021 00:28:42.223 train.py:120] Train loss: 0.6494454219937325
+[05/29/2021 00:28:42.240 train.py:124] Train AUC : 0.8241116513883975
+[05/29/2021 00:28:42.240 train.py:125] Train F1  : 0.7586539787615503
+[05/29/2021 00:28:42.313 train.py:154] Eval loss: 0.6835373710183537
+[05/29/2021 00:28:42.323 train.py:158] Eval AUC : 0.590461371667202
+[05/29/2021 00:28:42.323 train.py:159] Eval F1  : 0.568302234508178
+[05/29/2021 00:28:42.830 train.py: 76] 
+----- Starting training phase 53 ------ Estimator Epoch: 2
+[05/29/2021 00:28:42.830 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:42.887 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:28:45.659 train.py: 97] Building DataLoader in  2.772 seconds
+[05/29/2021 00:28:46.052 train.py:120] Train loss: 0.6500383000820875
+[05/29/2021 00:28:46.068 train.py:124] Train AUC : 0.8271022605987745
+[05/29/2021 00:28:46.068 train.py:125] Train F1  : 0.7681933502470291
+[05/29/2021 00:28:46.068 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:46.124 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:28:48.804 train.py: 97] Building DataLoader in  2.680 seconds
+[05/29/2021 00:28:49.232 train.py:120] Train loss: 0.6396036949008703
+[05/29/2021 00:28:49.250 train.py:124] Train AUC : 0.8277774219580617
+[05/29/2021 00:28:49.251 train.py:125] Train F1  : 0.7641909451511422
+[05/29/2021 00:28:49.349 train.py:154] Eval loss: 0.6801824955379262
+[05/29/2021 00:28:49.360 train.py:158] Eval AUC : 0.6052163641717528
+[05/29/2021 00:28:49.361 train.py:159] Eval F1  : 0.5810701490812437
+[05/29/2021 00:28:49.854 train.py: 76] 
+----- Starting training phase 54 ------ Estimator Epoch: 2
+[05/29/2021 00:28:49.854 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:49.908 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:28:52.583 train.py: 97] Building DataLoader in  2.674 seconds
+[05/29/2021 00:28:52.961 train.py:120] Train loss: 0.6276938356459141
+[05/29/2021 00:28:52.976 train.py:124] Train AUC : 0.8303587851658178
+[05/29/2021 00:28:52.977 train.py:125] Train F1  : 0.7651006711409396
+[05/29/2021 00:28:52.978 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:53.033 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:28:55.695 train.py: 97] Building DataLoader in  2.662 seconds
+[05/29/2021 00:28:56.089 train.py:120] Train loss: 0.6506346301175654
+[05/29/2021 00:28:56.106 train.py:124] Train AUC : 0.833132868556801
+[05/29/2021 00:28:56.107 train.py:125] Train F1  : 0.7708483932443976
+[05/29/2021 00:28:56.182 train.py:154] Eval loss: 0.6761773509137771
+[05/29/2021 00:28:56.193 train.py:158] Eval AUC : 0.6226948705250384
+[05/29/2021 00:28:56.194 train.py:159] Eval F1  : 0.5945631970260223
+[05/29/2021 00:28:56.706 train.py: 76] 
+----- Starting training phase 55 ------ Estimator Epoch: 2
+[05/29/2021 00:28:56.706 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:28:56.763 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:28:59.402 train.py: 97] Building DataLoader in  2.639 seconds
+[05/29/2021 00:28:59.831 train.py:120] Train loss: 0.6268246108666062
+[05/29/2021 00:28:59.846 train.py:124] Train AUC : 0.8355757958791484
+[05/29/2021 00:28:59.846 train.py:125] Train F1  : 0.7663577451048706
+[05/29/2021 00:28:59.847 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:28:59.903 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:29:02.540 train.py: 97] Building DataLoader in  2.637 seconds
+[05/29/2021 00:29:02.919 train.py:120] Train loss: 0.620905626565218
+[05/29/2021 00:29:02.938 train.py:124] Train AUC : 0.8462515257709615
+[05/29/2021 00:29:02.939 train.py:125] Train F1  : 0.7842557764642665
+[05/29/2021 00:29:03.009 train.py:154] Eval loss: 0.671585268834058
+[05/29/2021 00:29:03.019 train.py:158] Eval AUC : 0.6405082461095049
+[05/29/2021 00:29:03.020 train.py:159] Eval F1  : 0.6078019154403177
+[05/29/2021 00:29:03.534 train.py: 76] 
+----- Starting training phase 56 ------ Estimator Epoch: 2
+[05/29/2021 00:29:03.534 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:03.594 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:29:06.350 train.py: 97] Building DataLoader in  2.756 seconds
+[05/29/2021 00:29:06.794 train.py:120] Train loss: 0.6236327234655619
+[05/29/2021 00:29:06.811 train.py:124] Train AUC : 0.8415055696261038
+[05/29/2021 00:29:06.811 train.py:125] Train F1  : 0.7717309662000683
+[05/29/2021 00:29:06.812 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:06.872 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:29:09.654 train.py: 97] Building DataLoader in  2.782 seconds
+[05/29/2021 00:29:10.023 train.py:120] Train loss: 0.606603529304266
+[05/29/2021 00:29:10.045 train.py:124] Train AUC : 0.844173680882985
+[05/29/2021 00:29:10.047 train.py:125] Train F1  : 0.7740942789201287
+[05/29/2021 00:29:10.121 train.py:154] Eval loss: 0.6662586576798383
+[05/29/2021 00:29:10.132 train.py:158] Eval AUC : 0.6567541581896705
+[05/29/2021 00:29:10.132 train.py:159] Eval F1  : 0.6157647058823529
+[05/29/2021 00:29:10.660 train.py: 76] 
+----- Starting training phase 57 ------ Estimator Epoch: 2
+[05/29/2021 00:29:10.661 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:10.716 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:29:13.470 train.py: 97] Building DataLoader in  2.753 seconds
+[05/29/2021 00:29:13.857 train.py:120] Train loss: 0.6033082189969718
+[05/29/2021 00:29:13.873 train.py:124] Train AUC : 0.8509455980847003
+[05/29/2021 00:29:13.874 train.py:125] Train F1  : 0.7800610941405166
+[05/29/2021 00:29:13.874 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:13.930 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:29:16.580 train.py: 97] Building DataLoader in  2.650 seconds
+[05/29/2021 00:29:16.950 train.py:120] Train loss: 0.5938816554844379
+[05/29/2021 00:29:16.967 train.py:124] Train AUC : 0.8391019396164162
+[05/29/2021 00:29:16.967 train.py:125] Train F1  : 0.7629881892616477
+[05/29/2021 00:29:17.042 train.py:154] Eval loss: 0.6592069233165068
+[05/29/2021 00:29:17.053 train.py:158] Eval AUC : 0.6737998636988257
+[05/29/2021 00:29:17.053 train.py:159] Eval F1  : 0.6269963326629598
+[05/29/2021 00:29:17.583 train.py: 76] 
+----- Starting training phase 58 ------ Estimator Epoch: 2
+[05/29/2021 00:29:17.583 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:17.639 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:29:20.355 train.py: 97] Building DataLoader in  2.716 seconds
+[05/29/2021 00:29:20.770 train.py:120] Train loss: 0.5984927332028747
+[05/29/2021 00:29:20.785 train.py:124] Train AUC : 0.8483043715116817
+[05/29/2021 00:29:20.786 train.py:125] Train F1  : 0.7733691047726631
+[05/29/2021 00:29:20.787 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:20.849 train.py: 92] Sampling sub graph in  0.062 seconds
+[05/29/2021 00:29:23.645 train.py: 97] Building DataLoader in  2.795 seconds
+[05/29/2021 00:29:24.039 train.py:120] Train loss: 0.5900786048732698
+[05/29/2021 00:29:24.056 train.py:124] Train AUC : 0.8520360973211026
+[05/29/2021 00:29:24.056 train.py:125] Train F1  : 0.7761215118332745
+[05/29/2021 00:29:24.134 train.py:154] Eval loss: 0.6519437432289124
+[05/29/2021 00:29:24.147 train.py:158] Eval AUC : 0.6879347248991683
+[05/29/2021 00:29:24.148 train.py:159] Eval F1  : 0.6335122242098986
+[05/29/2021 00:29:24.675 train.py: 76] 
+----- Starting training phase 59 ------ Estimator Epoch: 2
+[05/29/2021 00:29:24.676 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:24.732 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:29:27.477 train.py: 97] Building DataLoader in  2.745 seconds
+[05/29/2021 00:29:28.003 train.py:120] Train loss: 0.6098515428602695
+[05/29/2021 00:29:28.022 train.py:124] Train AUC : 0.8470250459300364
+[05/29/2021 00:29:28.022 train.py:125] Train F1  : 0.7709443099273608
+[05/29/2021 00:29:28.023 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:28.086 train.py: 92] Sampling sub graph in  0.064 seconds
+[05/29/2021 00:29:30.761 train.py: 97] Building DataLoader in  2.675 seconds
+[05/29/2021 00:29:31.157 train.py:120] Train loss: 0.5859188316389918
+[05/29/2021 00:29:31.172 train.py:124] Train AUC : 0.8532923122344626
+[05/29/2021 00:29:31.172 train.py:125] Train F1  : 0.7740350877192983
+[05/29/2021 00:29:31.243 train.py:154] Eval loss: 0.6432968588436351
+[05/29/2021 00:29:31.253 train.py:158] Eval AUC : 0.7019181713334761
+[05/29/2021 00:29:31.254 train.py:159] Eval F1  : 0.6420434104808731
+[05/29/2021 00:29:31.772 train.py: 76] 
+----- Starting training phase 60 ------ Estimator Epoch: 2
+[05/29/2021 00:29:31.772 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:31.828 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:29:34.605 train.py: 97] Building DataLoader in  2.777 seconds
+[05/29/2021 00:29:34.996 train.py:120] Train loss: 0.5817117970436811
+[05/29/2021 00:29:35.011 train.py:124] Train AUC : 0.8587669712254419
+[05/29/2021 00:29:35.012 train.py:125] Train F1  : 0.7834452211225691
+[05/29/2021 00:29:35.012 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:35.070 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:29:37.816 train.py: 97] Building DataLoader in  2.745 seconds
+[05/29/2021 00:29:38.223 train.py:120] Train loss: 0.5850484147667885
+[05/29/2021 00:29:38.239 train.py:124] Train AUC : 0.8614127634354884
+[05/29/2021 00:29:38.239 train.py:125] Train F1  : 0.7875703914783907
+[05/29/2021 00:29:38.312 train.py:154] Eval loss: 0.6348260115174686
+[05/29/2021 00:29:38.323 train.py:158] Eval AUC : 0.7149736097726379
+[05/29/2021 00:29:38.323 train.py:159] Eval F1  : 0.6482327482567926
+[05/29/2021 00:29:38.852 train.py: 76] 
+----- Starting training phase 61 ------ Estimator Epoch: 2
+[05/29/2021 00:29:38.852 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:38.907 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:29:41.563 train.py: 97] Building DataLoader in  2.656 seconds
+[05/29/2021 00:29:41.933 train.py:120] Train loss: 0.5615842565894127
+[05/29/2021 00:29:41.949 train.py:124] Train AUC : 0.8589204038701228
+[05/29/2021 00:29:41.949 train.py:125] Train F1  : 0.7787341772151899
+[05/29/2021 00:29:41.949 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:42.008 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:29:44.758 train.py: 97] Building DataLoader in  2.750 seconds
+[05/29/2021 00:29:45.147 train.py:120] Train loss: 0.5739050847478211
+[05/29/2021 00:29:45.163 train.py:124] Train AUC : 0.8520630048608329
+[05/29/2021 00:29:45.164 train.py:125] Train F1  : 0.7725431677680666
+[05/29/2021 00:29:45.238 train.py:154] Eval loss: 0.627369926256292
+[05/29/2021 00:29:45.250 train.py:158] Eval AUC : 0.7240996816664881
+[05/29/2021 00:29:45.250 train.py:159] Eval F1  : 0.6573074154067674
+[05/29/2021 00:29:45.763 train.py: 76] 
+----- Starting training phase 62 ------ Estimator Epoch: 2
+[05/29/2021 00:29:45.763 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:45.848 train.py: 92] Sampling sub graph in  0.085 seconds
+[05/29/2021 00:29:48.616 train.py: 97] Building DataLoader in  2.768 seconds
+[05/29/2021 00:29:48.989 train.py:120] Train loss: 0.55994644574821
+[05/29/2021 00:29:49.006 train.py:124] Train AUC : 0.8633997663553368
+[05/29/2021 00:29:49.007 train.py:125] Train F1  : 0.7786017711858305
+[05/29/2021 00:29:49.008 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:49.065 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:29:51.682 train.py: 97] Building DataLoader in  2.618 seconds
+[05/29/2021 00:29:52.057 train.py:120] Train loss: 0.5598057126626372
+[05/29/2021 00:29:52.074 train.py:124] Train AUC : 0.8680628151094927
+[05/29/2021 00:29:52.075 train.py:125] Train F1  : 0.787958295933163
+[05/29/2021 00:29:52.150 train.py:154] Eval loss: 0.619135484975927
+[05/29/2021 00:29:52.159 train.py:158] Eval AUC : 0.733717837607524
+[05/29/2021 00:29:52.159 train.py:159] Eval F1  : 0.6659487915769323
+[05/29/2021 00:29:52.717 train.py: 76] 
+----- Starting training phase 63 ------ Estimator Epoch: 2
+[05/29/2021 00:29:52.717 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:52.772 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:29:55.607 train.py: 97] Building DataLoader in  2.835 seconds
+[05/29/2021 00:29:56.014 train.py:120] Train loss: 0.5420629805885255
+[05/29/2021 00:29:56.029 train.py:124] Train AUC : 0.8674126741195938
+[05/29/2021 00:29:56.029 train.py:125] Train F1  : 0.7877677564825254
+[05/29/2021 00:29:56.029 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:29:56.085 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:29:58.717 train.py: 97] Building DataLoader in  2.632 seconds
+[05/29/2021 00:29:59.097 train.py:120] Train loss: 0.5390950497239828
+[05/29/2021 00:29:59.114 train.py:124] Train AUC : 0.8736601697016109
+[05/29/2021 00:29:59.115 train.py:125] Train F1  : 0.7916870757819607
+[05/29/2021 00:29:59.190 train.py:154] Eval loss: 0.6097415650592131
+[05/29/2021 00:29:59.201 train.py:158] Eval AUC : 0.7420676508905308
+[05/29/2021 00:29:59.201 train.py:159] Eval F1  : 0.6723271944510884
+[05/29/2021 00:29:59.721 train.py: 76] 
+----- Starting training phase 64 ------ Estimator Epoch: 2
+[05/29/2021 00:29:59.722 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:29:59.777 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:30:02.912 train.py: 97] Building DataLoader in  3.135 seconds
+[05/29/2021 00:30:03.330 train.py:120] Train loss: 0.5350662134587765
+[05/29/2021 00:30:03.345 train.py:124] Train AUC : 0.8659918326030012
+[05/29/2021 00:30:03.346 train.py:125] Train F1  : 0.778663574431077
+[05/29/2021 00:30:03.346 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:03.421 train.py: 92] Sampling sub graph in  0.075 seconds
+[05/29/2021 00:30:06.115 train.py: 97] Building DataLoader in  2.694 seconds
+[05/29/2021 00:30:06.499 train.py:120] Train loss: 0.5257527190260589
+[05/29/2021 00:30:06.514 train.py:124] Train AUC : 0.8767890696383169
+[05/29/2021 00:30:06.514 train.py:125] Train F1  : 0.7946699806683236
+[05/29/2021 00:30:06.599 train.py:154] Eval loss: 0.6026464139713961
+[05/29/2021 00:30:06.608 train.py:158] Eval AUC : 0.749934777322697
+[05/29/2021 00:30:06.608 train.py:159] Eval F1  : 0.6787645715659175
+[05/29/2021 00:30:07.104 train.py: 76] 
+----- Starting training phase 65 ------ Estimator Epoch: 2
+[05/29/2021 00:30:07.104 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:07.166 train.py: 92] Sampling sub graph in  0.061 seconds
+[05/29/2021 00:30:09.831 train.py: 97] Building DataLoader in  2.665 seconds
+[05/29/2021 00:30:10.224 train.py:120] Train loss: 0.5327167948707938
+[05/29/2021 00:30:10.245 train.py:124] Train AUC : 0.8731582039883873
+[05/29/2021 00:30:10.245 train.py:125] Train F1  : 0.7881379697139652
+[05/29/2021 00:30:10.245 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:10.301 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:30:13.024 train.py: 97] Building DataLoader in  2.723 seconds
+[05/29/2021 00:30:13.398 train.py:120] Train loss: 0.49370858259499073
+[05/29/2021 00:30:13.413 train.py:124] Train AUC : 0.8781031293674586
+[05/29/2021 00:30:13.413 train.py:125] Train F1  : 0.7952552862300155
+[05/29/2021 00:30:13.496 train.py:154] Eval loss: 0.5965205430984497
+[05/29/2021 00:30:13.506 train.py:158] Eval AUC : 0.756855714833851
+[05/29/2021 00:30:13.507 train.py:159] Eval F1  : 0.683150404052587
+[05/29/2021 00:30:14.051 train.py: 76] 
+----- Starting training phase 66 ------ Estimator Epoch: 2
+[05/29/2021 00:30:14.052 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:14.108 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:30:16.838 train.py: 97] Building DataLoader in  2.731 seconds
+[05/29/2021 00:30:17.235 train.py:120] Train loss: 0.5268079871311784
+[05/29/2021 00:30:17.252 train.py:124] Train AUC : 0.8782201789319295
+[05/29/2021 00:30:17.252 train.py:125] Train F1  : 0.7962477583114912
+[05/29/2021 00:30:17.253 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:17.307 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:30:20.014 train.py: 97] Building DataLoader in  2.706 seconds
+[05/29/2021 00:30:20.390 train.py:120] Train loss: 0.5006730062887073
+[05/29/2021 00:30:20.406 train.py:124] Train AUC : 0.8770756650159809
+[05/29/2021 00:30:20.407 train.py:125] Train F1  : 0.7898325181562177
+[05/29/2021 00:30:20.487 train.py:154] Eval loss: 0.5900189210386837
+[05/29/2021 00:30:20.501 train.py:158] Eval AUC : 0.7627369097333762
+[05/29/2021 00:30:20.501 train.py:159] Eval F1  : 0.686122547832405
+[05/29/2021 00:30:21.028 train.py: 76] 
+----- Starting training phase 67 ------ Estimator Epoch: 2
+[05/29/2021 00:30:21.028 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:21.080 train.py: 92] Sampling sub graph in  0.052 seconds
+[05/29/2021 00:30:23.830 train.py: 97] Building DataLoader in  2.750 seconds
+[05/29/2021 00:30:24.212 train.py:120] Train loss: 0.49772361759096384
+[05/29/2021 00:30:24.230 train.py:124] Train AUC : 0.8817934515811712
+[05/29/2021 00:30:24.230 train.py:125] Train F1  : 0.7983645362599526
+[05/29/2021 00:30:24.230 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:24.287 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:30:26.988 train.py: 97] Building DataLoader in  2.702 seconds
+[05/29/2021 00:30:27.393 train.py:120] Train loss: 0.5149166379123926
+[05/29/2021 00:30:27.409 train.py:124] Train AUC : 0.8824948996663871
+[05/29/2021 00:30:27.409 train.py:125] Train F1  : 0.7921879343897692
+[05/29/2021 00:30:27.481 train.py:154] Eval loss: 0.5847877930192387
+[05/29/2021 00:30:27.490 train.py:158] Eval AUC : 0.7671585276350072
+[05/29/2021 00:30:27.491 train.py:159] Eval F1  : 0.6878113987118726
+[05/29/2021 00:30:28.009 train.py: 76] 
+----- Starting training phase 68 ------ Estimator Epoch: 2
+[05/29/2021 00:30:28.010 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:28.062 train.py: 92] Sampling sub graph in  0.052 seconds
+[05/29/2021 00:30:30.950 train.py: 97] Building DataLoader in  2.889 seconds
+[05/29/2021 00:30:31.439 train.py:120] Train loss: 0.48809983395040035
+[05/29/2021 00:30:31.454 train.py:124] Train AUC : 0.8818296241972384
+[05/29/2021 00:30:31.454 train.py:125] Train F1  : 0.788546255506608
+[05/29/2021 00:30:31.455 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:31.512 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:30:34.387 train.py: 97] Building DataLoader in  2.874 seconds
+[05/29/2021 00:30:34.865 train.py:120] Train loss: 0.5097615253180265
+[05/29/2021 00:30:34.881 train.py:124] Train AUC : 0.8837312123969772
+[05/29/2021 00:30:34.882 train.py:125] Train F1  : 0.8014569445398942
+[05/29/2021 00:30:34.961 train.py:154] Eval loss: 0.5802720294279211
+[05/29/2021 00:30:34.973 train.py:158] Eval AUC : 0.7711590284470143
+[05/29/2021 00:30:34.973 train.py:159] Eval F1  : 0.693261980053515
+[05/29/2021 00:30:35.579 train.py: 76] 
+----- Starting training phase 69 ------ Estimator Epoch: 2
+[05/29/2021 00:30:35.579 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:35.637 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:30:38.468 train.py: 97] Building DataLoader in  2.832 seconds
+[05/29/2021 00:30:38.892 train.py:120] Train loss: 0.4973468817770481
+[05/29/2021 00:30:38.907 train.py:124] Train AUC : 0.8930092532948799
+[05/29/2021 00:30:38.907 train.py:125] Train F1  : 0.8113309840065058
+[05/29/2021 00:30:38.908 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:38.965 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:30:41.806 train.py: 97] Building DataLoader in  2.841 seconds
+[05/29/2021 00:30:42.230 train.py:120] Train loss: 0.4760547005571425
+[05/29/2021 00:30:42.253 train.py:124] Train AUC : 0.8817285103014726
+[05/29/2021 00:30:42.254 train.py:125] Train F1  : 0.7918894830659536
+[05/29/2021 00:30:42.336 train.py:154] Eval loss: 0.5762786479557261
+[05/29/2021 00:30:42.347 train.py:158] Eval AUC : 0.774767440304101
+[05/29/2021 00:30:42.348 train.py:159] Eval F1  : 0.6950078950564801
+[05/29/2021 00:30:42.907 train.py: 76] 
+----- Starting training phase 70 ------ Estimator Epoch: 2
+[05/29/2021 00:30:42.908 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:42.966 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:30:45.778 train.py: 97] Building DataLoader in  2.812 seconds
+[05/29/2021 00:30:46.152 train.py:120] Train loss: 0.47018017107620835
+[05/29/2021 00:30:46.168 train.py:124] Train AUC : 0.8871644980117774
+[05/29/2021 00:30:46.168 train.py:125] Train F1  : 0.7997926847327114
+[05/29/2021 00:30:46.168 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:46.226 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:30:48.895 train.py: 97] Building DataLoader in  2.669 seconds
+[05/29/2021 00:30:49.364 train.py:120] Train loss: 0.4849333269521594
+[05/29/2021 00:30:49.378 train.py:124] Train AUC : 0.8905369102494514
+[05/29/2021 00:30:49.379 train.py:125] Train F1  : 0.8061490727029124
+[05/29/2021 00:30:49.452 train.py:154] Eval loss: 0.572777271270752
+[05/29/2021 00:30:49.463 train.py:158] Eval AUC : 0.7781385241549774
+[05/29/2021 00:30:49.464 train.py:159] Eval F1  : 0.701733123257787
+[05/29/2021 00:30:49.986 train.py: 76] 
+----- Starting training phase 71 ------ Estimator Epoch: 2
+[05/29/2021 00:30:49.987 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:50.045 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:30:52.781 train.py: 97] Building DataLoader in  2.736 seconds
+[05/29/2021 00:30:53.255 train.py:120] Train loss: 0.47431584948208183
+[05/29/2021 00:30:53.288 train.py:124] Train AUC : 0.889827639738318
+[05/29/2021 00:30:53.288 train.py:125] Train F1  : 0.8035257321580893
+[05/29/2021 00:30:53.288 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:30:53.357 train.py: 92] Sampling sub graph in  0.069 seconds
+[05/29/2021 00:30:56.052 train.py: 97] Building DataLoader in  2.695 seconds
+[05/29/2021 00:30:56.456 train.py:120] Train loss: 0.47755484469234943
+[05/29/2021 00:30:56.472 train.py:124] Train AUC : 0.8944425410957543
+[05/29/2021 00:30:56.472 train.py:125] Train F1  : 0.812210788037848
+[05/29/2021 00:30:56.554 train.py:154] Eval loss: 0.569269951652078
+[05/29/2021 00:30:56.566 train.py:158] Eval AUC : 0.7802509413927259
+[05/29/2021 00:30:56.566 train.py:159] Eval F1  : 0.7031797847902309
+[05/29/2021 00:30:57.117 train.py: 76] 
+----- Starting training phase 72 ------ Estimator Epoch: 2
+[05/29/2021 00:30:57.117 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:30:57.173 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:30:59.979 train.py: 97] Building DataLoader in  2.805 seconds
+[05/29/2021 00:31:00.454 train.py:120] Train loss: 0.4713830759283155
+[05/29/2021 00:31:00.480 train.py:124] Train AUC : 0.8957782229492752
+[05/29/2021 00:31:00.482 train.py:125] Train F1  : 0.806491164803462
+[05/29/2021 00:31:00.483 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:00.558 train.py: 92] Sampling sub graph in  0.074 seconds
+[05/29/2021 00:31:03.752 train.py: 97] Building DataLoader in  3.195 seconds
+[05/29/2021 00:31:04.247 train.py:120] Train loss: 0.4811951443552971
+[05/29/2021 00:31:04.267 train.py:124] Train AUC : 0.8954055059479291
+[05/29/2021 00:31:04.267 train.py:125] Train F1  : 0.8158215010141987
+[05/29/2021 00:31:04.345 train.py:154] Eval loss: 0.5671628082499784
+[05/29/2021 00:31:04.355 train.py:158] Eval AUC : 0.7817185492290395
+[05/29/2021 00:31:04.356 train.py:159] Eval F1  : 0.7051003142373701
+[05/29/2021 00:31:04.894 train.py: 76] 
+----- Starting training phase 73 ------ Estimator Epoch: 2
+[05/29/2021 00:31:04.894 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:04.983 train.py: 92] Sampling sub graph in  0.088 seconds
+[05/29/2021 00:31:07.858 train.py: 97] Building DataLoader in  2.875 seconds
+[05/29/2021 00:31:08.284 train.py:120] Train loss: 0.4733705408871174
+[05/29/2021 00:31:08.301 train.py:124] Train AUC : 0.8958132631572063
+[05/29/2021 00:31:08.302 train.py:125] Train F1  : 0.8105278052922033
+[05/29/2021 00:31:08.302 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:08.360 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:31:11.154 train.py: 97] Building DataLoader in  2.794 seconds
+[05/29/2021 00:31:11.551 train.py:120] Train loss: 0.45887246809434146
+[05/29/2021 00:31:11.567 train.py:124] Train AUC : 0.898040681939925
+[05/29/2021 00:31:11.567 train.py:125] Train F1  : 0.8176919308559032
+[05/29/2021 00:31:11.639 train.py:154] Eval loss: 0.5638269817127901
+[05/29/2021 00:31:11.650 train.py:158] Eval AUC : 0.7839256634364851
+[05/29/2021 00:31:11.650 train.py:159] Eval F1  : 0.7095215079748671
+[05/29/2021 00:31:12.167 train.py: 76] 
+----- Starting training phase 74 ------ Estimator Epoch: 2
+[05/29/2021 00:31:12.167 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:12.227 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:31:14.883 train.py: 97] Building DataLoader in  2.656 seconds
+[05/29/2021 00:31:15.279 train.py:120] Train loss: 0.46276959870010614
+[05/29/2021 00:31:15.294 train.py:124] Train AUC : 0.8998149028109764
+[05/29/2021 00:31:15.294 train.py:125] Train F1  : 0.8175774963263592
+[05/29/2021 00:31:15.294 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:15.355 train.py: 92] Sampling sub graph in  0.060 seconds
+[05/29/2021 00:31:18.030 train.py: 97] Building DataLoader in  2.675 seconds
+[05/29/2021 00:31:18.439 train.py:120] Train loss: 0.4588179849088192
+[05/29/2021 00:31:18.456 train.py:124] Train AUC : 0.8973065552792477
+[05/29/2021 00:31:18.457 train.py:125] Train F1  : 0.8072912759732953
+[05/29/2021 00:31:18.539 train.py:154] Eval loss: 0.5624575264313642
+[05/29/2021 00:31:18.555 train.py:158] Eval AUC : 0.7856803458614412
+[05/29/2021 00:31:18.556 train.py:159] Eval F1  : 0.7104088770956459
+[05/29/2021 00:31:19.126 train.py: 76] 
+----- Starting training phase 75 ------ Estimator Epoch: 2
+[05/29/2021 00:31:19.127 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:19.182 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:31:21.832 train.py: 97] Building DataLoader in  2.650 seconds
+[05/29/2021 00:31:22.207 train.py:120] Train loss: 0.45321289845742285
+[05/29/2021 00:31:22.223 train.py:124] Train AUC : 0.8916676402972419
+[05/29/2021 00:31:22.224 train.py:125] Train F1  : 0.798762077294686
+[05/29/2021 00:31:22.225 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:22.281 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:31:24.942 train.py: 97] Building DataLoader in  2.661 seconds
+[05/29/2021 00:31:25.321 train.py:120] Train loss: 0.45228310604579747
+[05/29/2021 00:31:25.338 train.py:124] Train AUC : 0.9030406441932152
+[05/29/2021 00:31:25.339 train.py:125] Train F1  : 0.8180072541071046
+[05/29/2021 00:31:25.413 train.py:154] Eval loss: 0.5593185670235578
+[05/29/2021 00:31:25.422 train.py:158] Eval AUC : 0.7880831559856516
+[05/29/2021 00:31:25.422 train.py:159] Eval F1  : 0.7108913279459655
+[05/29/2021 00:31:25.967 train.py: 76] 
+----- Starting training phase 76 ------ Estimator Epoch: 2
+[05/29/2021 00:31:25.967 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:26.021 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:31:28.695 train.py: 97] Building DataLoader in  2.674 seconds
+[05/29/2021 00:31:29.087 train.py:120] Train loss: 0.45188546692952514
+[05/29/2021 00:31:29.107 train.py:124] Train AUC : 0.9061265871209905
+[05/29/2021 00:31:29.107 train.py:125] Train F1  : 0.8247337684644451
+[05/29/2021 00:31:29.108 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:29.164 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:31:31.977 train.py: 97] Building DataLoader in  2.812 seconds
+[05/29/2021 00:31:32.343 train.py:120] Train loss: 0.44481626711785793
+[05/29/2021 00:31:32.358 train.py:124] Train AUC : 0.9043702468633894
+[05/29/2021 00:31:32.358 train.py:125] Train F1  : 0.8198518940472799
+[05/29/2021 00:31:32.428 train.py:154] Eval loss: 0.5577179368804482
+[05/29/2021 00:31:32.438 train.py:158] Eval AUC : 0.7894782353124887
+[05/29/2021 00:31:32.439 train.py:159] Eval F1  : 0.7132547510223718
+[05/29/2021 00:31:32.978 train.py: 76] 
+----- Starting training phase 77 ------ Estimator Epoch: 2
+[05/29/2021 00:31:32.978 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:33.033 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:31:35.676 train.py: 97] Building DataLoader in  2.642 seconds
+[05/29/2021 00:31:36.058 train.py:120] Train loss: 0.4569456032477319
+[05/29/2021 00:31:36.086 train.py:124] Train AUC : 0.9036096930397581
+[05/29/2021 00:31:36.086 train.py:125] Train F1  : 0.8136882129277567
+[05/29/2021 00:31:36.086 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:36.143 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:31:38.788 train.py: 97] Building DataLoader in  2.646 seconds
+[05/29/2021 00:31:39.179 train.py:120] Train loss: 0.44657628145068884
+[05/29/2021 00:31:39.197 train.py:124] Train AUC : 0.9057814914565765
+[05/29/2021 00:31:39.197 train.py:125] Train F1  : 0.820306898035279
+[05/29/2021 00:31:39.276 train.py:154] Eval loss: 0.5539507936028873
+[05/29/2021 00:31:39.287 train.py:158] Eval AUC : 0.7919470210051041
+[05/29/2021 00:31:39.287 train.py:159] Eval F1  : 0.7150932050511125
+[05/29/2021 00:31:39.808 train.py: 76] 
+----- Starting training phase 78 ------ Estimator Epoch: 2
+[05/29/2021 00:31:39.808 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:39.864 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:31:42.610 train.py: 97] Building DataLoader in  2.746 seconds
+[05/29/2021 00:31:43.024 train.py:120] Train loss: 0.45407071243971586
+[05/29/2021 00:31:43.042 train.py:124] Train AUC : 0.9069170804207551
+[05/29/2021 00:31:43.042 train.py:125] Train F1  : 0.8239059347387463
+[05/29/2021 00:31:43.043 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:43.100 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:31:45.721 train.py: 97] Building DataLoader in  2.622 seconds
+[05/29/2021 00:31:46.105 train.py:120] Train loss: 0.44943642243742943
+[05/29/2021 00:31:46.120 train.py:124] Train AUC : 0.9087746548013794
+[05/29/2021 00:31:46.120 train.py:125] Train F1  : 0.8225783972125434
+[05/29/2021 00:31:46.197 train.py:154] Eval loss: 0.5499328059308669
+[05/29/2021 00:31:46.207 train.py:158] Eval AUC : 0.7948278612092659
+[05/29/2021 00:31:46.207 train.py:159] Eval F1  : 0.7165904165663375
+[05/29/2021 00:31:46.743 train.py: 76] 
+----- Starting training phase 79 ------ Estimator Epoch: 2
+[05/29/2021 00:31:46.745 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:46.804 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:31:49.440 train.py: 97] Building DataLoader in  2.636 seconds
+[05/29/2021 00:31:49.862 train.py:120] Train loss: 0.4438469670712948
+[05/29/2021 00:31:49.879 train.py:124] Train AUC : 0.903164398314293
+[05/29/2021 00:31:49.880 train.py:125] Train F1  : 0.8130992771795251
+[05/29/2021 00:31:49.880 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:49.938 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:31:52.685 train.py: 97] Building DataLoader in  2.747 seconds
+[05/29/2021 00:31:53.104 train.py:120] Train loss: 0.42248806543648243
+[05/29/2021 00:31:53.120 train.py:124] Train AUC : 0.9072254140991111
+[05/29/2021 00:31:53.120 train.py:125] Train F1  : 0.8119869908626297
+[05/29/2021 00:31:53.196 train.py:154] Eval loss: 0.5458700656890869
+[05/29/2021 00:31:53.207 train.py:158] Eval AUC : 0.7980398340739551
+[05/29/2021 00:31:53.208 train.py:159] Eval F1  : 0.7185470291075295
+[05/29/2021 00:31:53.705 train.py: 76] 
+----- Starting training phase 80 ------ Estimator Epoch: 2
+[05/29/2021 00:31:53.706 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:31:53.760 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:31:56.474 train.py: 97] Building DataLoader in  2.714 seconds
+[05/29/2021 00:31:56.864 train.py:120] Train loss: 0.4360076319426298
+[05/29/2021 00:31:56.882 train.py:124] Train AUC : 0.911877849969651
+[05/29/2021 00:31:56.884 train.py:125] Train F1  : 0.827571816095152
+[05/29/2021 00:31:56.884 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:31:56.951 train.py: 92] Sampling sub graph in  0.066 seconds
+[05/29/2021 00:31:59.738 train.py: 97] Building DataLoader in  2.787 seconds
+[05/29/2021 00:32:00.171 train.py:120] Train loss: 0.4212880842387676
+[05/29/2021 00:32:00.189 train.py:124] Train AUC : 0.9148605512892655
+[05/29/2021 00:32:00.189 train.py:125] Train F1  : 0.8250888625592416
+[05/29/2021 00:32:00.266 train.py:154] Eval loss: 0.5428582605193643
+[05/29/2021 00:32:00.277 train.py:158] Eval AUC : 0.8010107702466359
+[05/29/2021 00:32:00.277 train.py:159] Eval F1  : 0.7201829341677699
+[05/29/2021 00:32:00.780 train.py: 76] 
+----- Starting training phase 81 ------ Estimator Epoch: 2
+[05/29/2021 00:32:00.780 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:00.835 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:32:03.547 train.py: 97] Building DataLoader in  2.712 seconds
+[05/29/2021 00:32:03.916 train.py:120] Train loss: 0.42985113989561796
+[05/29/2021 00:32:03.931 train.py:124] Train AUC : 0.9105451827784701
+[05/29/2021 00:32:03.931 train.py:125] Train F1  : 0.8201512814863773
+[05/29/2021 00:32:03.931 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:03.987 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:32:06.681 train.py: 97] Building DataLoader in  2.694 seconds
+[05/29/2021 00:32:07.079 train.py:120] Train loss: 0.4533415655605495
+[05/29/2021 00:32:07.094 train.py:124] Train AUC : 0.9161199116588881
+[05/29/2021 00:32:07.095 train.py:125] Train F1  : 0.8296286163737091
+[05/29/2021 00:32:07.168 train.py:154] Eval loss: 0.5407704746021944
+[05/29/2021 00:32:07.178 train.py:158] Eval AUC : 0.8026285101456259
+[05/29/2021 00:32:07.179 train.py:159] Eval F1  : 0.7221357596073267
+[05/29/2021 00:32:07.700 train.py: 76] 
+----- Starting training phase 82 ------ Estimator Epoch: 2
+[05/29/2021 00:32:07.701 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:07.757 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:32:10.383 train.py: 97] Building DataLoader in  2.626 seconds
+[05/29/2021 00:32:10.768 train.py:120] Train loss: 0.4397878716699779
+[05/29/2021 00:32:10.784 train.py:124] Train AUC : 0.9201849703414615
+[05/29/2021 00:32:10.784 train.py:125] Train F1  : 0.8381842456608812
+[05/29/2021 00:32:10.785 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:10.843 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:32:13.600 train.py: 97] Building DataLoader in  2.757 seconds
+[05/29/2021 00:32:14.037 train.py:120] Train loss: 0.43811218393966556
+[05/29/2021 00:32:14.053 train.py:124] Train AUC : 0.9207969651049557
+[05/29/2021 00:32:14.054 train.py:125] Train F1  : 0.8400131622244159
+[05/29/2021 00:32:14.125 train.py:154] Eval loss: 0.5382662801181569
+[05/29/2021 00:32:14.136 train.py:158] Eval AUC : 0.8040661138772887
+[05/29/2021 00:32:14.136 train.py:159] Eval F1  : 0.7224152390080268
+[05/29/2021 00:32:14.650 train.py: 76] 
+----- Starting training phase 83 ------ Estimator Epoch: 2
+[05/29/2021 00:32:14.650 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:14.706 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:32:17.324 train.py: 97] Building DataLoader in  2.618 seconds
+[05/29/2021 00:32:17.724 train.py:120] Train loss: 0.4441851293668151
+[05/29/2021 00:32:17.742 train.py:124] Train AUC : 0.9124467295947786
+[05/29/2021 00:32:17.742 train.py:125] Train F1  : 0.8187690778732164
+[05/29/2021 00:32:17.743 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:17.800 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:32:20.569 train.py: 97] Building DataLoader in  2.769 seconds
+[05/29/2021 00:32:20.955 train.py:120] Train loss: 0.4245319484034553
+[05/29/2021 00:32:20.970 train.py:124] Train AUC : 0.9178227670554618
+[05/29/2021 00:32:20.970 train.py:125] Train F1  : 0.8324332006822057
+[05/29/2021 00:32:21.043 train.py:154] Eval loss: 0.5374776615816004
+[05/29/2021 00:32:21.052 train.py:158] Eval AUC : 0.8054223774850984
+[05/29/2021 00:32:21.052 train.py:159] Eval F1  : 0.7212681638044914
+[05/29/2021 00:32:21.524 train.py: 76] 
+----- Starting training phase 84 ------ Estimator Epoch: 2
+[05/29/2021 00:32:21.525 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:21.605 train.py: 92] Sampling sub graph in  0.081 seconds
+[05/29/2021 00:32:24.235 train.py: 97] Building DataLoader in  2.629 seconds
+[05/29/2021 00:32:24.623 train.py:120] Train loss: 0.43684812914580107
+[05/29/2021 00:32:24.639 train.py:124] Train AUC : 0.9164075494512061
+[05/29/2021 00:32:24.639 train.py:125] Train F1  : 0.8241758241758242
+[05/29/2021 00:32:24.639 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:24.696 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:32:27.321 train.py: 97] Building DataLoader in  2.626 seconds
+[05/29/2021 00:32:27.700 train.py:120] Train loss: 0.43490568548440933
+[05/29/2021 00:32:27.715 train.py:124] Train AUC : 0.9161859904544329
+[05/29/2021 00:32:27.715 train.py:125] Train F1  : 0.8284889858540362
+[05/29/2021 00:32:27.789 train.py:154] Eval loss: 0.536207237664391
+[05/29/2021 00:32:27.800 train.py:158] Eval AUC : 0.8066117781168576
+[05/29/2021 00:32:27.801 train.py:159] Eval F1  : 0.7227376792384623
+[05/29/2021 00:32:28.312 train.py: 76] 
+----- Starting training phase 85 ------ Estimator Epoch: 2
+[05/29/2021 00:32:28.312 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:28.366 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:32:30.992 train.py: 97] Building DataLoader in  2.626 seconds
+[05/29/2021 00:32:31.477 train.py:120] Train loss: 0.4284975822083652
+[05/29/2021 00:32:31.493 train.py:124] Train AUC : 0.9229308183574305
+[05/29/2021 00:32:31.501 train.py:125] Train F1  : 0.838260163701549
+[05/29/2021 00:32:31.501 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:31.558 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:32:34.216 train.py: 97] Building DataLoader in  2.658 seconds
+[05/29/2021 00:32:34.591 train.py:120] Train loss: 0.42125820368528366
+[05/29/2021 00:32:34.609 train.py:124] Train AUC : 0.9201940845876772
+[05/29/2021 00:32:34.609 train.py:125] Train F1  : 0.8355138879171622
+[05/29/2021 00:32:34.687 train.py:154] Eval loss: 0.5333324916222516
+[05/29/2021 00:32:34.698 train.py:158] Eval AUC : 0.8079027353927972
+[05/29/2021 00:32:34.698 train.py:159] Eval F1  : 0.7255467435712569
+[05/29/2021 00:32:35.215 train.py: 76] 
+----- Starting training phase 86 ------ Estimator Epoch: 2
+[05/29/2021 00:32:35.215 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:35.270 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:32:38.018 train.py: 97] Building DataLoader in  2.748 seconds
+[05/29/2021 00:32:38.407 train.py:120] Train loss: 0.4294702857732773
+[05/29/2021 00:32:38.424 train.py:124] Train AUC : 0.9203624006609927
+[05/29/2021 00:32:38.427 train.py:125] Train F1  : 0.837310786853948
+[05/29/2021 00:32:38.427 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:38.484 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:32:41.353 train.py: 97] Building DataLoader in  2.869 seconds
+[05/29/2021 00:32:41.776 train.py:120] Train loss: 0.42758386861532927
+[05/29/2021 00:32:41.797 train.py:124] Train AUC : 0.926070882214998
+[05/29/2021 00:32:41.797 train.py:125] Train F1  : 0.8480020557625593
+[05/29/2021 00:32:41.872 train.py:154] Eval loss: 0.5332245195613188
+[05/29/2021 00:32:41.882 train.py:158] Eval AUC : 0.8083528806171253
+[05/29/2021 00:32:41.883 train.py:159] Eval F1  : 0.7257890315612625
+[05/29/2021 00:32:42.407 train.py: 76] 
+----- Starting training phase 87 ------ Estimator Epoch: 2
+[05/29/2021 00:32:42.408 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:42.465 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:32:45.221 train.py: 97] Building DataLoader in  2.755 seconds
+[05/29/2021 00:32:45.696 train.py:120] Train loss: 0.41925600077956915
+[05/29/2021 00:32:45.713 train.py:124] Train AUC : 0.9243091254388541
+[05/29/2021 00:32:45.713 train.py:125] Train F1  : 0.8414907338266242
+[05/29/2021 00:32:45.713 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:45.779 train.py: 92] Sampling sub graph in  0.066 seconds
+[05/29/2021 00:32:48.516 train.py: 97] Building DataLoader in  2.737 seconds
+[05/29/2021 00:32:48.970 train.py:120] Train loss: 0.42444862704724073
+[05/29/2021 00:32:48.986 train.py:124] Train AUC : 0.9268604445823121
+[05/29/2021 00:32:48.987 train.py:125] Train F1  : 0.8437729794772378
+[05/29/2021 00:32:49.063 train.py:154] Eval loss: 0.5327930555624121
+[05/29/2021 00:32:49.073 train.py:158] Eval AUC : 0.8093975867330548
+[05/29/2021 00:32:49.074 train.py:159] Eval F1  : 0.7245264924478543
+[05/29/2021 00:32:49.572 train.py: 76] 
+----- Starting training phase 88 ------ Estimator Epoch: 2
+[05/29/2021 00:32:49.572 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:49.628 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:32:52.434 train.py: 97] Building DataLoader in  2.806 seconds
+[05/29/2021 00:32:52.820 train.py:120] Train loss: 0.4191066469065845
+[05/29/2021 00:32:52.836 train.py:124] Train AUC : 0.9210943841049843
+[05/29/2021 00:32:52.837 train.py:125] Train F1  : 0.8295136144837991
+[05/29/2021 00:32:52.837 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:52.893 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:32:55.649 train.py: 97] Building DataLoader in  2.756 seconds
+[05/29/2021 00:32:56.029 train.py:120] Train loss: 0.4196851262822747
+[05/29/2021 00:32:56.045 train.py:124] Train AUC : 0.9230922662801345
+[05/29/2021 00:32:56.045 train.py:125] Train F1  : 0.8343541006687786
+[05/29/2021 00:32:56.117 train.py:154] Eval loss: 0.5315611362457275
+[05/29/2021 00:32:56.127 train.py:158] Eval AUC : 0.8096076433504659
+[05/29/2021 00:32:56.128 train.py:159] Eval F1  : 0.7268806899856254
+[05/29/2021 00:32:56.648 train.py: 76] 
+----- Starting training phase 89 ------ Estimator Epoch: 2
+[05/29/2021 00:32:56.649 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:32:56.705 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:32:59.349 train.py: 97] Building DataLoader in  2.644 seconds
+[05/29/2021 00:32:59.716 train.py:120] Train loss: 0.41035941522568464
+[05/29/2021 00:32:59.731 train.py:124] Train AUC : 0.920177222545032
+[05/29/2021 00:32:59.731 train.py:125] Train F1  : 0.8270923467104282
+[05/29/2021 00:32:59.731 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:32:59.790 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:33:02.499 train.py: 97] Building DataLoader in  2.708 seconds
+[05/29/2021 00:33:02.889 train.py:120] Train loss: 0.41686153691262007
+[05/29/2021 00:33:02.908 train.py:124] Train AUC : 0.9242195518672467
+[05/29/2021 00:33:02.908 train.py:125] Train F1  : 0.8388406608793055
+[05/29/2021 00:33:02.980 train.py:154] Eval loss: 0.5317360232858097
+[05/29/2021 00:33:02.990 train.py:158] Eval AUC : 0.8088891063907627
+[05/29/2021 00:33:02.991 train.py:159] Eval F1  : 0.7258816497310222
+[05/29/2021 00:33:03.537 train.py: 76] 
+----- Starting training phase 90 ------ Estimator Epoch: 2
+[05/29/2021 00:33:03.537 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:03.593 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:33:06.338 train.py: 97] Building DataLoader in  2.745 seconds
+[05/29/2021 00:33:06.720 train.py:120] Train loss: 0.4007453816011548
+[05/29/2021 00:33:06.736 train.py:124] Train AUC : 0.9281502626107597
+[05/29/2021 00:33:06.737 train.py:125] Train F1  : 0.8441648230088495
+[05/29/2021 00:33:06.737 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:06.794 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:33:09.561 train.py: 97] Building DataLoader in  2.766 seconds
+[05/29/2021 00:33:09.945 train.py:120] Train loss: 0.4121966417878866
+[05/29/2021 00:33:09.960 train.py:124] Train AUC : 0.9292246250365521
+[05/29/2021 00:33:09.961 train.py:125] Train F1  : 0.8438218691197992
+[05/29/2021 00:33:10.035 train.py:154] Eval loss: 0.5323594054755043
+[05/29/2021 00:33:10.051 train.py:158] Eval AUC : 0.8089874562765464
+[05/29/2021 00:33:10.052 train.py:159] Eval F1  : 0.7278375149342892
+[05/29/2021 00:33:10.582 train.py: 76] 
+----- Starting training phase 91 ------ Estimator Epoch: 2
+[05/29/2021 00:33:10.583 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:10.642 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:33:13.268 train.py: 97] Building DataLoader in  2.626 seconds
+[05/29/2021 00:33:13.657 train.py:120] Train loss: 0.40986188035458326
+[05/29/2021 00:33:13.672 train.py:124] Train AUC : 0.9274105228578639
+[05/29/2021 00:33:13.672 train.py:125] Train F1  : 0.8417347226133484
+[05/29/2021 00:33:13.675 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:13.734 train.py: 92] Sampling sub graph in  0.058 seconds
+[05/29/2021 00:33:16.532 train.py: 97] Building DataLoader in  2.798 seconds
+[05/29/2021 00:33:17.101 train.py:120] Train loss: 0.4003087980672717
+[05/29/2021 00:33:17.116 train.py:124] Train AUC : 0.9294262863624942
+[05/29/2021 00:33:17.117 train.py:125] Train F1  : 0.847943982975218
+[05/29/2021 00:33:17.199 train.py:154] Eval loss: 0.5305671797079199
+[05/29/2021 00:33:17.215 train.py:158] Eval AUC : 0.8100327758592998
+[05/29/2021 00:33:17.216 train.py:159] Eval F1  : 0.7297232824427481
+[05/29/2021 00:33:17.746 train.py: 76] 
+----- Starting training phase 92 ------ Estimator Epoch: 2
+[05/29/2021 00:33:17.746 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:17.801 train.py: 92] Sampling sub graph in  0.055 seconds
+[05/29/2021 00:33:20.508 train.py: 97] Building DataLoader in  2.707 seconds
+[05/29/2021 00:33:20.892 train.py:120] Train loss: 0.39969829469919205
+[05/29/2021 00:33:20.906 train.py:124] Train AUC : 0.9261648320504674
+[05/29/2021 00:33:20.907 train.py:125] Train F1  : 0.8373423291287767
+[05/29/2021 00:33:20.907 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:20.961 train.py: 92] Sampling sub graph in  0.054 seconds
+[05/29/2021 00:33:23.627 train.py: 97] Building DataLoader in  2.666 seconds
+[05/29/2021 00:33:24.019 train.py:120] Train loss: 0.4201025813817978
+[05/29/2021 00:33:24.036 train.py:124] Train AUC : 0.9298504941094136
+[05/29/2021 00:33:24.036 train.py:125] Train F1  : 0.8496610394789312
+[05/29/2021 00:33:24.111 train.py:154] Eval loss: 0.5308488537283504
+[05/29/2021 00:33:24.121 train.py:158] Eval AUC : 0.8104966962023057
+[05/29/2021 00:33:24.122 train.py:159] Eval F1  : 0.7308565284912197
+[05/29/2021 00:33:24.623 train.py: 76] 
+----- Starting training phase 93 ------ Estimator Epoch: 2
+[05/29/2021 00:33:24.623 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:24.681 train.py: 92] Sampling sub graph in  0.057 seconds
+[05/29/2021 00:33:27.548 train.py: 97] Building DataLoader in  2.867 seconds
+[05/29/2021 00:33:27.983 train.py:120] Train loss: 0.4017719980329275
+[05/29/2021 00:33:28.001 train.py:124] Train AUC : 0.9304224739467974
+[05/29/2021 00:33:28.001 train.py:125] Train F1  : 0.8430354888483658
+[05/29/2021 00:33:28.001 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:28.058 train.py: 92] Sampling sub graph in  0.056 seconds
+[05/29/2021 00:33:30.776 train.py: 97] Building DataLoader in  2.719 seconds
+[05/29/2021 00:33:31.188 train.py:120] Train loss: 0.3951268447563052
+[05/29/2021 00:33:31.204 train.py:124] Train AUC : 0.9281139550579615
+[05/29/2021 00:33:31.204 train.py:125] Train F1  : 0.8442094589700876
+[05/29/2021 00:33:31.288 train.py:154] Eval loss: 0.529714426573585
+[05/29/2021 00:33:31.308 train.py:158] Eval AUC : 0.8104663574793876
+[05/29/2021 00:33:31.309 train.py:159] Eval F1  : 0.7310904318778335
+[05/29/2021 00:33:31.903 train.py: 76] 
+----- Starting training phase 94 ------ Estimator Epoch: 2
+[05/29/2021 00:33:31.903 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:31.978 train.py: 92] Sampling sub graph in  0.074 seconds
+[05/29/2021 00:33:34.771 train.py: 97] Building DataLoader in  2.794 seconds
+[05/29/2021 00:33:35.241 train.py:120] Train loss: 0.3976510940119624
+[05/29/2021 00:33:35.264 train.py:124] Train AUC : 0.9330233605403886
+[05/29/2021 00:33:35.265 train.py:125] Train F1  : 0.8518644761060741
+[05/29/2021 00:33:35.265 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:35.325 train.py: 92] Sampling sub graph in  0.059 seconds
+[05/29/2021 00:33:38.353 train.py: 97] Building DataLoader in  3.028 seconds
+[05/29/2021 00:33:38.843 train.py:120] Train loss: 0.40348740480840206
+[05/29/2021 00:33:38.864 train.py:124] Train AUC : 0.9319983589714492
+[05/29/2021 00:33:38.865 train.py:125] Train F1  : 0.8512200095153946
+[05/29/2021 00:33:38.982 train.py:154] Eval loss: 0.5301765869645512
+[05/29/2021 00:33:38.992 train.py:158] Eval AUC : 0.8109877206249776
+[05/29/2021 00:33:38.992 train.py:159] Eval F1  : 0.7309620434471233
+[05/29/2021 00:33:39.617 train.py: 76] 
+----- Starting training phase 95 ------ Estimator Epoch: 2
+[05/29/2021 00:33:39.618 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:39.711 train.py: 92] Sampling sub graph in  0.093 seconds
+[05/29/2021 00:33:42.732 train.py: 97] Building DataLoader in  3.021 seconds
+[05/29/2021 00:33:43.102 train.py:120] Train loss: 0.3838520635617897
+[05/29/2021 00:33:43.117 train.py:124] Train AUC : 0.9291079387105743
+[05/29/2021 00:33:43.118 train.py:125] Train F1  : 0.8415804185238348
+[05/29/2021 00:33:43.118 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:43.170 train.py: 92] Sampling sub graph in  0.052 seconds
+[05/29/2021 00:33:45.744 train.py: 97] Building DataLoader in  2.574 seconds
+[05/29/2021 00:33:46.075 train.py:120] Train loss: 0.4125540414825082
+[05/29/2021 00:33:46.088 train.py:124] Train AUC : 0.9327150820280677
+[05/29/2021 00:33:46.088 train.py:125] Train F1  : 0.8529644268774704
+[05/29/2021 00:33:46.149 train.py:154] Eval loss: 0.5315766054041245
+[05/29/2021 00:33:46.161 train.py:158] Eval AUC : 0.810472687341614
+[05/29/2021 00:33:46.161 train.py:159] Eval F1  : 0.7302042278753136
+[05/29/2021 00:33:46.640 train.py: 76] 
+----- Starting training phase 96 ------ Estimator Epoch: 2
+[05/29/2021 00:33:46.640 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:46.692 train.py: 92] Sampling sub graph in  0.052 seconds
+[05/29/2021 00:33:49.007 train.py: 97] Building DataLoader in  2.314 seconds
+[05/29/2021 00:33:49.310 train.py:120] Train loss: 0.3769974117167294
+[05/29/2021 00:33:49.324 train.py:124] Train AUC : 0.9346224015834336
+[05/29/2021 00:33:49.324 train.py:125] Train F1  : 0.8492510047497258
+[05/29/2021 00:33:49.324 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:49.375 train.py: 92] Sampling sub graph in  0.051 seconds
+[05/29/2021 00:33:51.756 train.py: 97] Building DataLoader in  2.381 seconds
+[05/29/2021 00:33:52.072 train.py:120] Train loss: 0.3938935026526451
+[05/29/2021 00:33:52.087 train.py:124] Train AUC : 0.9360396294703605
+[05/29/2021 00:33:52.087 train.py:125] Train F1  : 0.8573192481821924
+[05/29/2021 00:33:52.147 train.py:154] Eval loss: 0.5292827329214882
+[05/29/2021 00:33:52.156 train.py:158] Eval AUC : 0.8107926660598923
+[05/29/2021 00:33:52.156 train.py:159] Eval F1  : 0.7293977340488969
+[05/29/2021 00:33:52.634 train.py: 76] 
+----- Starting training phase 97 ------ Estimator Epoch: 2
+[05/29/2021 00:33:52.634 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:52.687 train.py: 92] Sampling sub graph in  0.053 seconds
+[05/29/2021 00:33:55.043 train.py: 97] Building DataLoader in  2.356 seconds
+[05/29/2021 00:33:55.357 train.py:120] Train loss: 0.38983985943195876
+[05/29/2021 00:33:55.370 train.py:124] Train AUC : 0.9332571879022689
+[05/29/2021 00:33:55.371 train.py:125] Train F1  : 0.851366582135813
+[05/29/2021 00:33:55.371 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:33:55.421 train.py: 92] Sampling sub graph in  0.050 seconds
+[05/29/2021 00:33:57.780 train.py: 97] Building DataLoader in  2.359 seconds
+[05/29/2021 00:33:58.088 train.py:120] Train loss: 0.3836356010288
+[05/29/2021 00:33:58.102 train.py:124] Train AUC : 0.9322075071639621
+[05/29/2021 00:33:58.103 train.py:125] Train F1  : 0.8510239400057686
+[05/29/2021 00:33:58.164 train.py:154] Eval loss: 0.5302285306593951
+[05/29/2021 00:33:58.173 train.py:158] Eval AUC : 0.8107117163240176
+[05/29/2021 00:33:58.174 train.py:159] Eval F1  : 0.7313985429356265
+[05/29/2021 00:33:58.658 train.py: 76] 
+----- Starting training phase 98 ------ Estimator Epoch: 2
+[05/29/2021 00:33:58.658 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:33:58.711 train.py: 92] Sampling sub graph in  0.053 seconds
+[05/29/2021 00:34:01.150 train.py: 97] Building DataLoader in  2.439 seconds
+[05/29/2021 00:34:01.445 train.py:120] Train loss: 0.3776366859674454
+[05/29/2021 00:34:01.458 train.py:124] Train AUC : 0.9307539794124752
+[05/29/2021 00:34:01.458 train.py:125] Train F1  : 0.8452246980268587
+[05/29/2021 00:34:01.458 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:34:01.509 train.py: 92] Sampling sub graph in  0.050 seconds
+[05/29/2021 00:34:03.852 train.py: 97] Building DataLoader in  2.343 seconds
+[05/29/2021 00:34:04.223 train.py:120] Train loss: 0.3920059787487844
+[05/29/2021 00:34:04.236 train.py:124] Train AUC : 0.9329370933172103
+[05/29/2021 00:34:04.236 train.py:125] Train F1  : 0.8460593801921549
+[05/29/2021 00:34:04.298 train.py:154] Eval loss: 0.5292081464739407
+[05/29/2021 00:34:04.307 train.py:158] Eval AUC : 0.8101836608130777
+[05/29/2021 00:34:04.307 train.py:159] Eval F1  : 0.7298973991887379
+[05/29/2021 00:34:04.822 train.py: 76] 
+----- Starting training phase 99 ------ Estimator Epoch: 2
+[05/29/2021 00:34:04.822 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:34:04.872 train.py: 92] Sampling sub graph in  0.050 seconds
+[05/29/2021 00:34:07.277 train.py: 97] Building DataLoader in  2.404 seconds
+[05/29/2021 00:34:07.593 train.py:120] Train loss: 0.3945790911093354
+[05/29/2021 00:34:07.606 train.py:124] Train AUC : 0.9316734579443302
+[05/29/2021 00:34:07.606 train.py:125] Train F1  : 0.8467349099894104
+[05/29/2021 00:34:07.607 train.py: 81] -------- Mini epoch: 1 --------
+[05/29/2021 00:34:07.660 train.py: 92] Sampling sub graph in  0.053 seconds
+[05/29/2021 00:34:10.124 train.py: 97] Building DataLoader in  2.464 seconds
+[05/29/2021 00:34:10.472 train.py:120] Train loss: 0.3972076908685267
+[05/29/2021 00:34:10.488 train.py:124] Train AUC : 0.9319076304227972
+[05/29/2021 00:34:10.488 train.py:125] Train F1  : 0.84793144623165
+[05/29/2021 00:34:10.560 train.py:154] Eval loss: 0.5297469970057992
+[05/29/2021 00:34:10.570 train.py:158] Eval AUC : 0.8103598931006175
+[05/29/2021 00:34:10.571 train.py:159] Eval F1  : 0.7315852205005959
+[05/29/2021 00:34:11.058 train.py: 76] 
+----- Starting training phase 100 ------ Estimator Epoch: 2
+[05/29/2021 00:34:11.059 train.py: 81] -------- Mini epoch: 0 --------
+[05/29/2021 00:34:11.110 train.py: 92] Sampling sub graph in  0.051 seconds

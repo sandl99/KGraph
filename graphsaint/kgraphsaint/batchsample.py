@@ -248,7 +248,7 @@ class Minibatch:
         self.norm_loss_train[np.where(self.norm_loss_train==0)[0]] = 0.1
         # self.norm_loss_train[self.node_val] = 0
         # self.norm_loss_train[self.node_test] = 0
-        self.norm_loss_train = num_subg / self.norm_loss_train / self.adj_full.shape[0]
+        self.norm_loss_train = num_subg / self.norm_loss_train / self.args.total_train_ins
         self.norm_loss_train = self.norm_loss_train.astype(np.float32)
         if self.is_cuda:
             self.norm_loss_train = torch.from_numpy(self.norm_loss_train).cuda()

@@ -19,23 +19,24 @@ name_model = ''
 
 class Args:
     def __init__(self):
+        self.total_train_ins = 0
         # movie
         # self.dataset = 'movie'
         # self.aggregator = 'sum'
         # self.n_epochs = 500
-        # self.neighbor_sample_size_train = 100
-        # self.neighbor_sample_size_eval = 1000
+        # self.neighbor_sample_size_train = -1
+        # self.neighbor_sample_size_eval = -1
         # self.dim = 32
         # self.n_iter = 2
-        # self.batch_size = 8192
+        # self.batch_size = 8192 * 256
         # self.l2_weight = 1e-7
         # self.lr = 2e-2
         # self.ratio = 1
         # self.save_dir = './kgraph_models'
         # self.lr_decay = 0.5
         # self.sampler = 'node'
-        # self.size_subg_edge = 2000
-        # self.batch_size_eval = 2048
+        # self.size_subg_edge = 20000
+        # self.batch_size_eval = 8192 * 8
         # music
         self.dataset = 'music'
         self.aggregator = 'sum'
@@ -45,7 +46,7 @@ class Args:
         self.dim = 16
         self.n_iter = 1
         self.batch_size = 512
-        self.l2_weight = 2e-5
+        self.l2_weight = 7.37e-6
         self.lr = 1e-3
         self.ratio = 1
         self.save_dir = './kgraph_models'
@@ -116,7 +117,7 @@ def train(_model, _optimizer, _minibatch: Minibatch, _train_data, _device, _args
             train_pred = np.concatenate((train_pred, scores_pred.detach().cpu().numpy()))
             train_true = np.concatenate((train_true, labels.detach().cpu().numpy()))
             torch.cuda.empty_cache()
-        logging.info(f'Train loss: {train_loss / len(data_loader)}')
+        logging.info(f'Train loss: {train_loss}')
         auc_score = utils.auc_score(train_pred, train_true, 'micro')
         train_pred = np.where(train_pred >= 0.5, 1, 0)
         f1_score = utils.f1_score(train_pred, train_true)
@@ -133,7 +134,7 @@ def evaluate(_model, _eval_data, _mini_batch: Minibatch, _device, epoch, args):
     eval_pred, eval_true = np.zeros(0), np.zeros(0)
     data = Rating(_eval_data)
     data_loader = DataLoader(data, batch_size=args.batch_size_eval, shuffle=True)
-    _criterion = torch.nn.BCEWithLogitsLoss(reduce='mean')
+    _criterion = torch.nn.BCEWithLogitsLoss(reduce='sum')
     _model.eval()
 
     with torch.no_grad():
@@ -178,6 +179,7 @@ def main():
     logging.info('Loading ratings data')
     n_user, n_item, train_data, eval_data, test_data = loader.load_rating(args)
     train_data = utils.reformat_train_ratings(train_data)
+    args.total_train_ins = len(train_data)
     t1 = time.time()
     logging.info(f'Done loading data in {t1-t0 :.3f}')
 
