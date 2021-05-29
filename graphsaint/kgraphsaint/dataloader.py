@@ -62,10 +62,7 @@ def build_ratings(node_subgraph, ratings):
     # t0 = time.time()
     element = ratings.T[1]
     mask = test(node_subgraph, element)
-    # t1 = time.time()
-    # print(t1-  t0)
     ratings = ratings[mask]
-    # print(time.time() - t1)
     return ratings
 
 class SubgraphRating(Dataset):
