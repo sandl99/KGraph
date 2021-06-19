@@ -33,3 +33,12 @@ Extract `data.zip` to folder `data` \
 
 ## Training Phase
 `python -m graphsaint.kgraphsaint.train --lr 1e-3 --sampler node --l2_weight 1e-5`
+
+## Experimental results
+| Model        | MovieLens – 20M         |       MovieLens – 20M              |         Last.FM                |    Last.FM                         |
+|--------------|-------------------------|-------------------------|-------------------------|-------------------------|
+|              | AUC                     | F1                      | AUC                     | F1                      |
+| KGCN         | 0.975                   | 0.928                   | 0.791                   | 0.710                   |
+| SKGCN – Node | <strong>0.977</strong>  |  <strong>0.931</strong> | 0.808                   | 0.725                   |
+| SKGCN – Edge |  <strong>0.977</strong> |  <strong>0.977</strong> | <strong>0.811</strong> |  <strong>0.731</strong> |
+| SKGCN – Rw   | 0.976                   | 0.929                   | 0.810                   | 0.731                   |
